@@ -4,23 +4,23 @@ import (
 	"errors"
 )
 
-type Item int
+type StackItem int
 
 type Stack struct {
-	items []Item
+	items []StackItem
 }
 
 func NewStack() *Stack {
 	s := &Stack{}
-	s.items = make([]Item, 0)
+	s.items = make([]StackItem, 0)
 	return s
 }
 
-func (s *Stack) Push(item Item) {
+func (s *Stack) Push(item StackItem) {
 	s.items = append(s.items, item)
 }
 
-func (s *Stack) Pop() (Item, error) {
+func (s *Stack) Pop() (StackItem, error) {
 	l := len(s.items)
 	if l == 0 {
 		return 0, errors.New("Stack underflow")
@@ -32,7 +32,7 @@ func (s *Stack) Pop() (Item, error) {
 	return res, nil
 }
 
-func (s *Stack) Top() (Item, error) {
+func (s *Stack) Top() (StackItem, error) {
 	l := len(s.items)
 	if l == 0 {
 		return 0, errors.New("Stack underflow")
