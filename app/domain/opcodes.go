@@ -12,8 +12,8 @@ type Instruction struct {
 	Name         string
 	Opcode       Opcode
 	OperandCount int
-	CP           *int
-	Stack        *int
+	CP           *Cp
+	Stack        *Stack
 }
 
 type InstructionImplementation interface {

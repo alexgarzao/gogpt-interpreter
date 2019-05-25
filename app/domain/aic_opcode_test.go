@@ -8,9 +8,10 @@ import (
 
 func TestValidAic(t *testing.T) {
 	// AIC 1
-	cp := 0
-	stack := 0
-	i := NewAicOpcode(&cp, &stack)
+	cp := NewCp()
+	stack := NewStack()
+	i := NewAicOpcode(cp, stack)
 	i.Execute(1)
-	assert.True(t, cp == 1)
+	v, _ := cp.Get(0)
+	assert.Equal(t, v, CpItem(1))
 }

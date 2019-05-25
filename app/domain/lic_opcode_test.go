@@ -7,17 +7,21 @@ import (
 )
 
 func TestValidLic(t *testing.T) {
-	cp := 0
-	stack := 0
+	cp := NewCp()
+	stack := NewStack()
 	// AIC 1
-	i := NewAicOpcode(&cp, &stack)
+	i := NewAicOpcode(cp, stack)
 	i.Execute(1)
-	assert.True(t, cp == 1)
-	assert.True(t, stack == 0)
+	cpv, _ := cp.Get(0)
+	assert.Equal(t, cpv, CpItem(1))
+	stv, _ := stack.Top()
+	assert.Equal(t, stv, StackItem(0))
 
 	// LIC 0
-	j := NewLicOpcode(&cp, &stack)
+	j := NewLicOpcode(cp, stack)
 	j.Execute(0)
-	assert.True(t, cp == 1)
-	assert.True(t, stack == 1)
+	cpv, _ = cp.Get(0)
+	assert.Equal(t, cpv, CpItem(1))
+	stv, _ = stack.Top()
+	assert.Equal(t, stv, StackItem(1))
 }
