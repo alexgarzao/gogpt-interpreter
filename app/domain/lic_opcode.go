@@ -4,7 +4,7 @@ type LicOpcode struct {
 	Instruction
 }
 
-func NewLicOpcode(cp *Cp, stack *Stack) *LicOpcode {
+func NewLicOpcode(cp *CP, stack *Stack) *LicOpcode {
 	return &LicOpcode{Instruction{"LIC", Lic, 1, cp, stack}}
 }
 

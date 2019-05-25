@@ -13,5 +13,5 @@ func TestValidAic(t *testing.T) {
 	i := NewAicOpcode(cp, stack)
 	i.Execute(1)
 	v, _ := cp.Get(0)
-	assert.Equal(t, v, CpItem(1))
+	assert.Equal(t, v, CPItem(1))
 }

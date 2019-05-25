@@ -12,7 +12,7 @@ type Instruction struct {
 	Name         string
 	Opcode       Opcode
 	OperandCount int
-	CP           *Cp
+	CP           *CP
 	Stack        *Stack
 }
 

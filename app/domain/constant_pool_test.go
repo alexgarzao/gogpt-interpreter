@@ -17,9 +17,9 @@ func TestCpGetConstant(t *testing.T) {
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add(456), 1)
 	v, _ := cp.Get(0)
-	assert.Equal(t, v, CpItem(123))
+	assert.Equal(t, v, CPItem(123))
 	v, _ = cp.Get(1)
-	assert.Equal(t, v, CpItem(456))
+	assert.Equal(t, v, CPItem(456))
 }
 
 func TestCpGetConstantError(t *testing.T) {
@@ -27,10 +27,10 @@ func TestCpGetConstantError(t *testing.T) {
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add(456), 1)
 	v, err := cp.Get(0)
-	assert.Equal(t, v, CpItem(123))
+	assert.Equal(t, v, CPItem(123))
 	assert.NoError(t, err)
 	v, err = cp.Get(1)
-	assert.Equal(t, v, CpItem(456))
+	assert.Equal(t, v, CPItem(456))
 	assert.NoError(t, err)
 	v, err = cp.Get(2)
 	assert.EqualError(t, err, "Index not found")

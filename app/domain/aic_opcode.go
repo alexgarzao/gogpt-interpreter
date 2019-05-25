@@ -4,10 +4,10 @@ type AicOpcode struct {
 	Instruction
 }
 
-func NewAicOpcode(cp *Cp, stack *Stack) *AicOpcode {
+func NewAicOpcode(cp *CP, stack *Stack) *AicOpcode {
 	return &AicOpcode{Instruction{"AIC", Aic, 1, cp, stack}}
 }
 
 func (d *AicOpcode) Execute(op int) {
-	d.CP.Add(CpItem(op))
+	d.CP.Add(CPItem(op))
 }

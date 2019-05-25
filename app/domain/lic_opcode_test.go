@@ -13,7 +13,7 @@ func TestValidLic(t *testing.T) {
 	i := NewAicOpcode(cp, stack)
 	i.Execute(1)
 	cpv, _ := cp.Get(0)
-	assert.Equal(t, cpv, CpItem(1))
+	assert.Equal(t, cpv, CPItem(1))
 	stv, _ := stack.Top()
 	assert.Equal(t, stv, StackItem(0))
 
@@ -21,7 +21,7 @@ func TestValidLic(t *testing.T) {
 	j := NewLicOpcode(cp, stack)
 	j.Execute(0)
 	cpv, _ = cp.Get(0)
-	assert.Equal(t, cpv, CpItem(1))
+	assert.Equal(t, cpv, CPItem(1))
 	stv, _ = stack.Top()
 	assert.Equal(t, stv, StackItem(1))
 }
