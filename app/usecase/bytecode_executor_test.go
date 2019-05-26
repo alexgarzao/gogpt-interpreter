@@ -7,15 +7,20 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBCERunningAic1(t *testing.T) {
+func TestBCERunningLic222(t *testing.T) {
+	// CP map:
+	//		0: 222
 	cp := opcodes.NewCp()
+	cp_index := cp.Add(222)
 	st := opcodes.NewStack()
 	bc := opcodes.NewBytecode()
-	bc.Add(opcodes.Aic, 1)
+	bc.Add(opcodes.Lic, opcodes.BytecodeItem(cp_index))
 	bce := NewBytecodeExecutor()
 	bce.Run(cp, st, bc)
 	cpv, _ := cp.Get(0)
-	assert.Equal(t, cpv, opcodes.CPItem(1))
+	assert.Equal(t, cpv, opcodes.CPItem(222))
+	stv, _ := st.Top()
+	assert.Equal(t, stv, opcodes.StackItem(222))
 }
 
 func TestBCERunningNop(t *testing.T) {

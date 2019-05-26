@@ -2,7 +2,6 @@ package opcodes
 
 const (
 	Nop Opcode = iota
-	Aic
 	Lic
 )
 

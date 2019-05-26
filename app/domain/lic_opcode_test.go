@@ -6,22 +6,22 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestValidLic(t *testing.T) {
+func TestValidLic123(t *testing.T) {
+	// CP map:
+	//		0: 123
 	cp := NewCp()
+	cp_index := cp.Add(123)
 	stack := NewStack()
-	// AIC 1
-	i := NewAicOpcode()
-	i.Execute(cp, stack, 1)
 	cpv, _ := cp.Get(0)
-	assert.Equal(t, cpv, CPItem(1))
+	assert.Equal(t, cpv, CPItem(123))
 	stv, _ := stack.Top()
 	assert.Equal(t, stv, StackItem(0))
 
 	// LIC 0
 	j := NewLicOpcode()
-	j.Execute(cp, stack, 0)
+	j.Execute(cp, stack, cp_index)
 	cpv, _ = cp.Get(0)
-	assert.Equal(t, cpv, CPItem(1))
+	assert.Equal(t, cpv, CPItem(123))
 	stv, _ = stack.Top()
-	assert.Equal(t, stv, StackItem(1))
+	assert.Equal(t, stv, StackItem(123))
 }
