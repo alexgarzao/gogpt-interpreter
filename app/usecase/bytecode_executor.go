@@ -11,6 +11,7 @@ type BytecodeExecutor struct {
 func NewBytecodeExecutor() *BytecodeExecutor {
 	bce := &BytecodeExecutor{}
 	bce.instructions = make(map[opcodes.Opcode]opcodes.InstructionImplementation)
+	bce.instructions[opcodes.Nop] = opcodes.NewNopOpcode()
 	bce.instructions[opcodes.Aic] = opcodes.NewAicOpcode()
 	bce.instructions[opcodes.Lic] = opcodes.NewLicOpcode()
 
