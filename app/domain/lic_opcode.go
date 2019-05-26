@@ -4,11 +4,11 @@ type LicOpcode struct {
 	Instruction
 }
 
-func NewLicOpcode(cp *CP, stack *Stack) *LicOpcode {
-	return &LicOpcode{Instruction{"LIC", Lic, 1, cp, stack}}
+func NewLicOpcode() *LicOpcode {
+	return &LicOpcode{Instruction{"LIC", Lic, 1}}
 }
 
-func (d *LicOpcode) Execute(op int) {
-	cpv, _ := d.CP.Get(op)
-	d.Stack.Push(StackItem(cpv))
+func (d *LicOpcode) Execute(cp *CP, stack *Stack, op int) {
+	cpv, _ := cp.Get(op)
+	stack.Push(StackItem(cpv))
 }
