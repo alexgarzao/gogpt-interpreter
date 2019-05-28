@@ -1,7 +1,7 @@
 package vm
 
 import (
-	"github.com/alexgarzao/gpt-interpreter/app/domain"
+	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
 )
 
 type BytecodeExecutor struct {
@@ -12,7 +12,7 @@ func NewBytecodeExecutor() *BytecodeExecutor {
 	bce := &BytecodeExecutor{}
 	bce.instructions = make(map[opcodes.Opcode]opcodes.InstructionImplementation)
 	bce.instructions[opcodes.Nop] = opcodes.NewNopOpcode()
-	bce.instructions[opcodes.Lic] = opcodes.NewLicOpcode()
+	bce.instructions[opcodes.Ldc] = opcodes.NewLdcOpcode()
 
 	return bce
 }

@@ -9,8 +9,8 @@ import (
 func TestValidAdd2And3(t *testing.T) {
 	// 2 + 3 == 5
 	// CP:
-	// 		0: INT "2"
-	// 		1: INT "3"
+	// 		0: (INT) 2
+	// 		1: (INT) 3
 	// CODE:
 	// 		LDC 0
 	// 		LDC 1
@@ -20,10 +20,10 @@ func TestValidAdd2And3(t *testing.T) {
 	cpIndex3 := cp.Add(3)
 	stack := NewStack()
 
-	// LIC 0
-	lic := NewLicOpcode()
-	lic.Execute(cp, stack, cpIndex2)
-	lic.Execute(cp, stack, cpIndex3)
+	// LDC 0
+	ldc := NewLdcOpcode()
+	ldc.Execute(cp, stack, cpIndex2)
+	ldc.Execute(cp, stack, cpIndex3)
 
 	add := NewAddOpcode()
 	add.Execute(cp, stack, 0)
