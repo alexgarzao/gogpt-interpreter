@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-type StackItem int
+type StackItem interface{}
 
 type Stack struct {
 	items []StackItem

@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-type CPItem int
+type CPItem interface{}
 
 type CP struct {
 	items []CPItem

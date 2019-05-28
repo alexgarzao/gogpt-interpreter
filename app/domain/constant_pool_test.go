@@ -6,13 +6,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCpAddConstant(t *testing.T) {
+func TestCpAddIntConstants(t *testing.T) {
 	cp := NewCp()
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add(456), 1)
 }
 
-func TestCpGetConstant(t *testing.T) {
+func TestCpGetIntConstants(t *testing.T) {
 	cp := NewCp()
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add(456), 1)
@@ -22,7 +22,7 @@ func TestCpGetConstant(t *testing.T) {
 	assert.Equal(t, v, CPItem(456))
 }
 
-func TestCpGetConstantError(t *testing.T) {
+func TestCpGetIntConstantsError(t *testing.T) {
 	cp := NewCp()
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add(456), 1)
@@ -34,4 +34,44 @@ func TestCpGetConstantError(t *testing.T) {
 	assert.NoError(t, err)
 	v, err = cp.Get(2)
 	assert.EqualError(t, err, "Index not found")
+}
+
+func TestCpAddStrConstants(t *testing.T) {
+	cp := NewCp()
+	assert.Equal(t, cp.Add("ABC"), 0)
+	assert.Equal(t, cp.Add("DEF"), 1)
+}
+
+func TestCpGetStrConstants(t *testing.T) {
+	cp := NewCp()
+	assert.Equal(t, cp.Add("ABC"), 0)
+	assert.Equal(t, cp.Add("DEF"), 1)
+	v, _ := cp.Get(0)
+	assert.Equal(t, v, CPItem("ABC"))
+	v, _ = cp.Get(1)
+	assert.Equal(t, v, CPItem("DEF"))
+}
+
+func TestCpGetStrConstantsError(t *testing.T) {
+	cp := NewCp()
+	assert.Equal(t, cp.Add("ABC"), 0)
+	assert.Equal(t, cp.Add("DEF"), 1)
+	v, err := cp.Get(0)
+	assert.Equal(t, v, CPItem("ABC"))
+	assert.NoError(t, err)
+	v, err = cp.Get(1)
+	assert.Equal(t, v, CPItem("DEF"))
+	assert.NoError(t, err)
+	v, err = cp.Get(2)
+	assert.EqualError(t, err, "Index not found")
+}
+
+func TestCpAddingIntAndStrConstants(t *testing.T) {
+	cp := NewCp()
+	assert.Equal(t, cp.Add(123), 0)
+	assert.Equal(t, cp.Add("456"), 1)
+	v, _ := cp.Get(0)
+	assert.Equal(t, v, CPItem(123))
+	v, _ = cp.Get(1)
+	assert.Equal(t, v, CPItem("456"))
 }
