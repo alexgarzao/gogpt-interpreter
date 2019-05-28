@@ -3,18 +3,18 @@ package vm
 import (
 	"testing"
 
-	"github.com/alexgarzao/gpt-interpreter/app/domain"
+	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBCERunningLic222(t *testing.T) {
+func TestBCERunningLdc222(t *testing.T) {
 	// CP map:
 	//		0: 222
 	cp := opcodes.NewCp()
-	cp_index := cp.Add(222)
+	cpIndex := cp.Add(222)
 	st := opcodes.NewStack()
 	bc := opcodes.NewBytecode()
-	bc.Add(opcodes.Lic, opcodes.BytecodeItem(cp_index))
+	bc.Add(opcodes.Ldc, opcodes.BytecodeItem(cpIndex))
 	bce := NewBytecodeExecutor()
 	bce.Run(cp, st, bc)
 	cpv, _ := cp.Get(0)

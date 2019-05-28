@@ -2,7 +2,7 @@ package opcodes
 
 const (
 	Nop Opcode = iota
-	Lic
+	Ldc
 	Add
 )
 
