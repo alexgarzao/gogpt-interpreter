@@ -25,6 +25,9 @@ func (i *AddOpcode) Execute(cp *CP, stack *Stack, op int) {
 	switch op1.(type) {
 	case int:
 		res = op1.(int) + op2.(int)
+	case string:
+		res = op1.(string) + op2.(string)
 	}
+
 	stack.Push(StackItem(res))
 }
