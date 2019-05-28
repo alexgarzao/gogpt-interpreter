@@ -3,6 +3,7 @@ package opcodes
 const (
 	Nop Opcode = iota
 	Lic
+	Add
 )
 
 type Opcode byte
