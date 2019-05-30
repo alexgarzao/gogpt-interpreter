@@ -2,13 +2,18 @@ package opcodes
 
 type LdcOpcode struct {
 	Instruction
+	CpIndex BytecodeItem
 }
 
 func NewLdcOpcode() *LdcOpcode {
-	return &LdcOpcode{Instruction{"LDC", Ldc, 1}}
+	return &LdcOpcode{Instruction{"LDC", Ldc, 1}, 0}
 }
 
-func (d *LdcOpcode) Execute(cp *CP, stack *Stack, op int) {
-	cpv, _ := cp.Get(op)
+func (d *LdcOpcode) FetchOperands(bc *Bytecode) {
+	d.CpIndex, _ = bc.Next()
+}
+
+func (d *LdcOpcode) Execute(cp *CP, stack *Stack) {
+	cpv, _ := cp.Get(int(d.CpIndex))
 	stack.Push(StackItem(cpv))
 }

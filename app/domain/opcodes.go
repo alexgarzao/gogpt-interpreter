@@ -15,5 +15,6 @@ type Instruction struct {
 }
 
 type InstructionImplementation interface {
-	Execute(cp *CP, stack *Stack, op int)
+	FetchOperands(bytecode *Bytecode)
+	Execute(cp *CP, stack *Stack)
 }

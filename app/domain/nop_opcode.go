@@ -8,5 +8,8 @@ func NewNopOpcode() *NopOpcode {
 	return &NopOpcode{Instruction{"NOP", Nop, 1}}
 }
 
-func (d *NopOpcode) Execute(cp *CP, stack *Stack, op int) {
+func (d *NopOpcode) FetchOperands(bc *Bytecode) {
+}
+
+func (d *NopOpcode) Execute(cp *CP, stack *Stack) {
 }

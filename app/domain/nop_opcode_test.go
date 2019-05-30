@@ -11,7 +11,7 @@ func TestValidNop(t *testing.T) {
 	stack := NewStack()
 	// NOP
 	i := NewNopOpcode()
-	i.Execute(cp, stack, 1)
+	i.Execute(cp, stack)
 	_, err := cp.Get(0)
 	assert.EqualError(t, err, "Index not found")
 	_, err = stack.Top()

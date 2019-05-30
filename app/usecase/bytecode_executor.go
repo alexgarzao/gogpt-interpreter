@@ -18,12 +18,10 @@ func NewBytecodeExecutor() *BytecodeExecutor {
 }
 
 func (bce *BytecodeExecutor) Run(cp *opcodes.CP, st *opcodes.Stack, bc *opcodes.Bytecode) {
-	ip := 0
-	for ip < bc.Len() {
-		opcode, _ := bc.Get(ip)
-		ip++
-		operand, _ := bc.Get(ip)
-		ip++
-		bce.instructions[(opcodes.Opcode)(opcode)].Execute(cp, st, (int)(operand))
+	for bc.IP < bc.Len() {
+		opcode, _ := bc.Next()
+		instruction := bce.instructions[(opcodes.Opcode)(opcode)]
+		instruction.FetchOperands(bc)
+		instruction.Execute(cp, st)
 	}
 }

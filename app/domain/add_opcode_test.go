@@ -22,11 +22,13 @@ func TestValidAdd2And3(t *testing.T) {
 
 	// LDC 0
 	ldc := NewLdcOpcode()
-	ldc.Execute(cp, stack, cpIndex2)
-	ldc.Execute(cp, stack, cpIndex3)
+	ldc.CpIndex = BytecodeItem(cpIndex2)
+	ldc.Execute(cp, stack)
+	ldc.CpIndex = BytecodeItem(cpIndex3)
+	ldc.Execute(cp, stack)
 
 	add := NewAddOpcode()
-	add.Execute(cp, stack, 0)
+	add.Execute(cp, stack)
 
 	stv, _ := stack.Top()
 	assert.Equal(t, stv, StackItem(5))
@@ -49,11 +51,13 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 
 	// LDC 0
 	ldc := NewLdcOpcode()
-	ldc.Execute(cp, stack, cpIndex2)
-	ldc.Execute(cp, stack, cpIndex3)
+	ldc.CpIndex = BytecodeItem(cpIndex2)
+	ldc.Execute(cp, stack)
+	ldc.CpIndex = BytecodeItem(cpIndex3)
+	ldc.Execute(cp, stack)
 
 	add := NewAddOpcode()
-	add.Execute(cp, stack, 0)
+	add.Execute(cp, stack)
 
 	stv, _ := stack.Top()
 	assert.Equal(t, stv, StackItem("HelloWorld"))

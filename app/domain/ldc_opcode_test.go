@@ -19,7 +19,8 @@ func TestValidLdcInt123(t *testing.T) {
 
 	// LDC 0
 	j := NewLdcOpcode()
-	j.Execute(cp, stack, cp_index)
+	j.CpIndex = BytecodeItem(cp_index)
+	j.Execute(cp, stack)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, CPItem(123))
 	stv, _ = stack.Top()
@@ -39,7 +40,8 @@ func TestValidLdcABC(t *testing.T) {
 
 	// LDC 0
 	j := NewLdcOpcode()
-	j.Execute(cp, stack, cpIndex)
+	j.CpIndex = BytecodeItem(cpIndex)
+	j.Execute(cp, stack)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, CPItem("ABC"))
 	stv, _ = stack.Top()

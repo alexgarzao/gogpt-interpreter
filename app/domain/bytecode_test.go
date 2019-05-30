@@ -17,3 +17,31 @@ func TestBytecodeAddingOneInstruction(t *testing.T) {
 
 	assert.Equal(t, bc.Len(), 2)
 }
+
+func TestBytecodeAddingAndFetchingBytecodes(t *testing.T) {
+	bc := NewBytecode()
+	bc.Add(Ldc, 111)
+	bc.Add(Ldc, 222)
+
+	v, _ := bc.Next()
+	assert.Equal(t, v, BytecodeItem(Ldc))
+	v, _ = bc.Next()
+	assert.Equal(t, v, BytecodeItem(111))
+
+	v, _ = bc.Next()
+	assert.Equal(t, v, BytecodeItem(Ldc))
+	v, _ = bc.Next()
+	assert.Equal(t, v, BytecodeItem(222))
+
+	assert.Equal(t, bc.Len(), 4)
+}
+
+func TestBytecodeEofError(t *testing.T) {
+	bc := NewBytecode()
+	bc.Add(Ldc, 111)
+
+	bc.Next()
+	bc.Next()
+	_, err := bc.Next()
+	assert.EqualError(t, err, "Index not found")
+}

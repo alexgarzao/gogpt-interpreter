@@ -13,8 +13,10 @@ func NewAddOpcode() *AddOpcode {
 	return &AddOpcode{Instruction{"ADD", Add, 0}}
 }
 
-func (i *AddOpcode) Execute(cp *CP, stack *Stack, op int) {
-	// TODO: op is useless int this opcode.
+func (i *AddOpcode) FetchOperands(bc *Bytecode) {
+}
+
+func (i *AddOpcode) Execute(cp *CP, stack *Stack) {
 	op2, _ := stack.Pop()
 	op1, _ := stack.Pop()
 	if fmt.Sprintf("%T", op1) != fmt.Sprintf("%T", op2) {
