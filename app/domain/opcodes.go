@@ -4,6 +4,7 @@ const (
 	Nop Opcode = iota
 	Ldc
 	Add
+	Call
 )
 
 type Opcode byte
