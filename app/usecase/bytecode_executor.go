@@ -13,6 +13,7 @@ func NewBytecodeExecutor() *BytecodeExecutor {
 	bce.instructions = make(map[opcodes.Opcode]opcodes.InstructionImplementation)
 	bce.instructions[opcodes.Nop] = opcodes.NewNopOpcode()
 	bce.instructions[opcodes.Ldc] = opcodes.NewLdcOpcode()
+	bce.instructions[opcodes.Call] = opcodes.NewCallOpcode()
 
 	return bce
 }

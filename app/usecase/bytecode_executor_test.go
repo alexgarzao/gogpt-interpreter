@@ -35,3 +35,23 @@ func TestBCERunningNop(t *testing.T) {
 	_, err = st.Top()
 	assert.EqualError(t, err, "Stack underflow")
 }
+
+func TestBCECompleteHelloWorld(t *testing.T) {
+	// CP:
+	//    0: STR "io.println"
+	//    1: STR "Hello World!"
+
+	// CODE:
+	//    LDC 1 (Hello World!)
+	//    CALL 0 (io.println)
+	cp := opcodes.NewCp()
+	printlnIndex := cp.Add("io.println")
+	messageIndex := cp.Add("Hello World!")
+	st := opcodes.NewStack()
+	bc := opcodes.NewBytecode()
+	bc.Add(opcodes.Ldc, opcodes.BytecodeItem(messageIndex))
+	bc.Add(opcodes.Call, opcodes.BytecodeItem(printlnIndex))
+	bce := NewBytecodeExecutor()
+	bce.Run(cp, st, bc)
+	// TODO: check println output
+}
