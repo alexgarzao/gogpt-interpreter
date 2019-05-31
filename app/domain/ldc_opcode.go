@@ -13,7 +13,7 @@ func (d *LdcOpcode) FetchOperands(bc *Bytecode) {
 	d.CpIndex, _ = bc.Next()
 }
 
-func (d *LdcOpcode) Execute(cp *CP, stack *Stack) {
-	cpv, _ := cp.Get(int(d.CpIndex))
+func (d *LdcOpcode) Execute(cp *CP, stack *Stack, stdout StdoutInterface) {
+	cpv, _ := cp.Get(d.CpIndex)
 	stack.Push(StackItem(cpv))
 }

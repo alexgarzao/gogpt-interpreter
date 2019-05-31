@@ -3,6 +3,7 @@ package opcodes
 import (
 	"testing"
 
+	interfaces "github.com/alexgarzao/gpt-interpreter/app/interface"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -19,13 +20,14 @@ func TestValidAdd2And3(t *testing.T) {
 	cpIndex2 := cp.Add(2)
 	cpIndex3 := cp.Add(3)
 	stack := NewStack()
+	stdout := interfaces.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = cpIndex2
-	ldc.Execute(cp, stack)
+	ldc.Execute(cp, stack, stdout)
 	ldc.CpIndex = cpIndex3
-	ldc.Execute(cp, stack)
+	ldc.Execute(cp, stack, stdout)
 
 	add := NewAddOpcode()
 	add.Execute(cp, stack)
@@ -48,13 +50,14 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	cpIndex2 := cp.Add("Hello")
 	cpIndex3 := cp.Add("World")
 	stack := NewStack()
+	stdout := interfaces.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = cpIndex2
-	ldc.Execute(cp, stack)
+	ldc.Execute(cp, stack, stdout)
 	ldc.CpIndex = cpIndex3
-	ldc.Execute(cp, stack)
+	ldc.Execute(cp, stack, stdout)
 
 	add := NewAddOpcode()
 	add.Execute(cp, stack)

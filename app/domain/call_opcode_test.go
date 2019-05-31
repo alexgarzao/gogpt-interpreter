@@ -2,6 +2,10 @@ package opcodes
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	interfaces "github.com/alexgarzao/gpt-interpreter/app/interface"
 )
 
 func TestCallStringHello(t *testing.T) {
@@ -15,12 +19,13 @@ func TestCallStringHello(t *testing.T) {
 	cp := NewCp()
 	printlnIndex := cp.Add("io.println")
 	messageIndex := cp.Add("Hello World!")
-	st := NewStack()
+	stack := NewStack()
+	stdout := interfaces.NewFakeStdout()
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = messageIndex
-	ldc.Execute(cp, st)
+	ldc.Execute(cp, stack, stdout)
 	call := NewCallOpcode()
 	call.CpIndex = printlnIndex
-	call.Execute(cp, st)
-	// TODO: check println output
+	call.Execute(cp, stack, stdout)
+	assert.Equal(t, stdout.LastLine, "Hello World!\n")
 }

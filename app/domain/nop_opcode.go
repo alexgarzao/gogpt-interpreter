@@ -11,5 +11,5 @@ func NewNopOpcode() *NopOpcode {
 func (d *NopOpcode) FetchOperands(bc *Bytecode) {
 }
 
-func (d *NopOpcode) Execute(cp *CP, stack *Stack) {
+func (d *NopOpcode) Execute(cp *CP, stack *Stack, stdout StdoutInterface) {
 }
