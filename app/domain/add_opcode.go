@@ -16,9 +16,15 @@ func NewAddOpcode() *AddOpcode {
 func (i *AddOpcode) FetchOperands(bc *Bytecode) {
 }
 
-func (i *AddOpcode) Execute(cp *CP, stack *Stack) {
-	op2, _ := stack.Pop()
-	op1, _ := stack.Pop()
+func (i *AddOpcode) Execute(cp *CP, stack *Stack) error {
+	op2, err := stack.Pop()
+	if err != nil {
+		return err
+	}
+	op1, err := stack.Pop()
+	if err != nil {
+		return err
+	}
 	if fmt.Sprintf("%T", op1) != fmt.Sprintf("%T", op2) {
 		log.Fatalln("Invalid types in ADD opcode: ")
 	}
@@ -32,4 +38,6 @@ func (i *AddOpcode) Execute(cp *CP, stack *Stack) {
 	}
 
 	stack.Push(StackItem(res))
+
+	return nil
 }

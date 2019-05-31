@@ -14,6 +14,6 @@ type Instruction struct {
 }
 
 type InstructionImplementation interface {
-	FetchOperands(bytecode *Bytecode)
-	Execute(cp *CP, stack *Stack, stdout StdoutInterface)
+	FetchOperands(bytecode *Bytecode) error
+	Execute(cp *CP, stack *Stack, stdout StdoutInterface) error
 }

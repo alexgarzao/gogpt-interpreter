@@ -1,6 +1,9 @@
 package vm
 
 import (
+	"errors"
+	"fmt"
+
 	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
 )
 
@@ -18,11 +21,25 @@ func NewBytecodeExecutor() *BytecodeExecutor {
 	return bce
 }
 
-func (bce *BytecodeExecutor) Run(cp *opcodes.CP, st *opcodes.Stack, stdout opcodes.StdoutInterface, bc *opcodes.Bytecode) {
+func (bce *BytecodeExecutor) Run(cp *opcodes.CP, st *opcodes.Stack, stdout opcodes.StdoutInterface, bc *opcodes.Bytecode) error {
 	for bc.IP < bc.Len() {
-		opcode, _ := bc.Next()
-		instruction := bce.instructions[opcode]
-		instruction.FetchOperands(bc)
-		instruction.Execute(cp, st, stdout)
+		opcode, err := bc.Next()
+		if err != nil {
+			return err
+		}
+		instruction, exist := bce.instructions[opcode]
+		if !exist {
+			return errors.New(fmt.Sprintf("Invalid opcode %d", opcode))
+		}
+		err = instruction.FetchOperands(bc)
+		if err != nil {
+			return err
+		}
+		err = instruction.Execute(cp, st, stdout)
+		if err != nil {
+			return err
+		}
 	}
+
+	return nil
 }

@@ -8,8 +8,10 @@ func NewNopOpcode() *NopOpcode {
 	return &NopOpcode{Instruction{"NOP", Nop, 1}}
 }
 
-func (d *NopOpcode) FetchOperands(bc *Bytecode) {
+func (d *NopOpcode) FetchOperands(bc *Bytecode) error {
+	return nil
 }
 
-func (d *NopOpcode) Execute(cp *CP, stack *Stack, stdout StdoutInterface) {
+func (d *NopOpcode) Execute(cp *CP, stack *Stack, stdout StdoutInterface) error {
+	return nil
 }
