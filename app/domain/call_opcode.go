@@ -6,7 +6,7 @@ import (
 
 type CallOpcode struct {
 	Instruction
-	CpIndex BytecodeItem
+	CpIndex int
 }
 
 func NewCallOpcode() *CallOpcode {

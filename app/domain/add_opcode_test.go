@@ -22,9 +22,9 @@ func TestValidAdd2And3(t *testing.T) {
 
 	// LDC 0
 	ldc := NewLdcOpcode()
-	ldc.CpIndex = BytecodeItem(cpIndex2)
+	ldc.CpIndex = cpIndex2
 	ldc.Execute(cp, stack)
-	ldc.CpIndex = BytecodeItem(cpIndex3)
+	ldc.CpIndex = cpIndex3
 	ldc.Execute(cp, stack)
 
 	add := NewAddOpcode()
@@ -51,9 +51,9 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 
 	// LDC 0
 	ldc := NewLdcOpcode()
-	ldc.CpIndex = BytecodeItem(cpIndex2)
+	ldc.CpIndex = cpIndex2
 	ldc.Execute(cp, stack)
-	ldc.CpIndex = BytecodeItem(cpIndex3)
+	ldc.CpIndex = cpIndex3
 	ldc.Execute(cp, stack)
 
 	add := NewAddOpcode()

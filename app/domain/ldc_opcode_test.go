@@ -10,7 +10,7 @@ func TestValidLdcInt123(t *testing.T) {
 	// CP map:
 	//		0: (INT) 123
 	cp := NewCp()
-	cp_index := cp.Add(123)
+	cpIndex := cp.Add(123)
 	stack := NewStack()
 	cpv, _ := cp.Get(0)
 	assert.Equal(t, cpv, CPItem(123))
@@ -19,7 +19,7 @@ func TestValidLdcInt123(t *testing.T) {
 
 	// LDC 0
 	j := NewLdcOpcode()
-	j.CpIndex = BytecodeItem(cp_index)
+	j.CpIndex = cpIndex
 	j.Execute(cp, stack)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, CPItem(123))
@@ -40,7 +40,7 @@ func TestValidLdcABC(t *testing.T) {
 
 	// LDC 0
 	j := NewLdcOpcode()
-	j.CpIndex = BytecodeItem(cpIndex)
+	j.CpIndex = cpIndex
 	j.Execute(cp, stack)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, CPItem("ABC"))

@@ -17,10 +17,10 @@ func TestCallStringHello(t *testing.T) {
 	messageIndex := cp.Add("Hello World!")
 	st := NewStack()
 	ldc := NewLdcOpcode()
-	ldc.CpIndex = BytecodeItem(messageIndex)
+	ldc.CpIndex = messageIndex
 	ldc.Execute(cp, st)
 	call := NewCallOpcode()
-	call.CpIndex = BytecodeItem(printlnIndex)
+	call.CpIndex = printlnIndex
 	call.Execute(cp, st)
 	// TODO: check println output
 }

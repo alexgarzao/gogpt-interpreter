@@ -1,17 +1,15 @@
 package opcodes
 
 const (
-	Nop Opcode = iota
+	Nop int = iota
 	Ldc
 	Add
 	Call
 )
 
-type Opcode byte
-
 type Instruction struct {
 	Name         string
-	Opcode       Opcode
+	Opcode       int
 	OperandCount int
 }
 

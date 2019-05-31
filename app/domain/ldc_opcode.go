@@ -2,7 +2,7 @@ package opcodes
 
 type LdcOpcode struct {
 	Instruction
-	CpIndex BytecodeItem
+	CpIndex int
 }
 
 func NewLdcOpcode() *LdcOpcode {

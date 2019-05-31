@@ -11,9 +11,9 @@ func TestBytecodeAddingOneInstruction(t *testing.T) {
 	bc.Add(Ldc, 111)
 
 	v, _ := bc.Get(0)
-	assert.Equal(t, v, BytecodeItem(Ldc))
+	assert.Equal(t, v, Ldc)
 	v, _ = bc.Get(1)
-	assert.Equal(t, v, BytecodeItem(111))
+	assert.Equal(t, v, 111)
 
 	assert.Equal(t, bc.Len(), 2)
 }
@@ -24,14 +24,14 @@ func TestBytecodeAddingAndFetchingBytecodes(t *testing.T) {
 	bc.Add(Ldc, 222)
 
 	v, _ := bc.Next()
-	assert.Equal(t, v, BytecodeItem(Ldc))
+	assert.Equal(t, v, Ldc)
 	v, _ = bc.Next()
-	assert.Equal(t, v, BytecodeItem(111))
+	assert.Equal(t, v, 111)
 
 	v, _ = bc.Next()
-	assert.Equal(t, v, BytecodeItem(Ldc))
+	assert.Equal(t, v, Ldc)
 	v, _ = bc.Next()
-	assert.Equal(t, v, BytecodeItem(222))
+	assert.Equal(t, v, 222)
 
 	assert.Equal(t, bc.Len(), 4)
 }
