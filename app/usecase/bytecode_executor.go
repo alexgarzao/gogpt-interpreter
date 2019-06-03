@@ -1,7 +1,6 @@
 package vm
 
 import (
-	"errors"
 	"fmt"
 
 	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
@@ -29,7 +28,7 @@ func (bce *BytecodeExecutor) Run(cp *opcodes.CP, st *opcodes.Stack, stdout opcod
 		}
 		instruction, exist := bce.instructions[opcode]
 		if !exist {
-			return errors.New(fmt.Sprintf("Invalid opcode %d", opcode))
+			return fmt.Errorf("Invalid opcode %d", opcode)
 		}
 		err = instruction.FetchOperands(bc)
 		if err != nil {
