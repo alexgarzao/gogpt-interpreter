@@ -12,17 +12,29 @@ func NewFunctionCall() *FunctionCall {
 }
 
 func (fc *FunctionCall) IsValid(l *lexer.Lexer) bool {
-	// TODO: backtracking.
 	if l.NextToken().Type != lexer.IDENT {
+		l.BackTracking()
 		return false
 	}
 
 	if l.NextToken().Type != lexer.LPAREN {
+		l.BackTracking()
 		return false
 	}
 
 	if l.NextToken().Type != lexer.STRING {
-		return false
+		l.BackTracking()
+	} else {
+		for {
+			if l.NextToken().Type != lexer.COMMA {
+				l.BackTracking()
+				break
+			}
+			if l.NextToken().Type != lexer.STRING {
+				l.BackTracking()
+				return false
+			}
+		}
 	}
 
 	if l.NextToken().Type != lexer.RPAREN {

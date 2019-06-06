@@ -13,3 +13,9 @@ func TestImprimaFunctionCall(t *testing.T) {
 	s := NewFunctionCall()
 	assert.Equal(t, s.IsValid(l), true)
 }
+
+func TestFunctionCallWithoutArguments(t *testing.T) {
+	l := lexer.NewLexer(`myfunction()`)
+	s := NewFunctionCall()
+	assert.Equal(t, s.IsValid(l), true)
+}

@@ -7,18 +7,21 @@ import (
 )
 
 type Lexer struct {
-	input      string
-	currentPos int
+	input        string
+	currentPos   int
+	backTracking int
 }
 
 func NewLexer(input string) *Lexer {
 	return &Lexer{
-		input:      input,
-		currentPos: 0,
+		input:        input,
+		currentPos:   0,
+		backTracking: 0,
 	}
 }
 
 func (l *Lexer) NextToken() *Token {
+	l.backTracking = l.currentPos
 	var ch rune
 
 	// Ignore useless chars.
@@ -51,6 +54,10 @@ func (l *Lexer) NextToken() *Token {
 	}
 
 	return &Token{INVALID, ""}
+}
+
+func (l *Lexer) BackTracking() {
+	l.currentPos = l.backTracking
 }
 
 func (l *Lexer) tryIdOrKeyword(ch rune) *Token {
