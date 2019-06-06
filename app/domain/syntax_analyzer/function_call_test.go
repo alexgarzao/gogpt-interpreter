@@ -19,3 +19,24 @@ func TestFunctionCallWithoutArguments(t *testing.T) {
 	s := NewFunctionCall()
 	assert.Equal(t, s.IsValid(l), true)
 }
+
+func TestInvalidFunctionCallWithoutArguments(t *testing.T) {
+	l := lexer.NewLexer(`myfunction(,)`)
+	s := NewFunctionCall()
+	assert.Equal(t, s.IsValid(l), false)
+}
+
+func TestFunctionCallWithNArguments(t *testing.T) {
+	l := lexer.NewLexer(`myfunction("A", "B", "C")`)
+	s := NewFunctionCall()
+	assert.Equal(t, s.IsValid(l), true)
+}
+
+func TestInvalidFunctionCallWithNArguments(t *testing.T) {
+	l := lexer.NewLexer(`myfunction("A", "B", )`)
+	s := NewFunctionCall()
+	assert.Equal(t, s.IsValid(l), false)
+
+	l = lexer.NewLexer(`myfunction("A" "B", "C")`)
+	assert.Equal(t, s.IsValid(l), false)
+}
