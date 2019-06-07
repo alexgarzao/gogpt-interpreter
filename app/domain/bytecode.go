@@ -17,6 +17,9 @@ func NewBytecode() *Bytecode {
 }
 
 func (bc *Bytecode) Add(item int, op int) {
+	if bc == nil {
+		return
+	}
 	bc.items = append(bc.items, item)
 	bc.items = append(bc.items, op)
 }

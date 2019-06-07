@@ -17,6 +17,10 @@ func NewCp() *CP {
 }
 
 func (cp *CP) Add(item CPItem) int {
+	if cp == nil {
+		return -1
+	}
+
 	cp.items = append(cp.items, item)
 	return len(cp.items) - 1
 }

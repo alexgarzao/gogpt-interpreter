@@ -1,14 +1,24 @@
 package analyzer
 
 import (
+	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
 	lexer "github.com/alexgarzao/gpt-interpreter/app/domain/lexical_analyzer"
 )
 
 type FunctionCall struct {
+	cp *opcodes.CP
+	bc *opcodes.Bytecode
 }
 
 func NewFunctionCall() *FunctionCall {
 	return &FunctionCall{}
+}
+
+func (fc *FunctionCall) SetBytecodeGenRequirements(cp *opcodes.CP, bc *opcodes.Bytecode) *FunctionCall {
+	fc.cp = cp
+	fc.bc = bc
+
+	return fc
 }
 
 func (fc *FunctionCall) TryToParse(l *lexer.Lexer) bool {
@@ -22,7 +32,8 @@ func (fc *FunctionCall) TryToParse(l *lexer.Lexer) bool {
 }
 
 func (fc *FunctionCall) isValid(l *lexer.Lexer) bool {
-	if l.GetNextTokenIf(lexer.IDENT) == nil {
+	var token *lexer.Token
+	if token = l.GetNextTokenIf(lexer.IDENT); token == nil {
 		return false
 	}
 
@@ -30,8 +41,15 @@ func (fc *FunctionCall) isValid(l *lexer.Lexer) bool {
 		return false
 	}
 
-	if l.GetNextTokenIf(lexer.STRING) != nil {
+	funcIndex := -1
+	if token.Value == "imprima" {
+		funcIndex = fc.cp.Add("io.println")
+	}
+
+	if token = l.GetNextTokenIf(lexer.STRING); token != nil {
 		for {
+			cpIndex := fc.cp.Add(token.Value)
+			fc.bc.Add(opcodes.Ldc, cpIndex)
 			if l.GetNextTokenIf(lexer.COMMA) == nil {
 				break
 			}
@@ -40,6 +58,8 @@ func (fc *FunctionCall) isValid(l *lexer.Lexer) bool {
 			}
 		}
 	}
+
+	fc.bc.Add(opcodes.Call, funcIndex)
 
 	if l.GetNextTokenIf(lexer.RPAREN) == nil {
 		return false
