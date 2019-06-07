@@ -21,6 +21,10 @@ func (cp *CP) Add(item CPItem) int {
 		return -1
 	}
 
+	if n := cp.Find(item); n != -1 {
+		return n
+	}
+
 	cp.items = append(cp.items, item)
 	return len(cp.items) - 1
 }
@@ -33,4 +37,14 @@ func (cp *CP) Get(index int) (CPItem, error) {
 	res := cp.items[index]
 
 	return res, nil
+}
+
+func (cp *CP) Find(item CPItem) int {
+	for i, v := range cp.items {
+		if v == item {
+			return i
+		}
+	}
+
+	return -1
 }

@@ -75,3 +75,11 @@ func TestCpAddingIntAndStrConstants(t *testing.T) {
 	v, _ = cp.Get(1)
 	assert.Equal(t, v, CPItem("456"))
 }
+
+func TestCpAddingDuplicatedValues(t *testing.T) {
+	cp := NewCp()
+	assert.Equal(t, 0, cp.Add(123))
+	assert.Equal(t, 0, cp.Add(123))
+	assert.Equal(t, 1, cp.Add(456))
+	assert.Equal(t, 0, cp.Add(123))
+}
