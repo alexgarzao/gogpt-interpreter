@@ -11,33 +11,37 @@ func NewFunctionCall() *FunctionCall {
 	return &FunctionCall{}
 }
 
-func (fc *FunctionCall) IsValid(l *lexer.Lexer) bool {
-	if l.NextToken().Type != lexer.IDENT {
-		l.BackTracking()
+func (fc *FunctionCall) TryToParse(l *lexer.Lexer) bool {
+	l.SaveBacktrackingPoint()
+	if fc.isValid(l) {
+		return true
+	}
+
+	l.BackTracking()
+	return false
+}
+
+func (fc *FunctionCall) isValid(l *lexer.Lexer) bool {
+	if l.GetNextTokenIf(lexer.IDENT) == nil {
 		return false
 	}
 
-	if l.NextToken().Type != lexer.LPAREN {
-		l.BackTracking()
+	if l.GetNextTokenIf(lexer.LPAREN) == nil {
 		return false
 	}
 
-	if l.NextToken().Type != lexer.STRING {
-		l.BackTracking()
-	} else {
+	if l.GetNextTokenIf(lexer.STRING) != nil {
 		for {
-			if l.NextToken().Type != lexer.COMMA {
-				l.BackTracking()
+			if l.GetNextTokenIf(lexer.COMMA) == nil {
 				break
 			}
-			if l.NextToken().Type != lexer.STRING {
-				l.BackTracking()
+			if l.GetNextTokenIf(lexer.STRING) == nil {
 				return false
 			}
 		}
 	}
 
-	if l.NextToken().Type != lexer.RPAREN {
+	if l.GetNextTokenIf(lexer.RPAREN) == nil {
 		return false
 	}
 

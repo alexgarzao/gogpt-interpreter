@@ -25,8 +25,6 @@ func (l *Lexer) SaveBacktrackingPoint() {
 }
 
 func (l *Lexer) NextToken() *Token {
-	l.SaveBacktrackingPoint()
-
 	var ch rune
 
 	// Ignore useless chars.
@@ -62,12 +60,12 @@ func (l *Lexer) NextToken() *Token {
 }
 
 func (l *Lexer) GetNextTokenIf(expectedType string) *Token {
-	l.SaveBacktrackingPoint()
+	backTracking := l.currentPos
 	token := l.NextToken()
 	if token.Type == expectedType {
 		return token
 	}
-	l.BackTracking()
+	l.currentPos = backTracking
 	return nil
 }
 
