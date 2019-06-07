@@ -105,3 +105,38 @@ fim`
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
+
+func TestBytecodeHelloWorldWithTwoWrites(t *testing.T) {
+	c :=
+		`algoritmo olá_mundo;
+início
+	imprima("Olá...");
+	imprima("mundo!");
+fim`
+	// CP:
+	//    0: STR "io.println"
+	//    1: STR "Olá..."
+	//    2: STR "mundo!"
+	// CODE:
+	//    LDC 1 (Olá...)
+	//    CALL 0 (io.println)
+	//    LDC 2 (mundo!)
+	//    CALL 0 (io.println)
+
+	expectedCp := opcodes.NewCp()
+	printlnIndex := expectedCp.Add("io.println")
+	messageIndex1 := expectedCp.Add("Olá...")
+	messageIndex2 := expectedCp.Add("mundo!")
+
+	l := lexer.NewLexer(c)
+	p := NewProgram()
+	expectedBc := opcodes.NewBytecode()
+	expectedBc.Add(opcodes.Ldc, messageIndex1)
+	expectedBc.Add(opcodes.Call, printlnIndex)
+	expectedBc.Add(opcodes.Ldc, messageIndex2)
+	expectedBc.Add(opcodes.Call, printlnIndex)
+
+	assert.Equal(t, true, p.TryToParse(l))
+	assert.Equal(t, expectedCp, p.GetCP())
+	assert.Equal(t, expectedBc, p.GetBC())
+}
