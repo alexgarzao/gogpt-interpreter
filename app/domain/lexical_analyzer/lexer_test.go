@@ -166,3 +166,15 @@ fim`
 	assert.Equal(t, &Token{FIM, "FIM"}, l.NextToken())
 	assert.Equal(t, &Token{EOF, EOF}, l.NextToken())
 }
+
+func TestGetIf(t *testing.T) {
+	l := NewLexer("algoritmo início ( xxx ) fim")
+	assert.Nil(t, l.GetNextTokenIf(IDENT))
+	assert.Equal(t, &Token{ALGORITMO, ALGORITMO}, l.GetNextTokenIf(ALGORITMO))
+	assert.Equal(t, &Token{INICIO, INICIO}, l.GetNextTokenIf(INICIO))
+	assert.Equal(t, &Token{LPAREN, LPAREN}, l.GetNextTokenIf(LPAREN))
+	assert.Equal(t, &Token{IDENT, "xxx"}, l.GetNextTokenIf(IDENT))
+	assert.Equal(t, &Token{RPAREN, RPAREN}, l.GetNextTokenIf(RPAREN))
+	assert.Equal(t, &Token{FIM, FIM}, l.GetNextTokenIf(FIM))
+	assert.Equal(t, &Token{EOF, EOF}, l.GetNextTokenIf(EOF))
+}
