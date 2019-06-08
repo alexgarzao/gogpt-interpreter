@@ -3,7 +3,7 @@ package vm
 import (
 	"fmt"
 
-	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
+	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
 )
 
 type BytecodeExecutor struct {

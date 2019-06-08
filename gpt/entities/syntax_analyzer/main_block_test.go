@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	lexer "github.com/alexgarzao/gpt-interpreter/app/domain/lexical_analyzer"
+	lexer "github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
 )
 
 func TestValidEmptyMainBlock(t *testing.T) {

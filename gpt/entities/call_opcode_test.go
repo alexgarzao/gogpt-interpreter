@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	interfaces "github.com/alexgarzao/gpt-interpreter/app/interface"
+	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
 )
 
 func TestCallStringHello(t *testing.T) {
@@ -20,7 +20,7 @@ func TestCallStringHello(t *testing.T) {
 	printlnIndex := cp.Add("io.println")
 	messageIndex := cp.Add("Hello World!")
 	stack := NewStack()
-	stdout := interfaces.NewFakeStdout()
+	stdout := adapters.NewFakeStdout()
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = messageIndex
 	ldc.Execute(cp, stack, stdout)

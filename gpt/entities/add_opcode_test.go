@@ -3,7 +3,7 @@ package opcodes
 import (
 	"testing"
 
-	interfaces "github.com/alexgarzao/gpt-interpreter/app/interface"
+	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -20,7 +20,7 @@ func TestValidAdd2And3(t *testing.T) {
 	cpIndex2 := cp.Add(2)
 	cpIndex3 := cp.Add(3)
 	stack := NewStack()
-	stdout := interfaces.NewFakeStdout()
+	stdout := adapters.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
@@ -50,7 +50,7 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	cpIndex2 := cp.Add("Hello")
 	cpIndex3 := cp.Add("World")
 	stack := NewStack()
-	stdout := interfaces.NewFakeStdout()
+	stdout := adapters.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()

@@ -6,11 +6,11 @@ import (
 	"log"
 	"os"
 
-	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
-	lexer "github.com/alexgarzao/gpt-interpreter/app/domain/lexical_analyzer"
-	syntax "github.com/alexgarzao/gpt-interpreter/app/domain/syntax_analyzer"
-	interfaces "github.com/alexgarzao/gpt-interpreter/app/interface"
-	usecase "github.com/alexgarzao/gpt-interpreter/app/usecase"
+	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
+	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
+	lexer "github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	syntax "github.com/alexgarzao/gpt-interpreter/gpt/entities/syntax_analyzer"
+	usecases "github.com/alexgarzao/gpt-interpreter/gpt/usecases"
 )
 
 func main() {
@@ -32,8 +32,8 @@ func main() {
 		return
 	}
 
-	bce := usecase.NewBytecodeExecutor()
-	stdout := interfaces.NewStdout()
+	bce := usecases.NewBytecodeExecutor()
+	stdout := adapters.NewStdout()
 	st := opcodes.NewStack()
 
 	err = bce.Run(p.GetCP(), st, stdout, p.GetBC())

@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
-	lexer "github.com/alexgarzao/gpt-interpreter/app/domain/lexical_analyzer"
+	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
+	lexer "github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
 )
 
 func TestValidEmptyProgram(t *testing.T) {

@@ -3,9 +3,9 @@ package vm
 import (
 	"testing"
 
-	interfaces "github.com/alexgarzao/gpt-interpreter/app/interface"
+	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
 
-	opcodes "github.com/alexgarzao/gpt-interpreter/app/domain"
+	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,7 +15,7 @@ func TestBCERunningLdc222(t *testing.T) {
 	cp := opcodes.NewCp()
 	cpIndex := cp.Add(222)
 	st := opcodes.NewStack()
-	stdout := interfaces.NewFakeStdout()
+	stdout := adapters.NewFakeStdout()
 	bc := opcodes.NewBytecode()
 	bc.Add(opcodes.Ldc, cpIndex)
 	bce := NewBytecodeExecutor()
@@ -30,7 +30,7 @@ func TestBCERunningLdc222(t *testing.T) {
 func TestBCERunningNop(t *testing.T) {
 	cp := opcodes.NewCp()
 	st := opcodes.NewStack()
-	stdout := interfaces.NewFakeStdout()
+	stdout := adapters.NewFakeStdout()
 	bc := opcodes.NewBytecode()
 	bc.Add(opcodes.Nop, 0)
 	bce := NewBytecodeExecutor()
@@ -54,7 +54,7 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	printlnIndex := cp.Add("io.println")
 	messageIndex := cp.Add("Hello World!")
 	st := opcodes.NewStack()
-	stdout := interfaces.NewFakeStdout()
+	stdout := adapters.NewFakeStdout()
 	bc := opcodes.NewBytecode()
 	bc.Add(opcodes.Ldc, messageIndex)
 	bc.Add(opcodes.Call, printlnIndex)
@@ -67,7 +67,7 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 func TestBCERunningInvalidOpcode(t *testing.T) {
 	cp := opcodes.NewCp()
 	st := opcodes.NewStack()
-	stdout := interfaces.NewFakeStdout()
+	stdout := adapters.NewFakeStdout()
 	bc := opcodes.NewBytecode()
 	bc.Add(123, 0)
 	bce := NewBytecodeExecutor()

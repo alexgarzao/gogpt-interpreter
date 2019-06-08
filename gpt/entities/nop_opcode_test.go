@@ -3,14 +3,14 @@ package opcodes
 import (
 	"testing"
 
-	interfaces "github.com/alexgarzao/gpt-interpreter/app/interface"
+	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestValidNop(t *testing.T) {
 	cp := NewCp()
 	stack := NewStack()
-	stdout := interfaces.NewFakeStdout()
+	stdout := adapters.NewFakeStdout()
 
 	// NOP
 	i := NewNopOpcode()
