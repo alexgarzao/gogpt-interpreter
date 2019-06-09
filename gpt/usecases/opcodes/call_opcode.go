@@ -1,9 +1,9 @@
 package opcodes
 
 import (
-	bytecode "github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
 	cp "github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
-	stack "github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 )
 
 type CallOpcode struct {

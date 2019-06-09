@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
+	"github.com/alexgarzao/gpt-interpreter/gpt/adapters"
 )
 
 func TestCallStringHello(t *testing.T) {

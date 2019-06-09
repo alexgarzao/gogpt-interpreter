@@ -5,7 +5,7 @@ import (
 	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 	"testing"
 
-	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
+	"github.com/alexgarzao/gpt-interpreter/gpt/adapters"
 	"github.com/stretchr/testify/assert"
 )
 
