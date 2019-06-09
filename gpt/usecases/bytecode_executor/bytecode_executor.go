@@ -10,33 +10,37 @@ import (
 )
 
 type BytecodeExecutor struct {
+	bc           *bytecode.Bytecode
 	instructions map[int]opcodes.InstructionImplementation
-	IP           int
+	ip           int
 }
 
-func NewBytecodeExecutor() *BytecodeExecutor {
-	bce := &BytecodeExecutor{}
-	bce.instructions = make(map[int]opcodes.InstructionImplementation)
+func NewBytecodeExecutor(bc *bytecode.Bytecode) *BytecodeExecutor {
+	bce := &BytecodeExecutor{
+		ip:           0,
+		bc:           bc,
+		instructions: make(map[int]opcodes.InstructionImplementation),
+	}
+
 	bce.instructions[opcodes.Nop] = opcodes.NewNopOpcode()
 	bce.instructions[opcodes.Ldc] = opcodes.NewLdcOpcode()
 	bce.instructions[opcodes.Call] = opcodes.NewCallOpcode()
-	bce.IP = 0
 
 	return bce
 }
 
-func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, st *stack.Stack, stdout opcodes.StdoutInterface, bc *bytecode.Bytecode) error {
-	for bce.IP < bc.Len() {
-		opcode, err := bce.Next(bc)
+func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, st *stack.Stack, stdout opcodes.StdoutInterface) error {
+	for {
+		opcode, err := bce.Next()
 		if err != nil {
-			return err
+			return nil
 		}
 		instruction, exist := bce.instructions[opcode]
 		if !exist {
 			return fmt.Errorf("Invalid opcode %d", opcode)
 		}
 		if instruction.GetOperandCount() == 1 {
-			operand, err := bce.Next(bc)
+			operand, err := bce.Next()
 			if err != nil {
 				return err
 			}
@@ -54,8 +58,8 @@ func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, st *stack.Stack, stdout o
 	return nil
 }
 
-func (bce *BytecodeExecutor) Next(bc *bytecode.Bytecode) (code int, err error) {
-	code, err = bc.Get(bce.IP)
-	bce.IP += 1
+func (bce *BytecodeExecutor) Next() (code int, err error) {
+	code, err = bce.bc.Get(bce.ip)
+	bce.ip += 1
 	return
 }

@@ -12,26 +12,25 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TODO: Test Next() method.
-// func TestBytecodeExecutorAddingAndFetchingBytecodes(t *testing.T) {
-// 	bc := NewBytecode()
-// 	bc.Add(MyFakeOpcode, 111)
-// 	bc.Add(MyFakeOpcode, 222)
+func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
+	bc := bytecode.NewBytecode()
+	bc.Add(opcodes.Ldc, 111)
+	bc.Add(opcodes.Ldc, 222)
 
-// 	bce := NewBytecodeExecutor()
+	assert.Equal(t, bc.Len(), 4)
 
-// 	v, _ := bc.Next()
-// 	assert.Equal(t, v, MyFakeOpcode)
-// 	v, _ = bc.Next()
-// 	assert.Equal(t, v, 111)
+	bce := NewBytecodeExecutor(bc)
 
-// 	v, _ = bc.Next()
-// 	assert.Equal(t, v, MyFakeOpcode)
-// 	v, _ = bc.Next()
-// 	assert.Equal(t, v, 222)
+	v, _ := bce.Next()
+	assert.Equal(t, v, opcodes.Ldc)
+	v, _ = bce.Next()
+	assert.Equal(t, v, 111)
 
-// 	assert.Equal(t, bc.Len(), 4)
-// }
+	v, _ = bce.Next()
+	assert.Equal(t, v, opcodes.Ldc)
+	v, _ = bce.Next()
+	assert.Equal(t, v, 222)
+}
 
 func TestBCERunningLdc222(t *testing.T) {
 	// CP map:
@@ -42,8 +41,8 @@ func TestBCERunningLdc222(t *testing.T) {
 	stdout := adapters.NewFakeStdout()
 	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Ldc, cpIndex)
-	bce := NewBytecodeExecutor()
-	err := bce.Run(cp, st, stdout, bc)
+	bce := NewBytecodeExecutor(bc)
+	err := bce.Run(cp, st, stdout)
 	assert.Nil(t, err)
 	cpv, _ := cp.Get(0)
 	assert.Equal(t, cpv, constant_pool.CPItem(222))
@@ -57,8 +56,8 @@ func TestBCERunningNop(t *testing.T) {
 	stdout := adapters.NewFakeStdout()
 	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Nop, 0)
-	bce := NewBytecodeExecutor()
-	err := bce.Run(cp, st, stdout, bc)
+	bce := NewBytecodeExecutor(bc)
+	err := bce.Run(cp, st, stdout)
 	assert.Nil(t, err)
 	_, err = cp.Get(0)
 	assert.EqualError(t, err, "Index not found")
@@ -82,8 +81,8 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Ldc, messageIndex)
 	bc.Add(opcodes.Call, printlnIndex)
-	bce := NewBytecodeExecutor()
-	err := bce.Run(cp, st, stdout, bc)
+	bce := NewBytecodeExecutor(bc)
+	err := bce.Run(cp, st, stdout)
 	assert.Nil(t, err)
 	assert.Equal(t, stdout.LastLine, "Hello World!\n")
 }
@@ -94,7 +93,7 @@ func TestBCERunningInvalidOpcode(t *testing.T) {
 	stdout := adapters.NewFakeStdout()
 	bc := bytecode.NewBytecode()
 	bc.Add(123, 0)
-	bce := NewBytecodeExecutor()
-	err := bce.Run(cp, st, stdout, bc)
+	bce := NewBytecodeExecutor(bc)
+	err := bce.Run(cp, st, stdout)
 	assert.EqualError(t, err, "Invalid opcode 123")
 }
