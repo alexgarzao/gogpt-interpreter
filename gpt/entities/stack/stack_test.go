@@ -1,4 +1,4 @@
-package opcodes
+package stack
 
 import (
 	"testing"

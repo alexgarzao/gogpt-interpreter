@@ -1,4 +1,4 @@
-package analyzer
+package syntax
 
 import (
 	"testing"

@@ -1,20 +1,22 @@
-package analyzer
+package syntax
 
 import (
-	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
-	lexer "github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/opcodes"
 )
 
 type FunctionCall struct {
-	cp *opcodes.CP
-	bc *opcodes.Bytecode
+	cp *constant_pool.CP
+	bc *bytecode.Bytecode
 }
 
 func NewFunctionCall() *FunctionCall {
 	return &FunctionCall{}
 }
 
-func (fc *FunctionCall) SetBytecodeGenRequirements(cp *opcodes.CP, bc *opcodes.Bytecode) *FunctionCall {
+func (fc *FunctionCall) SetBytecodeGenRequirements(cp *constant_pool.CP, bc *bytecode.Bytecode) *FunctionCall {
 	fc.cp = cp
 	fc.bc = bc
 

@@ -3,6 +3,10 @@ package opcodes
 import (
 	"fmt"
 	"log"
+
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 )
 
 type AddOpcode struct {
@@ -13,15 +17,15 @@ func NewAddOpcode() *AddOpcode {
 	return &AddOpcode{Instruction{"ADD", Add, 0}}
 }
 
-func (i *AddOpcode) FetchOperands(bc *Bytecode) {
+func (i *AddOpcode) FetchOperands(bc *bytecode.Bytecode) {
 }
 
-func (i *AddOpcode) Execute(cp *CP, stack *Stack) error {
-	op2, err := stack.Pop()
+func (i *AddOpcode) Execute(cp *constant_pool.CP, st *stack.Stack) error {
+	op2, err := st.Pop()
 	if err != nil {
 		return err
 	}
-	op1, err := stack.Pop()
+	op1, err := st.Pop()
 	if err != nil {
 		return err
 	}
@@ -37,7 +41,7 @@ func (i *AddOpcode) Execute(cp *CP, stack *Stack) error {
 		res = op1.(string) + op2.(string)
 	}
 
-	stack.Push(StackItem(res))
+	st.Push(stack.StackItem(res))
 
 	return nil
 }

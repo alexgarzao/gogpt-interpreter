@@ -2,15 +2,15 @@ package main
 
 import (
 	"errors"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 	"io/ioutil"
 	"log"
 	"os"
 
-	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
-	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
-	lexer "github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
-	syntax "github.com/alexgarzao/gpt-interpreter/gpt/entities/syntax_analyzer"
-	usecases "github.com/alexgarzao/gpt-interpreter/gpt/usecases"
+	"github.com/alexgarzao/gpt-interpreter/gpt/adapters"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/bytecode_executor"
+	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/syntax_analyzer"
 )
 
 func main() {
@@ -32,9 +32,9 @@ func main() {
 		return
 	}
 
-	bce := usecases.NewBytecodeExecutor()
+	bce := bce.NewBytecodeExecutor()
 	stdout := adapters.NewStdout()
-	st := opcodes.NewStack()
+	st := stack.NewStack()
 
 	err = bce.Run(p.GetCP(), st, stdout, p.GetBC())
 	if err != nil {

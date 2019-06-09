@@ -1,20 +1,21 @@
-package analyzer
+package syntax
 
 import (
-	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
-	lexer "github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
 )
 
 type MainBlock struct {
-	cp *opcodes.CP
-	bc *opcodes.Bytecode
+	cp *constant_pool.CP
+	bc *bytecode.Bytecode
 }
 
 func NewMainBlock() *MainBlock {
 	return &MainBlock{}
 }
 
-func (mb *MainBlock) SetBytecodeGenRequirements(cp *opcodes.CP, bc *opcodes.Bytecode) *MainBlock {
+func (mb *MainBlock) SetBytecodeGenRequirements(cp *constant_pool.CP, bc *bytecode.Bytecode) *MainBlock {
 	mb.cp = cp
 	mb.bc = bc
 

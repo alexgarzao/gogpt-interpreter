@@ -1,6 +1,8 @@
 package opcodes
 
 import (
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 	"testing"
 
 	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
@@ -16,24 +18,24 @@ func TestValidAdd2And3(t *testing.T) {
 	// 		LDC 0
 	// 		LDC 1
 	// 		ADD
-	cp := NewCp()
+	cp := constant_pool.NewCp()
 	cpIndex2 := cp.Add(2)
 	cpIndex3 := cp.Add(3)
-	stack := NewStack()
+	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = cpIndex2
-	ldc.Execute(cp, stack, stdout)
+	ldc.Execute(cp, st, stdout)
 	ldc.CpIndex = cpIndex3
-	ldc.Execute(cp, stack, stdout)
+	ldc.Execute(cp, st, stdout)
 
 	add := NewAddOpcode()
-	add.Execute(cp, stack)
+	add.Execute(cp, st)
 
-	stv, _ := stack.Top()
-	assert.Equal(t, stv, StackItem(5))
+	stv, _ := st.Top()
+	assert.Equal(t, stv, stack.StackItem(5))
 }
 
 func TestValidAddHelloAndWorld(t *testing.T) {
@@ -46,22 +48,22 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	// 		LDC 1
 	// 		ADD
 
-	cp := NewCp()
+	cp := constant_pool.NewCp()
 	cpIndex2 := cp.Add("Hello")
 	cpIndex3 := cp.Add("World")
-	stack := NewStack()
+	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = cpIndex2
-	ldc.Execute(cp, stack, stdout)
+	ldc.Execute(cp, st, stdout)
 	ldc.CpIndex = cpIndex3
-	ldc.Execute(cp, stack, stdout)
+	ldc.Execute(cp, st, stdout)
 
 	add := NewAddOpcode()
-	add.Execute(cp, stack)
+	add.Execute(cp, st)
 
-	stv, _ := stack.Top()
-	assert.Equal(t, stv, StackItem("HelloWorld"))
+	stv, _ := st.Top()
+	assert.Equal(t, stv, stack.StackItem("HelloWorld"))
 }

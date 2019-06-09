@@ -1,12 +1,14 @@
-package analyzer
+package syntax
 
 import (
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
-	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
-	lexer "github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/opcodes"
 )
 
 func TestValidEmptyProgram(t *testing.T) {
@@ -49,7 +51,7 @@ início
 fim`
 	l := lexer.NewLexer(c)
 	p := NewProgram()
-	bc := opcodes.NewBytecode()
+	bc := bytecode.NewBytecode()
 	assert.Equal(t, true, p.TryToParse(l))
 	assert.Equal(t, bc, p.GetBC())
 }
@@ -65,12 +67,12 @@ fim`
 	// CODE:
 	//    CALL 0 (io.println)
 
-	expectedCp := opcodes.NewCp()
+	expectedCp := constant_pool.NewCp()
 	printlnIndex := expectedCp.Add("io.println")
 
 	l := lexer.NewLexer(c)
 	p := NewProgram()
-	expectedBc := opcodes.NewBytecode()
+	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
 	assert.Equal(t, true, p.TryToParse(l))
@@ -91,13 +93,13 @@ fim`
 	//    LDC 1 (Olá mundo!)
 	//    CALL 0 (io.println)
 
-	expectedCp := opcodes.NewCp()
+	expectedCp := constant_pool.NewCp()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex := expectedCp.Add("Olá mundo!")
 
 	l := lexer.NewLexer(c)
 	p := NewProgram()
-	expectedBc := opcodes.NewBytecode()
+	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Ldc, messageIndex)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
@@ -123,14 +125,14 @@ fim`
 	//    LDC 2 (mundo!)
 	//    CALL 0 (io.println)
 
-	expectedCp := opcodes.NewCp()
+	expectedCp := constant_pool.NewCp()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex1 := expectedCp.Add("Olá...")
 	messageIndex2 := expectedCp.Add("mundo!")
 
 	l := lexer.NewLexer(c)
 	p := NewProgram()
-	expectedBc := opcodes.NewBytecode()
+	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Ldc, messageIndex1)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 	expectedBc.Add(opcodes.Ldc, messageIndex2)

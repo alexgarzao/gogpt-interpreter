@@ -1,19 +1,20 @@
-package analyzer
+package syntax
 
 import (
-	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
-	lexer "github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
 )
 
 type Program struct {
-	cp *opcodes.CP
-	bc *opcodes.Bytecode
+	cp *constant_pool.CP
+	bc *bytecode.Bytecode
 }
 
 func NewProgram() *Program {
 	return &Program{
-		cp: opcodes.NewCp(),
-		bc: opcodes.NewBytecode(),
+		cp: constant_pool.NewCp(),
+		bc: bytecode.NewBytecode(),
 	}
 }
 
@@ -44,10 +45,10 @@ func (p *Program) isValid(l *lexer.Lexer) bool {
 	return mb.TryToParse(l)
 }
 
-func (p *Program) GetCP() *opcodes.CP {
+func (p *Program) GetCP() *constant_pool.CP {
 	return p.cp
 }
 
-func (p *Program) GetBC() *opcodes.Bytecode {
+func (p *Program) GetBC() *bytecode.Bytecode {
 	return p.bc
 }

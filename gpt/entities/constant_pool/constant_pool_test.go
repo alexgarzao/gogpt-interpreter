@@ -1,4 +1,4 @@
-package opcodes
+package constant_pool
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package opcodes
+package bytecode
 
 import (
 	"testing"
@@ -6,12 +6,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const MyFakeOpcode = 1
+
 func TestBytecodeAddingOneInstruction(t *testing.T) {
 	bc := NewBytecode()
-	bc.Add(Ldc, 111)
+	bc.Add(MyFakeOpcode, 111)
 
 	v, _ := bc.Get(0)
-	assert.Equal(t, v, Ldc)
+	assert.Equal(t, v, MyFakeOpcode)
 	v, _ = bc.Get(1)
 	assert.Equal(t, v, 111)
 
@@ -20,16 +22,16 @@ func TestBytecodeAddingOneInstruction(t *testing.T) {
 
 func TestBytecodeAddingAndFetchingBytecodes(t *testing.T) {
 	bc := NewBytecode()
-	bc.Add(Ldc, 111)
-	bc.Add(Ldc, 222)
+	bc.Add(MyFakeOpcode, 111)
+	bc.Add(MyFakeOpcode, 222)
 
 	v, _ := bc.Next()
-	assert.Equal(t, v, Ldc)
+	assert.Equal(t, v, MyFakeOpcode)
 	v, _ = bc.Next()
 	assert.Equal(t, v, 111)
 
 	v, _ = bc.Next()
-	assert.Equal(t, v, Ldc)
+	assert.Equal(t, v, MyFakeOpcode)
 	v, _ = bc.Next()
 	assert.Equal(t, v, 222)
 
@@ -38,7 +40,7 @@ func TestBytecodeAddingAndFetchingBytecodes(t *testing.T) {
 
 func TestBytecodeEofError(t *testing.T) {
 	bc := NewBytecode()
-	bc.Add(Ldc, 111)
+	bc.Add(MyFakeOpcode, 111)
 
 	bc.Next()
 	bc.Next()

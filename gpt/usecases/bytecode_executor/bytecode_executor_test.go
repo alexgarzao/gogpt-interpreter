@@ -1,37 +1,40 @@
-package vm
+package bce
 
 import (
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 	"testing"
 
 	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
 
-	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
+	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/opcodes"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestBCERunningLdc222(t *testing.T) {
 	// CP map:
 	//		0: 222
-	cp := opcodes.NewCp()
+	cp := constant_pool.NewCp()
 	cpIndex := cp.Add(222)
-	st := opcodes.NewStack()
+	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
-	bc := opcodes.NewBytecode()
+	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Ldc, cpIndex)
 	bce := NewBytecodeExecutor()
 	err := bce.Run(cp, st, stdout, bc)
 	assert.Nil(t, err)
 	cpv, _ := cp.Get(0)
-	assert.Equal(t, cpv, opcodes.CPItem(222))
+	assert.Equal(t, cpv, constant_pool.CPItem(222))
 	stv, _ := st.Top()
-	assert.Equal(t, stv, opcodes.StackItem(222))
+	assert.Equal(t, stv, stack.StackItem(222))
 }
 
 func TestBCERunningNop(t *testing.T) {
-	cp := opcodes.NewCp()
-	st := opcodes.NewStack()
+	cp := constant_pool.NewCp()
+	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
-	bc := opcodes.NewBytecode()
+	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Nop, 0)
 	bce := NewBytecodeExecutor()
 	err := bce.Run(cp, st, stdout, bc)
@@ -50,12 +53,12 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	// CODE:
 	//    LDC 1 (Hello World!)
 	//    CALL 0 (io.println)
-	cp := opcodes.NewCp()
+	cp := constant_pool.NewCp()
 	printlnIndex := cp.Add("io.println")
 	messageIndex := cp.Add("Hello World!")
-	st := opcodes.NewStack()
+	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
-	bc := opcodes.NewBytecode()
+	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Ldc, messageIndex)
 	bc.Add(opcodes.Call, printlnIndex)
 	bce := NewBytecodeExecutor()
@@ -65,10 +68,10 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 }
 
 func TestBCERunningInvalidOpcode(t *testing.T) {
-	cp := opcodes.NewCp()
-	st := opcodes.NewStack()
+	cp := constant_pool.NewCp()
+	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
-	bc := opcodes.NewBytecode()
+	bc := bytecode.NewBytecode()
 	bc.Add(123, 0)
 	bce := NewBytecodeExecutor()
 	err := bce.Run(cp, st, stdout, bc)

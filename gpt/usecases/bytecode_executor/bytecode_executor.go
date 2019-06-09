@@ -1,9 +1,12 @@
-package vm
+package bce
 
 import (
 	"fmt"
 
-	opcodes "github.com/alexgarzao/gpt-interpreter/gpt/entities"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
+	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
+	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/opcodes"
 )
 
 type BytecodeExecutor struct {
@@ -20,7 +23,7 @@ func NewBytecodeExecutor() *BytecodeExecutor {
 	return bce
 }
 
-func (bce *BytecodeExecutor) Run(cp *opcodes.CP, st *opcodes.Stack, stdout opcodes.StdoutInterface, bc *opcodes.Bytecode) error {
+func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, st *stack.Stack, stdout opcodes.StdoutInterface, bc *bytecode.Bytecode) error {
 	for bc.IP < bc.Len() {
 		opcode, err := bc.Next()
 		if err != nil {
