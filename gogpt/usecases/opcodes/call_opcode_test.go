@@ -1,13 +1,13 @@
 package opcodes
 
 import (
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/alexgarzao/gpt-interpreter/gpt/adapters"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
 )
 
 func TestCallStringHello(t *testing.T) {

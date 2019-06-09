@@ -2,15 +2,15 @@ package main
 
 import (
 	"errors"
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
 	"io/ioutil"
 	"log"
 	"os"
 
-	"github.com/alexgarzao/gpt-interpreter/gpt/adapters"
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
-	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/bytecode_executor"
-	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/syntax_analyzer"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/bytecode_executor"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/syntax_analyzer"
 )
 
 func main() {

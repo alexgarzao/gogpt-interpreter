@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
 )
 
 func TestImprimaFunctionCall(t *testing.T) {

@@ -1,15 +1,14 @@
 package bce
 
 import (
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
+	"github.com/stretchr/testify/assert"
 	"testing"
 
-	adapters "github.com/alexgarzao/gpt-interpreter/gpt/adapters"
-
-	"github.com/alexgarzao/gpt-interpreter/gpt/usecases/opcodes"
-	"github.com/stretchr/testify/assert"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/bytecode"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/opcodes"
 )
 
 func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
