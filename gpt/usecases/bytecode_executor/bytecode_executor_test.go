@@ -12,6 +12,27 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TODO: Test Next() method.
+// func TestBytecodeExecutorAddingAndFetchingBytecodes(t *testing.T) {
+// 	bc := NewBytecode()
+// 	bc.Add(MyFakeOpcode, 111)
+// 	bc.Add(MyFakeOpcode, 222)
+
+// 	bce := NewBytecodeExecutor()
+
+// 	v, _ := bc.Next()
+// 	assert.Equal(t, v, MyFakeOpcode)
+// 	v, _ = bc.Next()
+// 	assert.Equal(t, v, 111)
+
+// 	v, _ = bc.Next()
+// 	assert.Equal(t, v, MyFakeOpcode)
+// 	v, _ = bc.Next()
+// 	assert.Equal(t, v, 222)
+
+// 	assert.Equal(t, bc.Len(), 4)
+// }
+
 func TestBCERunningLdc222(t *testing.T) {
 	// CP map:
 	//		0: 222

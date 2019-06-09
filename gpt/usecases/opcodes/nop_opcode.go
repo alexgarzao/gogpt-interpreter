@@ -1,7 +1,6 @@
 package opcodes
 
 import (
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
 	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
 	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 )
@@ -11,10 +10,14 @@ type NopOpcode struct {
 }
 
 func NewNopOpcode() *NopOpcode {
-	return &NopOpcode{Instruction{"NOP", Nop, 1}}
+	return &NopOpcode{Instruction{"NOP", Nop, 0}}
 }
 
-func (d *NopOpcode) FetchOperands(bc *bytecode.Bytecode) error {
+func (d *NopOpcode) GetOperandCount() int {
+	return d.OperandCount
+}
+
+func (d *NopOpcode) FetchOperands(op int) error {
 	return nil
 }
 

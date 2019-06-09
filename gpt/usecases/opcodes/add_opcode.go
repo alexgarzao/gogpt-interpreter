@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
 	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
 	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 )
@@ -17,7 +16,12 @@ func NewAddOpcode() *AddOpcode {
 	return &AddOpcode{Instruction{"ADD", Add, 0}}
 }
 
-func (i *AddOpcode) FetchOperands(bc *bytecode.Bytecode) {
+func (i *AddOpcode) GetOperandCount() int {
+	return i.OperandCount
+}
+
+func (i *AddOpcode) FetchOperands(op int) error {
+	return nil
 }
 
 func (i *AddOpcode) Execute(cp *constant_pool.CP, st *stack.Stack) error {

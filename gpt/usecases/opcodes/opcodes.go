@@ -1,7 +1,6 @@
 package opcodes
 
 import (
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
 	"github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
 	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 )
@@ -20,6 +19,7 @@ type Instruction struct {
 }
 
 type InstructionImplementation interface {
-	FetchOperands(bytecode *bytecode.Bytecode) error
+	GetOperandCount() int
+	FetchOperands(op int) error
 	Execute(cp *constant_pool.CP, st *stack.Stack, stdout StdoutInterface) error
 }

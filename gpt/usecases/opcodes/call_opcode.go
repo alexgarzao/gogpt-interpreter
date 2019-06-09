@@ -1,7 +1,6 @@
 package opcodes
 
 import (
-	"github.com/alexgarzao/gpt-interpreter/gpt/entities/bytecode"
 	cp "github.com/alexgarzao/gpt-interpreter/gpt/entities/constant_pool"
 	"github.com/alexgarzao/gpt-interpreter/gpt/entities/stack"
 )
@@ -15,10 +14,13 @@ func NewCallOpcode() *CallOpcode {
 	return &CallOpcode{Instruction{"CALL", Call, 1}, 0}
 }
 
-func (i *CallOpcode) FetchOperands(bc *bytecode.Bytecode) error {
-	var err error
-	i.CpIndex, err = bc.Next()
-	return err
+func (i *CallOpcode) GetOperandCount() int {
+	return i.OperandCount
+}
+
+func (i *CallOpcode) FetchOperands(op int) error {
+	i.CpIndex = op
+	return nil
 }
 
 func (i *CallOpcode) Execute(cp *cp.CP, stack *stack.Stack, stdout StdoutInterface) error {

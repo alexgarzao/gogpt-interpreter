@@ -5,13 +5,11 @@ import (
 )
 
 type Bytecode struct {
-	IP    int
 	items []int
 }
 
 func NewBytecode() *Bytecode {
 	return &Bytecode{
-		IP:    0,
 		items: make([]int, 0),
 	}
 }
@@ -36,10 +34,4 @@ func (bc *Bytecode) Get(index int) (int, error) {
 
 func (bc *Bytecode) Len() int {
 	return len(bc.items)
-}
-
-func (bc *Bytecode) Next() (code int, err error) {
-	code, err = bc.Get(bc.IP)
-	bc.IP += 1
-	return
 }
