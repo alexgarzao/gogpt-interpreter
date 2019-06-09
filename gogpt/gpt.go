@@ -45,7 +45,7 @@ func main() {
 func getFilenameFromArgs() (string, error) {
 	args := os.Args
 	if len(args) < 2 {
-		return "", errors.New("Usage: gpt <file>")
+		return "", errors.New("Usage: gogpt <file>")
 	}
 	return os.Args[1], nil
 }
