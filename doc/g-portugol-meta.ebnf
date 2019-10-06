@@ -1,0 +1,138 @@
+(* Gramática da linguagem G-Portugol - Metas do gogpt-interpreter *)
+(* Somente suporte aos tipos string, inteiros, caracter e lógico *)
+(* Sem suporte a definição de funções *)
+
+(* A.1 Termos léxicos *)
+
+(* Regras para identificar literais numéricos *)
+
+T_INT_LIT : [0-9]+
+
+(* Regras para identificar caracteres e cadeias de caracteres *)
+
+(* T_CARAC_LIT : ''' ( ~('''|'\') |'\' . )? ''' *)
+
+T_STRING_LIT : '"' ( ~( '"' | '\' | CR | LF ) | '\' . )* '"'
+
+(* Regras para identificar comentários *)
+
+SL_COMMENT : "//" [^LF]* ('\n')?
+
+ML_COMMENT : "/*" ( ~('*') | '*' ~'/' )* "*/"
+
+(* Regra para identificar nomes de variáveis, funções, etc. *)
+
+T_IDENTIFICADOR : [a-zA-Z_] [a-zA-Z0-9_]*
+
+(* Palavras-chave de G-Portugol - gogpt-interpreter não implementa todas
+fim-variáveis algoritmo variáveis inteiro real
+caractere literal lógico início verdadeiro
+falso fim ou e não
+se senão então fim-se enquanto
+faça fim-enquanto para de até
+fim-para matriz inteiros reais caracteres
+literais lógicos função retorne passo *)
+
+(* A.2 Gramática *)
+
+(* A seguir é apresentado a gramática da linguagem G-Portugol. *)
+
+algoritmo
+    : declaracao_algoritmo (var_decl_block)? stm_block EOF
+    ;
+
+declaracao_algoritmo
+    : "algoritmo" T_IDENTIFICADOR ";"
+    ;
+
+var_decl_block
+    : "variáveis" (var_decl ";")+ "fim-variáveis"
+    ;
+
+var_decl
+    : T_IDENTIFICADOR ("," T_IDENTIFICADOR)* ":" tp_primitivo
+    ;
+
+tp_primitivo
+    : "inteiro"
+    (* | "caractere" *)
+    | "literal"
+    | "lógico"
+    ;
+
+stm_block
+    : "início" (stm_list)* "fim"
+    ;
+
+stm_list
+    : stm_attr
+    | fcall ";"
+    | stm_ret
+    | stm_se
+    | stm_enquanto
+    | stm_para
+    ;
+
+stm_ret
+    : "retorne" expr? ";"
+    ;
+
+lvalue
+    : T_IDENTIFICADOR
+    ;
+
+stm_attr
+    : lvalue ":=" expr ";"
+    ;
+
+stm_se
+    : "se" expr "então" stm_list ("senão" stm_list)? "fim-se"
+    ;
+
+stm_enquanto
+    : "enquanto" expr "faça" stm_list "fim-enquanto"
+    ;
+
+stm_para
+    : "para" lvalue "de" expr "até" expr passo? "faça" stm_list "fim-para"
+    ;
+
+passo
+    : "passo" ("+"|"-")? T_INT_LIT
+    ;
+
+expr
+    : expr ("ou"|"||") expr
+    | expr ("e"|"&&") expr
+    (* | expr "|" expr *)
+    (* | expr "^" expr *)
+    (* | expr "&" expr *)
+    | expr ("="|"<>") expr
+    | expr (">"|">="|"<"|"<=") expr
+    | expr ("+" | "-") expr
+    | expr ("/"|"*"|"%") expr
+    | ("+"|"-"|"~"|"não")? termo
+    ;
+
+termo
+    : fcall
+    | lvalue
+    | literal
+    | "(" expr ")"
+    ;
+
+fcall
+    : T_IDENTIFICADOR "(" fargs? ")"
+    ;
+
+fargs
+    : expr ("," expr)*
+    ;
+
+literal
+    : T_STRING_LIT
+    | T_INT_LIT
+    (* | T_CARAC_LIT *)
+    | T_KW_VERDADEIRO
+    | T_KW_FALSO
+    ;
