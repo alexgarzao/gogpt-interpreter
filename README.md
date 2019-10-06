@@ -4,6 +4,8 @@ Um interpretador para a linguagem G-Portugol, escrito em Golang :-)
 
 A linguagem G-Portugol foi criada pelo Thiago Silva, tendo por finalidade o ensino de algoritmos. Maiores informações sobre a linguagem podem ser obtidas [aqui](http://inf.ufes.br/~mberger/Disciplinas/2015_2/Compiladores/manualGPortugol.pdf).
 
+[Aqui](https://pt.wikipedia.org/wiki/G-Portugol) também existe uma breve descrição do propósito do projeto.
+
 A versão atual do go-gpt consegue interpretar e executar apenas programas simples como "Olá mundo" em G-Portugol.
 
 ## Requisitos
