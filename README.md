@@ -23,7 +23,7 @@ Como este projeto foi escrito em Golang, é necessário ter o ambiente de Golang
     EOT
 
 
-    gogpt <arquivo.gpt>
+    gogpt hello_world.gpt
 
 ## Para gerar o binário a partir dos fontes
 
