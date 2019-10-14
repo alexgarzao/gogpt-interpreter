@@ -1,5 +1,5 @@
 (* Gramática da linguagem G-Portugol - Metas do gogpt-interpreter *)
-(* Somente suporte aos tipos string, inteiros, caracter e lógico *)
+(* Somente suporte aos tipos string, inteiros e lógico *)
 (* Sem suporte a definição de funções *)
 
 (* A.1 Termos léxicos *)
@@ -9,8 +9,6 @@
 T_INT_LIT : [0-9]+
 
 (* Regras para identificar caracteres e cadeias de caracteres *)
-
-(* T_CARAC_LIT : ''' ( ~('''|'\') |'\' . )? ''' *)
 
 T_STRING_LIT : '"' ( ~( '"' | '\' | CR | LF ) | '\' . )* '"'
 
@@ -55,7 +53,6 @@ var_decl
 
 tp_primitivo
     : "inteiro"
-    (* | "caractere" *)
     | "literal"
     | "lógico"
     ;
@@ -104,14 +101,11 @@ passo
 expr
     : expr ("ou"|"||") expr
     | expr ("e"|"&&") expr
-    (* | expr "|" expr *)
-    (* | expr "^" expr *)
-    (* | expr "&" expr *)
     | expr ("="|"<>") expr
     | expr (">"|">="|"<"|"<=") expr
     | expr ("+" | "-") expr
-    | expr ("/"|"*"|"%") expr
-    | ("+"|"-"|"~"|"não")? termo
+    | expr ("/"|"*") expr
+    | ("+"|"-"|"não")? termo
     ;
 
 termo
@@ -132,7 +126,6 @@ fargs
 literal
     : T_STRING_LIT
     | T_INT_LIT
-    (* | T_CARAC_LIT *)
     | T_KW_VERDADEIRO
     | T_KW_FALSO
     ;
