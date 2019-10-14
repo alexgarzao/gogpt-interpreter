@@ -2,7 +2,7 @@
 (* Somente suporte aos tipos string, inteiros e lógico *)
 (* Sem suporte a definição de funções *)
 
-(* A.1 Termos léxicos *)
+(**** A.1 Termos léxicos ****)
 
 (* Regras para identificar literais numéricos *)
 
@@ -31,7 +31,10 @@ faça fim-enquanto para de até
 fim-para matriz inteiros reais caracteres
 literais lógicos função retorne passo *)
 
-(* A.2 Gramática *)
+
+
+
+(**** A.2 Gramática ****)
 
 (* A seguir é apresentado a gramática da linguagem G-Portugol. *)
 
@@ -74,12 +77,8 @@ stm_ret
     : "retorne" expr? ";"
     ;
 
-lvalue
-    : T_IDENTIFICADOR
-    ;
-
 stm_attr
-    : lvalue ":=" expr ";"
+    : T_IDENTIFICADOR ":=" expr ";"
     ;
 
 stm_se
@@ -91,7 +90,7 @@ stm_enquanto
     ;
 
 stm_para
-    : "para" lvalue "de" expr "até" expr passo? "faça" stm_list "fim-para"
+    : "para" T_IDENTIFICADOR "de" expr "até" expr passo? "faça" stm_list "fim-para"
     ;
 
 passo
@@ -110,7 +109,7 @@ expr
 
 termo
     : fcall
-    | lvalue
+    | T_IDENTIFICADOR
     | literal
     | "(" expr ")"
     ;
