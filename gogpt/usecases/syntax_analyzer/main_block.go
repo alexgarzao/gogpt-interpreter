@@ -3,7 +3,7 @@ package syntax
 import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
+	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
 )
 
 type MainBlock struct {
@@ -32,6 +32,9 @@ func (mb *MainBlock) TryToParse(l *lexer.Lexer) bool {
 	return false
 }
 
+// stm_block
+//     : "início" (stm_list)* "fim"
+//     ;
 func (mb *MainBlock) isValid(l *lexer.Lexer) bool {
 	if l.GetNextTokenIf(lexer.INICIO) == nil {
 		return false
