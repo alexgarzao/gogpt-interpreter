@@ -1,13 +1,14 @@
 package syntax
 
 import (
+	"testing"
+
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
-	"testing"
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
+	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/opcodes"
 )
 
@@ -18,7 +19,7 @@ início
 fim`
 	l := lexer.NewLexer(c)
 	p := NewProgram()
-	assert.Equal(t, true, p.TryToParse(l))
+	assert.Equal(t, true, p.Parser(l))
 }
 
 func TestValidHelloWorldAlgorithm(t *testing.T) {
@@ -29,7 +30,7 @@ início
 fim`
 	l := lexer.NewLexer(c)
 	p := NewProgram()
-	assert.Equal(t, true, p.TryToParse(l))
+	assert.Equal(t, true, p.Parser(l))
 }
 
 func TestValidHelloWorldWithTwoSentences(t *testing.T) {
@@ -41,7 +42,7 @@ início
 fim`
 	l := lexer.NewLexer(c)
 	p := NewProgram()
-	assert.Equal(t, true, p.TryToParse(l))
+	assert.Equal(t, true, p.Parser(l))
 }
 
 func TestBytecodeEmptyProgram(t *testing.T) {
@@ -52,7 +53,7 @@ fim`
 	l := lexer.NewLexer(c)
 	p := NewProgram()
 	bc := bytecode.NewBytecode()
-	assert.Equal(t, true, p.TryToParse(l))
+	assert.Equal(t, true, p.Parser(l))
 	assert.Equal(t, bc, p.GetBC())
 }
 
@@ -75,7 +76,7 @@ fim`
 	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.TryToParse(l))
+	assert.Equal(t, true, p.Parser(l))
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -103,7 +104,7 @@ fim`
 	expectedBc.Add(opcodes.Ldc, messageIndex)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.TryToParse(l))
+	assert.Equal(t, true, p.Parser(l))
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -138,7 +139,31 @@ fim`
 	expectedBc.Add(opcodes.Ldc, messageIndex2)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.TryToParse(l))
+	assert.Equal(t, true, p.Parser(l))
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
+}
+
+func TestInvalidAlgorithmDeclarationWithoutId(t *testing.T) {
+	c :=
+		`algoritmo ;
+início
+	imprima("Olá...");
+fim`
+	l := lexer.NewLexer(c)
+	p := NewProgram()
+
+	assert.Equal(t, false, p.Parser(l))
+}
+
+func TestInvalidAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
+	c :=
+		`algoritmo ola
+início
+	imprima("Olá...");
+fim`
+	l := lexer.NewLexer(c)
+	p := NewProgram()
+
+	assert.Equal(t, false, p.Parser(l))
 }

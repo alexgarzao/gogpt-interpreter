@@ -18,23 +18,43 @@ func NewProgram() *Program {
 	}
 }
 
-func (p *Program) TryToParse(l *lexer.Lexer) bool {
-	return p.parser(l)
+func (p *Program) GetCP() *constant_pool.CP {
+	return p.cp
+}
+
+func (p *Program) GetBC() *bytecode.Bytecode {
+	return p.bc
 }
 
 // algoritmo
-//     : declaracao_algoritmo (var_decl_block)? stm_block EOF
+//     : declaracao_algoritmo
+//       (var_decl_block)?
+//       stm_block
+//       EOF
 //     ;
-func (p *Program) parser(l *lexer.Lexer) bool {
+func (p *Program) Parser(l *lexer.Lexer) bool {
 	if p.parserAlgorithmDeclaration(l) == false {
 		return false
 	}
 
-	// if p.parserOptionalVarDecBlock(l) == false {
+	// if p.parserOptionalVarDeclBlock(l) == false {
 	// 	return false
 	// }
 
-	if p.parserStmtBlock(l) == false {
+	if p.ParserStmBlock(l) == false {
+		return false
+	}
+
+	return true
+}
+
+// declaracao_algoritmo
+//     : "algoritmo"
+//       T_IDENTIFICADOR
+//       ";"
+//     ;
+func (p *Program) parserAlgorithmDeclaration(l *lexer.Lexer) bool {
+	if l.GetNextTokenIf(lexer.ALGORITMO) == nil || l.GetNextTokenIf(lexer.IDENT) == nil || l.GetNextTokenIf(lexer.SEMICOLON) == nil {
 		return false
 	}
 
@@ -55,39 +75,38 @@ func (p *Program) parser(l *lexer.Lexer) bool {
 //     | "lógico"
 //     ;
 
-// declaracao_algoritmo
-//     : "algoritmo" T_IDENTIFICADOR ";"
+func (p *Program) ParserStmBlock(l *lexer.Lexer) bool {
+	l.SaveBacktrackingPoint()
+	if p.isValidStmBlock(l) {
+		return true
+	}
+
+	l.BackTracking()
+	return false
+}
+
+// stm_block
+//     : "início" (stm_list)* "fim"
 //     ;
-func (p *Program) parserAlgorithmDeclaration(l *lexer.Lexer) bool {
-	if l.GetNextTokenIf(lexer.ALGORITMO) == nil {
+func (p *Program) isValidStmBlock(l *lexer.Lexer) bool {
+	if l.GetNextTokenIf(lexer.INICIO) == nil {
 		return false
 	}
 
-	if l.GetNextTokenIf(lexer.IDENT) == nil {
-		return false
+	fc := NewFunctionCall().
+		SetBytecodeGenRequirements(p.cp, p.bc)
+
+	for fc.TryToParse(l) {
+		if l.GetNextTokenIf(lexer.SEMICOLON) == nil {
+			return false
+		}
 	}
 
-	if l.GetNextTokenIf(lexer.SEMICOLON) == nil {
+	if l.GetNextTokenIf(lexer.FIM) == nil {
 		return false
 	}
 
 	return true
-}
-
-func (p *Program) parserStmtBlock(l *lexer.Lexer) bool {
-
-	mb := NewMainBlock().
-		SetBytecodeGenRequirements(p.cp, p.bc)
-
-	return mb.TryToParse(l)
-}
-
-func (p *Program) GetCP() *constant_pool.CP {
-	return p.cp
-}
-
-func (p *Program) GetBC() *bytecode.Bytecode {
-	return p.bc
 }
 
 /*
