@@ -6,24 +6,24 @@ import (
 	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
 )
 
-type Program struct {
+type Algorithm struct {
 	cp *constant_pool.CP
 	bc *bytecode.Bytecode
 }
 
-func NewProgram() *Program {
-	return &Program{
+func NewAlgorithm() *Algorithm {
+	return &Algorithm{
 		cp: constant_pool.NewCp(),
 		bc: bytecode.NewBytecode(),
 	}
 }
 
-func (p *Program) GetCP() *constant_pool.CP {
-	return p.cp
+func (a *Algorithm) GetCP() *constant_pool.CP {
+	return a.cp
 }
 
-func (p *Program) GetBC() *bytecode.Bytecode {
-	return p.bc
+func (a *Algorithm) GetBC() *bytecode.Bytecode {
+	return a.bc
 }
 
 // algoritmo
@@ -32,8 +32,8 @@ func (p *Program) GetBC() *bytecode.Bytecode {
 //       stm_block
 //       EOF
 //     ;
-func (p *Program) Parser(l *lexer.Lexer) bool {
-	if p.parserAlgorithmDeclaration(l) == false {
+func (a *Algorithm) Parser(l *lexer.Lexer) bool {
+	if a.parserAlgorithmDeclaration(l) == false {
 		return false
 	}
 
@@ -41,7 +41,7 @@ func (p *Program) Parser(l *lexer.Lexer) bool {
 	// 	return false
 	// }
 
-	if p.ParserStmBlock(l) == false {
+	if a.ParserStmBlock(l) == false {
 		return false
 	}
 
@@ -53,7 +53,7 @@ func (p *Program) Parser(l *lexer.Lexer) bool {
 //       T_IDENTIFICADOR
 //       ";"
 //     ;
-func (p *Program) parserAlgorithmDeclaration(l *lexer.Lexer) bool {
+func (a *Algorithm) parserAlgorithmDeclaration(l *lexer.Lexer) bool {
 	if l.GetNextTokenIf(lexer.ALGORITMO) == nil || l.GetNextTokenIf(lexer.IDENT) == nil || l.GetNextTokenIf(lexer.SEMICOLON) == nil {
 		return false
 	}
@@ -75,9 +75,9 @@ func (p *Program) parserAlgorithmDeclaration(l *lexer.Lexer) bool {
 //     | "lógico"
 //     ;
 
-func (p *Program) ParserStmBlock(l *lexer.Lexer) bool {
+func (a *Algorithm) ParserStmBlock(l *lexer.Lexer) bool {
 	l.SaveBacktrackingPoint()
-	if p.isValidStmBlock(l) {
+	if a.isValidStmBlock(l) {
 		return true
 	}
 
@@ -88,13 +88,13 @@ func (p *Program) ParserStmBlock(l *lexer.Lexer) bool {
 // stm_block
 //     : "início" (stm_list)* "fim"
 //     ;
-func (p *Program) isValidStmBlock(l *lexer.Lexer) bool {
+func (a *Algorithm) isValidStmBlock(l *lexer.Lexer) bool {
 	if l.GetNextTokenIf(lexer.INICIO) == nil {
 		return false
 	}
 
 	fc := NewFunctionCall().
-		SetBytecodeGenRequirements(p.cp, p.bc)
+		SetBytecodeGenRequirements(a.cp, a.bc)
 
 	for fc.TryToParse(l) {
 		if l.GetNextTokenIf(lexer.SEMICOLON) == nil {

@@ -12,13 +12,13 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/opcodes"
 )
 
-func TestValidEmptyProgram(t *testing.T) {
+func TestValidEmptyAlgorithm(t *testing.T) {
 	c :=
 		`algoritmo olá_mundo;
 início
 fim`
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 	assert.Equal(t, true, p.Parser(l))
 }
 
@@ -29,7 +29,7 @@ início
 	imprima("Olá mundo!");
 fim`
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 	assert.Equal(t, true, p.Parser(l))
 }
 
@@ -41,17 +41,17 @@ início
 	imprima("Mundo!");
 fim`
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 	assert.Equal(t, true, p.Parser(l))
 }
 
-func TestBytecodeEmptyProgram(t *testing.T) {
+func TestBytecodeEmptyAlgorithm(t *testing.T) {
 	c :=
 		`algoritmo olá_mundo;
 início
 fim`
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 	bc := bytecode.NewBytecode()
 	assert.Equal(t, true, p.Parser(l))
 	assert.Equal(t, bc, p.GetBC())
@@ -72,7 +72,7 @@ fim`
 	printlnIndex := expectedCp.Add("io.println")
 
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
@@ -81,7 +81,7 @@ fim`
 	assert.Equal(t, expectedBc, p.GetBC())
 }
 
-func TestBytecodeHelloWorldProgram(t *testing.T) {
+func TestBytecodeHelloWorldAlgorithm(t *testing.T) {
 	c :=
 		`algoritmo olá_mundo;
 início
@@ -99,7 +99,7 @@ fim`
 	messageIndex := expectedCp.Add("Olá mundo!")
 
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Ldc, messageIndex)
 	expectedBc.Add(opcodes.Call, printlnIndex)
@@ -132,7 +132,7 @@ fim`
 	messageIndex2 := expectedCp.Add("mundo!")
 
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Ldc, messageIndex1)
 	expectedBc.Add(opcodes.Call, printlnIndex)
@@ -151,7 +151,7 @@ início
 	imprima("Olá...");
 fim`
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 
 	assert.Equal(t, false, p.Parser(l))
 }
@@ -163,7 +163,7 @@ início
 	imprima("Olá...");
 fim`
 	l := lexer.NewLexer(c)
-	p := NewProgram()
+	p := NewAlgorithm()
 
 	assert.Equal(t, false, p.Parser(l))
 }
