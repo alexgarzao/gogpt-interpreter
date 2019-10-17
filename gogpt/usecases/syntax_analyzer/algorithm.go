@@ -8,12 +8,14 @@ import (
 )
 
 type Algorithm struct {
+	l  *lexer.Lexer
 	cp *constant_pool.CP
 	bc *bytecode.Bytecode
 }
 
-func NewAlgorithm() *Algorithm {
+func NewAlgorithm(l *lexer.Lexer) *Algorithm {
 	return &Algorithm{
+		l:  l,
 		cp: constant_pool.NewCp(),
 		bc: bytecode.NewBytecode(),
 	}
@@ -33,16 +35,16 @@ func (a *Algorithm) GetBC() *bytecode.Bytecode {
 //       stm_block
 //       EOF
 //     ;
-func (a *Algorithm) Parser(l *lexer.Lexer) bool {
-	if a.parserAlgorithmDeclaration(l) == false {
+func (a *Algorithm) Parser() bool {
+	if a.parserAlgorithmDeclaration() == false {
 		return false
 	}
 
-	// if p.parserOptionalVarDeclBlock(l) == false {
+	// if p.parserOptionalVarDeclBlock() == false {
 	// 	return false
 	// }
 
-	if a.ParserStmBlock(l) == false {
+	if a.ParserStmBlock() == false {
 		return false
 	}
 
@@ -54,8 +56,8 @@ func (a *Algorithm) Parser(l *lexer.Lexer) bool {
 //       T_IDENTIFICADOR
 //       ";"
 //     ;
-func (a *Algorithm) parserAlgorithmDeclaration(l *lexer.Lexer) bool {
-	if l.GetNextTokenIf(lexer.ALGORITMO) == nil || l.GetNextTokenIf(lexer.IDENT) == nil || l.GetNextTokenIf(lexer.SEMICOLON) == nil {
+func (a *Algorithm) parserAlgorithmDeclaration() bool {
+	if a.l.GetNextTokenIf(lexer.ALGORITMO) == nil || a.l.GetNextTokenIf(lexer.IDENT) == nil || a.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
 		return false
 	}
 
@@ -81,26 +83,27 @@ func (a *Algorithm) parserAlgorithmDeclaration(l *lexer.Lexer) bool {
 //       (stm_list)*
 //       "fim"
 //     ;
-func (a *Algorithm) ParserStmBlock(l *lexer.Lexer) bool {
-	l.SaveBacktrackingPoint()
+func (a *Algorithm) ParserStmBlock() bool {
+	// TODO: SaveBack could be a method of Algorithm???
+	a.l.SaveBacktrackingPoint()
 
-	if a.isValidStmBlock(l) {
+	if a.isValidStmBlock() {
 		return true
 	}
 
-	l.BackTracking()
+	a.l.BackTracking()
 	return false
 }
 
-func (a *Algorithm) isValidStmBlock(l *lexer.Lexer) bool {
-	if l.GetNextTokenIf(lexer.INICIO) == nil {
+func (a *Algorithm) isValidStmBlock() bool {
+	if a.l.GetNextTokenIf(lexer.INICIO) == nil {
 		return false
 	}
 
-	for a.ParserStmList(l) {
+	for a.ParserStmList() {
 	}
 
-	if l.GetNextTokenIf(lexer.FIM) == nil {
+	if a.l.GetNextTokenIf(lexer.FIM) == nil {
 		return false
 	}
 
@@ -119,17 +122,17 @@ func (a *Algorithm) isValidStmBlock(l *lexer.Lexer) bool {
 // stm_ret
 //     : "retorne" expr? ";"
 //     ;
-func (a *Algorithm) ParserStmList(l *lexer.Lexer) bool {
-	l.SaveBacktrackingPoint()
+func (a *Algorithm) ParserStmList() bool {
+	a.l.SaveBacktrackingPoint()
 
-	if a.ParserFunctionCall(l) == true {
+	if a.ParserFunctionCall() == true {
 		// Ensure that a ";" is presented at the EOL.
-		if l.GetNextTokenIf(lexer.SEMICOLON) != nil {
+		if a.l.GetNextTokenIf(lexer.SEMICOLON) != nil {
 			return true
 		}
 	}
 
-	l.BackTracking()
+	a.l.BackTracking()
 	return false
 }
 
@@ -140,23 +143,23 @@ func (a *Algorithm) ParserStmList(l *lexer.Lexer) bool {
 // fargs
 //     : expr ("," expr)*
 //     ;
-func (a *Algorithm) ParserFunctionCall(l *lexer.Lexer) bool {
-	l.SaveBacktrackingPoint()
-	if a.isValidFunctionCall(l) {
+func (a *Algorithm) ParserFunctionCall() bool {
+	a.l.SaveBacktrackingPoint()
+	if a.isValidFunctionCall() {
 		return true
 	}
 
-	l.BackTracking()
+	a.l.BackTracking()
 	return false
 }
 
-func (a *Algorithm) isValidFunctionCall(l *lexer.Lexer) bool {
+func (a *Algorithm) isValidFunctionCall() bool {
 	var token *lexer.Token
-	if token = l.GetNextTokenIf(lexer.IDENT); token == nil {
+	if token = a.l.GetNextTokenIf(lexer.IDENT); token == nil {
 		return false
 	}
 
-	if l.GetNextTokenIf(lexer.LPAREN) == nil {
+	if a.l.GetNextTokenIf(lexer.LPAREN) == nil {
 		return false
 	}
 
@@ -165,14 +168,14 @@ func (a *Algorithm) isValidFunctionCall(l *lexer.Lexer) bool {
 		funcIndex = a.cp.Add("io.println")
 	}
 
-	if token = l.GetNextTokenIf(lexer.STRING); token != nil {
+	if token = a.l.GetNextTokenIf(lexer.STRING); token != nil {
 		for {
 			cpIndex := a.cp.Add(token.Value)
 			a.bc.Add(opcodes.Ldc, cpIndex)
-			if l.GetNextTokenIf(lexer.COMMA) == nil {
+			if a.l.GetNextTokenIf(lexer.COMMA) == nil {
 				break
 			}
-			if l.GetNextTokenIf(lexer.STRING) == nil {
+			if a.l.GetNextTokenIf(lexer.STRING) == nil {
 				return false
 			}
 		}
@@ -180,7 +183,7 @@ func (a *Algorithm) isValidFunctionCall(l *lexer.Lexer) bool {
 
 	a.bc.Add(opcodes.Call, funcIndex)
 
-	if l.GetNextTokenIf(lexer.RPAREN) == nil {
+	if a.l.GetNextTokenIf(lexer.RPAREN) == nil {
 		return false
 	}
 

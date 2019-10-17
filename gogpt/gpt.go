@@ -25,9 +25,9 @@ func main() {
 	}
 
 	l := lexer.NewLexer(string(algorithm))
-	p := syntax.NewAlgorithm()
+	p := syntax.NewAlgorithm(l)
 
-	if p.Parser(l) == false {
+	if p.Parser() == false {
 		log.Fatalln("Error in parsing")
 		return
 	}

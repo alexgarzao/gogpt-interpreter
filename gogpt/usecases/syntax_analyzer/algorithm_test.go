@@ -18,8 +18,8 @@ func TestValidEmptyAlgorithm(t *testing.T) {
 início
 fim`
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
-	assert.Equal(t, true, p.Parser(l))
+	p := NewAlgorithm(l)
+	assert.Equal(t, true, p.Parser())
 }
 
 func TestValidHelloWorldAlgorithm(t *testing.T) {
@@ -29,8 +29,8 @@ início
 	imprima("Olá mundo!");
 fim`
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
-	assert.Equal(t, true, p.Parser(l))
+	p := NewAlgorithm(l)
+	assert.Equal(t, true, p.Parser())
 }
 
 func TestValidHelloWorldWithTwoSentences(t *testing.T) {
@@ -41,8 +41,8 @@ início
 	imprima("Mundo!");
 fim`
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
-	assert.Equal(t, true, p.Parser(l))
+	p := NewAlgorithm(l)
+	assert.Equal(t, true, p.Parser())
 }
 
 func TestBytecodeEmptyAlgorithm(t *testing.T) {
@@ -51,9 +51,9 @@ func TestBytecodeEmptyAlgorithm(t *testing.T) {
 início
 fim`
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
+	p := NewAlgorithm(l)
 	bc := bytecode.NewBytecode()
-	assert.Equal(t, true, p.Parser(l))
+	assert.Equal(t, true, p.Parser())
 	assert.Equal(t, bc, p.GetBC())
 }
 
@@ -72,11 +72,11 @@ fim`
 	printlnIndex := expectedCp.Add("io.println")
 
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
+	p := NewAlgorithm(l)
 	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.Parser(l))
+	assert.Equal(t, true, p.Parser())
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -99,12 +99,12 @@ fim`
 	messageIndex := expectedCp.Add("Olá mundo!")
 
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
+	p := NewAlgorithm(l)
 	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Ldc, messageIndex)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.Parser(l))
+	assert.Equal(t, true, p.Parser())
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -132,14 +132,14 @@ fim`
 	messageIndex2 := expectedCp.Add("mundo!")
 
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
+	p := NewAlgorithm(l)
 	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Ldc, messageIndex1)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 	expectedBc.Add(opcodes.Ldc, messageIndex2)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.Parser(l))
+	assert.Equal(t, true, p.Parser())
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -151,9 +151,9 @@ início
 	imprima("Olá...");
 fim`
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
+	p := NewAlgorithm(l)
 
-	assert.Equal(t, false, p.Parser(l))
+	assert.Equal(t, false, p.Parser())
 }
 
 func TestInvalidAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
@@ -163,7 +163,7 @@ início
 	imprima("Olá...");
 fim`
 	l := lexer.NewLexer(c)
-	p := NewAlgorithm()
+	p := NewAlgorithm(l)
 
-	assert.Equal(t, false, p.Parser(l))
+	assert.Equal(t, false, p.Parser())
 }

@@ -9,33 +9,33 @@ import (
 
 func TestImprimaFunctionCall(t *testing.T) {
 	l := lexer.NewLexer(`imprima("Hello!")`)
-	s := NewAlgorithm()
-	assert.Equal(t, s.ParserFunctionCall(l), true)
+	s := NewAlgorithm(l)
+	assert.Equal(t, s.ParserFunctionCall(), true)
 }
 
 func TestFunctionCallWithoutArguments(t *testing.T) {
 	l := lexer.NewLexer(`myfunction()`)
-	s := NewAlgorithm()
-	assert.Equal(t, s.ParserFunctionCall(l), true)
+	s := NewAlgorithm(l)
+	assert.Equal(t, s.ParserFunctionCall(), true)
 }
 
 func TestInvalidFunctionCallWithoutArguments(t *testing.T) {
 	l := lexer.NewLexer(`myfunction(,)`)
-	s := NewAlgorithm()
-	assert.Equal(t, s.ParserFunctionCall(l), false)
+	s := NewAlgorithm(l)
+	assert.Equal(t, s.ParserFunctionCall(), false)
 }
 
 func TestFunctionCallWithNArguments(t *testing.T) {
 	l := lexer.NewLexer(`myfunction("A", "B", "C")`)
-	s := NewAlgorithm()
-	assert.Equal(t, s.ParserFunctionCall(l), true)
+	s := NewAlgorithm(l)
+	assert.Equal(t, s.ParserFunctionCall(), true)
 }
 
 func TestInvalidFunctionCallWithNArguments(t *testing.T) {
 	l := lexer.NewLexer(`myfunction("A", "B", )`)
-	s := NewAlgorithm()
-	assert.Equal(t, s.ParserFunctionCall(l), false)
+	s := NewAlgorithm(l)
+	assert.Equal(t, s.ParserFunctionCall(), false)
 
 	l = lexer.NewLexer(`myfunction("A" "B", "C")`)
-	assert.Equal(t, s.ParserFunctionCall(l), false)
+	assert.Equal(t, s.ParserFunctionCall(), false)
 }
