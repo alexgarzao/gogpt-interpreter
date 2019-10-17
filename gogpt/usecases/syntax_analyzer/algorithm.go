@@ -76,8 +76,14 @@ func (a *Algorithm) parserAlgorithmDeclaration(l *lexer.Lexer) bool {
 //     | "lógico"
 //     ;
 
+// stm_block
+//     : "início"
+//       (stm_list)*
+//       "fim"
+//     ;
 func (a *Algorithm) ParserStmBlock(l *lexer.Lexer) bool {
 	l.SaveBacktrackingPoint()
+
 	if a.isValidStmBlock(l) {
 		return true
 	}
@@ -86,18 +92,12 @@ func (a *Algorithm) ParserStmBlock(l *lexer.Lexer) bool {
 	return false
 }
 
-// stm_block
-//     : "início" (stm_list)* "fim"
-//     ;
 func (a *Algorithm) isValidStmBlock(l *lexer.Lexer) bool {
 	if l.GetNextTokenIf(lexer.INICIO) == nil {
 		return false
 	}
 
-	for a.ParserFunctionCall(l) {
-		if l.GetNextTokenIf(lexer.SEMICOLON) == nil {
-			return false
-		}
+	for a.ParserStmList(l) {
 	}
 
 	if l.GetNextTokenIf(lexer.FIM) == nil {
@@ -107,6 +107,39 @@ func (a *Algorithm) isValidStmBlock(l *lexer.Lexer) bool {
 	return true
 }
 
+// stm_list
+//     : stm_attr
+//     | fcall ";"
+//     | stm_ret
+//     | stm_se
+//     | stm_enquanto
+//     | stm_para
+//     ;
+//
+// stm_ret
+//     : "retorne" expr? ";"
+//     ;
+func (a *Algorithm) ParserStmList(l *lexer.Lexer) bool {
+	l.SaveBacktrackingPoint()
+
+	if a.ParserFunctionCall(l) == true {
+		// Ensure that a ";" is presented at the EOL.
+		if l.GetNextTokenIf(lexer.SEMICOLON) != nil {
+			return true
+		}
+	}
+
+	l.BackTracking()
+	return false
+}
+
+// fcall
+//     : T_IDENTIFICADOR "(" fargs? ")"
+//     ;
+//
+// fargs
+//     : expr ("," expr)*
+//     ;
 func (a *Algorithm) ParserFunctionCall(l *lexer.Lexer) bool {
 	l.SaveBacktrackingPoint()
 	if a.isValidFunctionCall(l) {
@@ -155,19 +188,6 @@ func (a *Algorithm) isValidFunctionCall(l *lexer.Lexer) bool {
 }
 
 /*
-stm_list
-    : stm_attr
-    | fcall ";"
-    | stm_ret
-    | stm_se
-    | stm_enquanto
-    | stm_para
-    ;
-
-stm_ret
-    : "retorne" expr? ";"
-    ;
-
 stm_attr
     : T_IDENTIFICADOR ":=" expr ";"
     ;
@@ -203,14 +223,6 @@ termo
     | T_IDENTIFICADOR
     | literal
     | "(" expr ")"
-    ;
-
-fcall
-    : T_IDENTIFICADOR "(" fargs? ")"
-    ;
-
-fargs
-    : expr ("," expr)*
     ;
 
 literal
