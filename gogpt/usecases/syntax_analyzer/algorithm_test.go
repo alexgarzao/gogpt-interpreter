@@ -144,7 +144,7 @@ fim`
 	assert.Equal(t, expectedBc, p.GetBC())
 }
 
-func TestInvalidAlgorithmDeclarationWithoutId(t *testing.T) {
+func TestInvalidCompleteAlgorithmDeclarationWithoutId(t *testing.T) {
 	c :=
 		`algoritmo ;
 início
@@ -156,7 +156,7 @@ fim`
 	assert.Equal(t, false, p.Parser())
 }
 
-func TestInvalidAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
+func TestInvalidCompleteAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
 	c :=
 		`algoritmo ola
 início

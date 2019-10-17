@@ -36,7 +36,7 @@ func (a *Algorithm) GetBC() *bytecode.Bytecode {
 //       EOF
 //     ;
 func (a *Algorithm) Parser() bool {
-	if a.parserAlgorithmDeclaration() == false {
+	if a.ParserAlgorithmDeclaration() == false {
 		return false
 	}
 
@@ -56,7 +56,7 @@ func (a *Algorithm) Parser() bool {
 //       T_IDENTIFICADOR
 //       ";"
 //     ;
-func (a *Algorithm) parserAlgorithmDeclaration() bool {
+func (a *Algorithm) ParserAlgorithmDeclaration() bool {
 	if a.l.GetNextTokenIf(lexer.ALGORITMO) == nil || a.l.GetNextTokenIf(lexer.IDENT) == nil || a.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
 		return false
 	}
