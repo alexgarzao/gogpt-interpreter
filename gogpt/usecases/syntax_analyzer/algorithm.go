@@ -4,6 +4,7 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/opcodes"
 )
 
 type Algorithm struct {
@@ -93,16 +94,60 @@ func (a *Algorithm) isValidStmBlock(l *lexer.Lexer) bool {
 		return false
 	}
 
-	fc := NewFunctionCall().
-		SetBytecodeGenRequirements(a.cp, a.bc)
-
-	for fc.TryToParse(l) {
+	for a.ParserFunctionCall(l) {
 		if l.GetNextTokenIf(lexer.SEMICOLON) == nil {
 			return false
 		}
 	}
 
 	if l.GetNextTokenIf(lexer.FIM) == nil {
+		return false
+	}
+
+	return true
+}
+
+func (a *Algorithm) ParserFunctionCall(l *lexer.Lexer) bool {
+	l.SaveBacktrackingPoint()
+	if a.isValidFunctionCall(l) {
+		return true
+	}
+
+	l.BackTracking()
+	return false
+}
+
+func (a *Algorithm) isValidFunctionCall(l *lexer.Lexer) bool {
+	var token *lexer.Token
+	if token = l.GetNextTokenIf(lexer.IDENT); token == nil {
+		return false
+	}
+
+	if l.GetNextTokenIf(lexer.LPAREN) == nil {
+		return false
+	}
+
+	funcIndex := -1
+	if token.Value == "imprima" {
+		funcIndex = a.cp.Add("io.println")
+	}
+
+	if token = l.GetNextTokenIf(lexer.STRING); token != nil {
+		for {
+			cpIndex := a.cp.Add(token.Value)
+			a.bc.Add(opcodes.Ldc, cpIndex)
+			if l.GetNextTokenIf(lexer.COMMA) == nil {
+				break
+			}
+			if l.GetNextTokenIf(lexer.STRING) == nil {
+				return false
+			}
+		}
+	}
+
+	a.bc.Add(opcodes.Call, funcIndex)
+
+	if l.GetNextTokenIf(lexer.RPAREN) == nil {
 		return false
 	}
 
