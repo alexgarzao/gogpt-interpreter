@@ -19,7 +19,8 @@ início
 fim`
 	l := lexer.NewLexer(c)
 	p := NewAlgorithm(l)
-	assert.Equal(t, true, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestValidHelloWorldAlgorithm(t *testing.T) {
@@ -30,7 +31,8 @@ início
 fim`
 	l := lexer.NewLexer(c)
 	p := NewAlgorithm(l)
-	assert.Equal(t, true, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestValidHelloWorldWithTwoSentences(t *testing.T) {
@@ -42,7 +44,8 @@ início
 fim`
 	l := lexer.NewLexer(c)
 	p := NewAlgorithm(l)
-	assert.Equal(t, true, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestBytecodeEmptyAlgorithm(t *testing.T) {
@@ -53,7 +56,8 @@ fim`
 	l := lexer.NewLexer(c)
 	p := NewAlgorithm(l)
 	bc := bytecode.NewBytecode()
-	assert.Equal(t, true, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, true, pr.Parsed)
 	assert.Equal(t, bc, p.GetBC())
 }
 
@@ -76,7 +80,8 @@ fim`
 	expectedBc := bytecode.NewBytecode()
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, true, pr.Parsed)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -104,7 +109,8 @@ fim`
 	expectedBc.Add(opcodes.Ldc, messageIndex)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, true, pr.Parsed)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -139,7 +145,8 @@ fim`
 	expectedBc.Add(opcodes.Ldc, messageIndex2)
 	expectedBc.Add(opcodes.Call, printlnIndex)
 
-	assert.Equal(t, true, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, true, pr.Parsed)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -153,7 +160,9 @@ fim`
 	l := lexer.NewLexer(c)
 	p := NewAlgorithm(l)
 
-	assert.Equal(t, false, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, false, pr.Parsed)
+	assert.EqualError(t, pr.Err, "Expected IDENT")
 }
 
 func TestInvalidCompleteAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
@@ -165,5 +174,7 @@ fim`
 	l := lexer.NewLexer(c)
 	p := NewAlgorithm(l)
 
-	assert.Equal(t, false, p.Parser())
+	pr := p.Parser()
+	assert.Equal(t, false, pr.Parsed)
+	assert.EqualError(t, pr.Err, "Expected SEMICOLON")
 }

@@ -14,14 +14,9 @@ type Lexer struct {
 
 func NewLexer(input string) *Lexer {
 	return &Lexer{
-		input:        input,
-		currentPos:   0,
-		backTracking: 0,
+		input:      input,
+		currentPos: 0,
 	}
-}
-
-func (l *Lexer) SaveBacktrackingPoint() {
-	l.backTracking = l.currentPos
 }
 
 func (l *Lexer) NextToken() *Token {
@@ -67,10 +62,6 @@ func (l *Lexer) GetNextTokenIf(expectedType string) *Token {
 	}
 	l.currentPos = backTracking
 	return nil
-}
-
-func (l *Lexer) BackTracking() {
-	l.currentPos = l.backTracking
 }
 
 func (l *Lexer) tryIdOrKeyword(ch rune) *Token {

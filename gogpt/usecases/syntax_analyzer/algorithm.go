@@ -1,6 +1,8 @@
 package syntax
 
 import (
+	"errors"
+
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
@@ -11,6 +13,11 @@ type Algorithm struct {
 	l  *lexer.Lexer
 	cp *constant_pool.CP
 	bc *bytecode.Bytecode
+}
+
+type ParserResult struct {
+	Parsed bool
+	Err    error
 }
 
 func NewAlgorithm(l *lexer.Lexer) *Algorithm {
@@ -35,20 +42,22 @@ func (a *Algorithm) GetBC() *bytecode.Bytecode {
 //       stm_block
 //       EOF
 //     ;
-func (a *Algorithm) Parser() bool {
-	if a.ParserAlgorithmDeclaration() == false {
-		return false
+func (a *Algorithm) Parser() ParserResult {
+	pr := a.ParserAlgorithmDeclaration()
+	if pr.Parsed == false {
+		return pr
 	}
 
 	// if p.parserOptionalVarDeclBlock() == false {
 	// 	return false
 	// }
 
-	if a.ParserStmBlock() == false {
-		return false
+	pr = a.ParserStmBlock()
+	if pr.Parsed == false {
+		return pr
 	}
 
-	return true
+	return ParserResult{true, nil}
 }
 
 // declaracao_algoritmo
@@ -56,12 +65,20 @@ func (a *Algorithm) Parser() bool {
 //       T_IDENTIFICADOR
 //       ";"
 //     ;
-func (a *Algorithm) ParserAlgorithmDeclaration() bool {
-	if a.l.GetNextTokenIf(lexer.ALGORITMO) == nil || a.l.GetNextTokenIf(lexer.IDENT) == nil || a.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
-		return false
+func (a *Algorithm) ParserAlgorithmDeclaration() ParserResult {
+	if a.l.GetNextTokenIf(lexer.ALGORITMO) == nil {
+		return ParserResult{false, nil}
 	}
 
-	return true
+	if a.l.GetNextTokenIf(lexer.IDENT) == nil {
+		return ParserResult{false, errors.New("Expected IDENT")}
+	}
+
+	if a.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
+		return ParserResult{false, errors.New("Expected SEMICOLON")}
+	}
+
+	return ParserResult{true, nil}
 }
 
 // var_decl_block
@@ -83,31 +100,24 @@ func (a *Algorithm) ParserAlgorithmDeclaration() bool {
 //       (stm_list)*
 //       "fim"
 //     ;
-func (a *Algorithm) ParserStmBlock() bool {
-	// TODO: SaveBack could be a method of Algorithm???
-	a.l.SaveBacktrackingPoint()
-
-	if a.isValidStmBlock() {
-		return true
-	}
-
-	a.l.BackTracking()
-	return false
-}
-
-func (a *Algorithm) isValidStmBlock() bool {
+func (a *Algorithm) ParserStmBlock() ParserResult {
 	if a.l.GetNextTokenIf(lexer.INICIO) == nil {
-		return false
+		return ParserResult{false, nil}
 	}
 
-	for a.ParserStmList() {
+	pr := a.ParserStmList()
+	for ; pr.Parsed; pr = a.ParserStmList() {
+	}
+
+	if pr.Parsed == false && pr.Err != nil {
+		return pr
 	}
 
 	if a.l.GetNextTokenIf(lexer.FIM) == nil {
-		return false
+		return ParserResult{false, errors.New("Expected FIM")}
 	}
 
-	return true
+	return ParserResult{true, nil}
 }
 
 // stm_list
@@ -122,18 +132,18 @@ func (a *Algorithm) isValidStmBlock() bool {
 // stm_ret
 //     : "retorne" expr? ";"
 //     ;
-func (a *Algorithm) ParserStmList() bool {
-	a.l.SaveBacktrackingPoint()
-
-	if a.ParserFunctionCall() == true {
+func (a *Algorithm) ParserStmList() ParserResult {
+	pr := a.ParserFunctionCall()
+	if pr.Parsed == true {
 		// Ensure that a ";" is presented at the EOL.
-		if a.l.GetNextTokenIf(lexer.SEMICOLON) != nil {
-			return true
+		if a.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
+			return ParserResult{false, errors.New("Expected SEMICOLON")}
 		}
+		return ParserResult{true, nil}
+
 	}
 
-	a.l.BackTracking()
-	return false
+	return ParserResult{false, nil}
 }
 
 // fcall
@@ -143,29 +153,21 @@ func (a *Algorithm) ParserStmList() bool {
 // fargs
 //     : expr ("," expr)*
 //     ;
-func (a *Algorithm) ParserFunctionCall() bool {
-	a.l.SaveBacktrackingPoint()
-	if a.isValidFunctionCall() {
-		return true
-	}
-
-	a.l.BackTracking()
-	return false
-}
-
-func (a *Algorithm) isValidFunctionCall() bool {
+func (a *Algorithm) ParserFunctionCall() ParserResult {
 	var token *lexer.Token
 	if token = a.l.GetNextTokenIf(lexer.IDENT); token == nil {
-		return false
+		return ParserResult{false, nil}
 	}
 
 	if a.l.GetNextTokenIf(lexer.LPAREN) == nil {
-		return false
+		return ParserResult{false, errors.New("Expected LPAREN")}
 	}
 
 	funcIndex := -1
 	if token.Value == "imprima" {
 		funcIndex = a.cp.Add("io.println")
+		// } else {
+		// 	return ParserResult{false, errors.New("Undefined function name")}
 	}
 
 	if token = a.l.GetNextTokenIf(lexer.STRING); token != nil {
@@ -176,7 +178,7 @@ func (a *Algorithm) isValidFunctionCall() bool {
 				break
 			}
 			if a.l.GetNextTokenIf(lexer.STRING) == nil {
-				return false
+				return ParserResult{false, errors.New("Expected STRING")}
 			}
 		}
 	}
@@ -184,10 +186,10 @@ func (a *Algorithm) isValidFunctionCall() bool {
 	a.bc.Add(opcodes.Call, funcIndex)
 
 	if a.l.GetNextTokenIf(lexer.RPAREN) == nil {
-		return false
+		return ParserResult{false, errors.New("Expected RPAREN")}
 	}
 
-	return true
+	return ParserResult{true, nil}
 }
 
 /*
