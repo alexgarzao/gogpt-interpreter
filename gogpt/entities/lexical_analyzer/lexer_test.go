@@ -15,10 +15,12 @@ func TestIfUselessCharsHasBeenRemoved(t *testing.T) {
 }
 
 func TestValidKeywords(t *testing.T) {
-	l := NewLexer("algoritmo início fim")
+	l := NewLexer("algoritmo início fim variáveis fim-variáveis")
 	assert.Equal(t, &Token{ALGORITMO, ALGORITMO}, l.NextToken())
 	assert.Equal(t, &Token{INICIO, INICIO}, l.NextToken())
 	assert.Equal(t, &Token{FIM, FIM}, l.NextToken())
+	assert.Equal(t, &Token{VARIAVEIS, VARIAVEIS}, l.NextToken())
+	assert.Equal(t, &Token{FIMVARIAVEIS, FIMVARIAVEIS}, l.NextToken())
 	assert.Equal(t, &Token{EOF, EOF}, l.NextToken())
 }
 
@@ -35,9 +37,10 @@ func TestInvalidKeywords(t *testing.T) {
 }
 
 func TestDelimiters(t *testing.T) {
-	l := NewLexer("(,)( ());) ")
+	l := NewLexer("(,:)( ());)= ")
 	assert.Equal(t, &Token{LPAREN, LPAREN}, l.NextToken())
 	assert.Equal(t, &Token{COMMA, COMMA}, l.NextToken())
+	assert.Equal(t, &Token{COLON, COLON}, l.NextToken())
 	assert.Equal(t, &Token{RPAREN, RPAREN}, l.NextToken())
 	assert.Equal(t, &Token{LPAREN, LPAREN}, l.NextToken())
 	assert.Equal(t, &Token{LPAREN, LPAREN}, l.NextToken())
@@ -45,6 +48,7 @@ func TestDelimiters(t *testing.T) {
 	assert.Equal(t, &Token{RPAREN, RPAREN}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, SEMICOLON}, l.NextToken())
 	assert.Equal(t, &Token{RPAREN, RPAREN}, l.NextToken())
+	assert.Equal(t, &Token{ATTR, ATTR}, l.NextToken())
 	assert.Equal(t, &Token{EOF, EOF}, l.NextToken())
 }
 

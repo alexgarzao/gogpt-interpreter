@@ -64,10 +64,28 @@ func (l *Lexer) GetNextTokenIf(expectedType string) *Token {
 	return nil
 }
 
+func (l *Lexer) GetNextsTokensIf(expectedType1, expectedType2 string) (*Token, *Token) {
+	backTracking := l.currentPos
+
+	token1 := l.NextToken()
+	if token1.Type != expectedType1 {
+		l.currentPos = backTracking
+		return nil, nil
+	}
+
+	token2 := l.NextToken()
+	if token2.Type != expectedType2 {
+		l.currentPos = backTracking
+		return nil, nil
+	}
+
+	return token1, token2
+}
+
 func (l *Lexer) tryIdOrKeyword(ch rune) *Token {
-	// [A-Z|_] ([A-Z]|[0-9]|_)*
+	// [A-Z|_|-] ([A-Z]|[0-9]|_|-)*
 	token := string(ch)
-	if (strings.ToUpper(token) < "A" || strings.ToUpper(token) > "Z") && token != "_" {
+	if (strings.ToUpper(token) < "A" || strings.ToUpper(token) > "Z") && token != "_" && token != "-" {
 		return nil
 	}
 
@@ -76,7 +94,7 @@ func (l *Lexer) tryIdOrKeyword(ch rune) *Token {
 		if ch == 0 {
 			break
 		}
-		if !unicode.IsLetter(ch) && string(ch) != "_" && !(string(ch) >= "0" && string(ch) <= "9") {
+		if !unicode.IsLetter(ch) && string(ch) != "_" && string(ch) != "-" && !(string(ch) >= "0" && string(ch) <= "9") {
 			l.currentPos -= size
 			break
 		}

@@ -9,19 +9,23 @@ const (
 	INVALID = "INVALID"
 
 	// Keywords
-	ALGORITMO = "ALGORITMO"
-	INICIO    = "INÍCIO"
-	FIM       = "FIM"
+	ALGORITMO    = "ALGORITMO"
+	INICIO       = "INÍCIO"
+	FIM          = "FIM"
+	VARIAVEIS    = "VARIÁVEIS"
+	FIMVARIAVEIS = "FIM-VARIÁVEIS"
 
 	// Delimiters
 	COMMA     = ","
+	COLON     = ":"
 	SEMICOLON = ";"
 	LPAREN    = "("
 	RPAREN    = ")"
+	ATTR      = "=" // TODO: Must be :=
 
 	// Literals
-	INT    = "INT"
-	STRING = "STRING"
+	INT    = "INTEIRO"
+	STRING = "LITERAL"
 
 	// Identifiers
 	IDENT = "IDENT"
@@ -37,7 +41,7 @@ func isUselessChar(ch rune) bool {
 }
 
 func isDelimiterChar(ch rune) bool {
-	return ch == ',' || ch == ';' || ch == '(' || ch == ')'
+	return ch == ',' || ch == ';' || ch == '(' || ch == ')' || ch == ':' || ch == '='
 }
 
 func defineToken(token string) *Token {
@@ -50,6 +54,10 @@ func defineToken(token string) *Token {
 		return &Token{SEMICOLON, SEMICOLON}
 	case ",":
 		return &Token{COMMA, COMMA}
+	case ":":
+		return &Token{COLON, COLON}
+	case ATTR:
+		return &Token{ATTR, ATTR}
 	}
 
 	switch strings.ToUpper(token) {
@@ -59,6 +67,14 @@ func defineToken(token string) *Token {
 		return &Token{INICIO, INICIO}
 	case FIM:
 		return &Token{FIM, FIM}
+	case VARIAVEIS:
+		return &Token{VARIAVEIS, VARIAVEIS}
+	case FIMVARIAVEIS:
+		return &Token{FIMVARIAVEIS, FIMVARIAVEIS}
+	case STRING:
+		return &Token{STRING, STRING}
+	case INT:
+		return &Token{INT, INT}
 	}
 
 	if token[0] == '"' {
