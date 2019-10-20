@@ -42,3 +42,7 @@ func (s *Stack) Top() (StackItem, error) {
 
 	return res, nil
 }
+
+func (s *Stack) Size() int {
+	return len(s.items)
+}

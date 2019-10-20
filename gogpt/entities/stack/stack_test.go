@@ -66,3 +66,22 @@ func TestStackPopError(t *testing.T) {
 	_, err = s.Pop()
 	assert.EqualError(t, err, "Stack underflow")
 }
+
+func TestStackPushAndPopTwoValuesCheckingSize(t *testing.T) {
+	s := NewStack()
+	assert.Equal(t, 0, s.Size())
+
+	s.Push(111)
+	assert.Equal(t, 1, s.Size())
+
+	s.Push(222)
+	assert.Equal(t, 2, s.Size())
+
+	v, _ := s.Pop()
+	assert.Equal(t, v, StackItem(222))
+	assert.Equal(t, 1, s.Size())
+
+	v, _ = s.Pop()
+	assert.Equal(t, v, StackItem(111))
+	assert.Equal(t, 0, s.Size())
+}
