@@ -1,0 +1,6 @@
+algoritmo olá_mundo;
+
+início
+	imprima("Olá...");
+	imprima("mundo!");
+fim

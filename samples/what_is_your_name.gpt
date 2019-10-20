@@ -1,0 +1,11 @@
+algoritmo qual_o_seu_nome;
+
+variáveis
+	nome: literal;
+fim-variáveis
+
+início
+	imprima("Qual o seu nome?");
+	nome := leia();
+	imprima("Olá ", nome);
+fim
