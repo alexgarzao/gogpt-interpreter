@@ -26,8 +26,7 @@ func TestValidStvInt(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	// j.Execute(cp, vars, st, stdout)
-	j.Execute(cp, st, stdout)
+	j.Execute(cp, vars, st, stdout)
 	stv, _ := st.Top()
 	assert.Equal(t, stv, stack.StackItem(123))
 
@@ -55,8 +54,7 @@ func TestValidStvStr(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	// j.Execute(cp, vars, st, stdout)
-	j.Execute(cp, st, stdout)
+	j.Execute(cp, vars, st, stdout)
 	stv, _ := st.Top()
 	assert.Equal(t, stv, stack.StackItem("ABC"))
 

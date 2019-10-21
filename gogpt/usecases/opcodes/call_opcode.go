@@ -1,8 +1,9 @@
 package opcodes
 
 import (
-	cp "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 )
 
 type CallOpcode struct {
@@ -23,19 +24,22 @@ func (i *CallOpcode) FetchOperands(op int) error {
 	return nil
 }
 
-func (i *CallOpcode) Execute(cp *cp.CP, stack *stack.Stack, stdout StdoutInterface) error {
+func (i *CallOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error {
 	cpv, err := cp.Get(i.CpIndex)
 	if err != nil {
 		return err
 	}
 
 	if cpv == "io.println" {
-		stv, err := stack.Pop()
+		stv, err := st.Pop()
 		if err != nil {
 			return err
 		}
 
 		stdout.Println(stv)
+	} else if cpv == "io.readln" {
+		text := stdout.Readln()
+		st.Push(text)
 	}
 
 	return nil

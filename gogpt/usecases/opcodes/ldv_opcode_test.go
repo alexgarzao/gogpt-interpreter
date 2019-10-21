@@ -26,8 +26,7 @@ func TestValidLdvInt(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	// j.Execute(cp, vars, st, stdout)
-	j.Execute(cp, st, stdout)
+	j.Execute(cp, vars, st, stdout)
 
 	// STV 0
 	stvOpcode := NewStvOpcode()
@@ -61,8 +60,7 @@ func TestValidLdvStr(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	// j.Execute(cp, vars, st, stdout)
-	j.Execute(cp, st, stdout)
+	j.Execute(cp, vars, st, stdout)
 
 	// STV 0
 	stvOpcode := NewStvOpcode()

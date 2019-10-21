@@ -3,6 +3,7 @@ package opcodes
 import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 )
 
 type NopOpcode struct {
@@ -21,6 +22,6 @@ func (d *NopOpcode) FetchOperands(op int) error {
 	return nil
 }
 
-func (d *NopOpcode) Execute(cp *constant_pool.CP, st *stack.Stack, stdout StdoutInterface) error {
+func (d *NopOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error {
 	return nil
 }

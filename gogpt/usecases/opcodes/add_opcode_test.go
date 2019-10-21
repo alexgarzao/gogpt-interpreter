@@ -1,9 +1,11 @@
 package opcodes
 
 import (
+	"testing"
+
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
-	"testing"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
 	"github.com/stretchr/testify/assert"
@@ -21,15 +23,16 @@ func TestValidAdd2And3(t *testing.T) {
 	cp := constant_pool.NewCp()
 	cpIndex2 := cp.Add(2)
 	cpIndex3 := cp.Add(3)
+	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = cpIndex2
-	ldc.Execute(cp, st, stdout)
+	ldc.Execute(cp, vars, st, stdout)
 	ldc.CpIndex = cpIndex3
-	ldc.Execute(cp, st, stdout)
+	ldc.Execute(cp, vars, st, stdout)
 
 	add := NewAddOpcode()
 	add.Execute(cp, st)
@@ -51,15 +54,16 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	cp := constant_pool.NewCp()
 	cpIndex2 := cp.Add("Hello")
 	cpIndex3 := cp.Add("World")
+	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = cpIndex2
-	ldc.Execute(cp, st, stdout)
+	ldc.Execute(cp, vars, st, stdout)
 	ldc.CpIndex = cpIndex3
-	ldc.Execute(cp, st, stdout)
+	ldc.Execute(cp, vars, st, stdout)
 
 	add := NewAddOpcode()
 	add.Execute(cp, st)

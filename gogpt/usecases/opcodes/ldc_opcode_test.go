@@ -1,9 +1,11 @@
 package opcodes
 
 import (
+	"testing"
+
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
-	"testing"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
 	"github.com/stretchr/testify/assert"
@@ -14,6 +16,7 @@ func TestValidLdcInt123(t *testing.T) {
 	//		0: (INT) 123
 	cp := constant_pool.NewCp()
 	cpIndex := cp.Add(123)
+	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
 	cpv, _ := cp.Get(0)
@@ -24,7 +27,7 @@ func TestValidLdcInt123(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	j.Execute(cp, st, stdout)
+	j.Execute(cp, vars, st, stdout)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, constant_pool.CPItem(123))
 	stv, _ = st.Top()
@@ -36,6 +39,7 @@ func TestValidLdcABC(t *testing.T) {
 	//		0: STR: "ABC"
 	cp := constant_pool.NewCp()
 	cpIndex := cp.Add("ABC")
+	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
 	cpv, _ := cp.Get(0)
@@ -46,7 +50,7 @@ func TestValidLdcABC(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	j.Execute(cp, st, stdout)
+	j.Execute(cp, vars, st, stdout)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, constant_pool.CPItem("ABC"))
 	stv, _ = st.Top()
