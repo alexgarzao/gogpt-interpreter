@@ -41,11 +41,18 @@ func TestInvalidFunctionCallWithNArguments(t *testing.T) {
 	s := NewAlgorithm(l)
 	pr := s.ParserFunctionCall()
 	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected STRING")
+	assert.EqualError(t, pr.Err, "Expected EXPR")
 
 	l = lexer.NewLexer(`myfunction("A" "B", "C")`)
 	s = NewAlgorithm(l)
 	pr = s.ParserFunctionCall()
 	assert.Equal(t, false, pr.Parsed)
 	assert.EqualError(t, pr.Err, "Expected RPAREN")
+}
+
+func TestFunctionCallWithStringAndIdentifiers(t *testing.T) {
+	l := lexer.NewLexer(`imprima("Olá ", nome)`)
+	s := NewAlgorithm(l)
+	pr := s.ParserFunctionCall()
+	assert.Equal(t, true, pr.Parsed)
 }
