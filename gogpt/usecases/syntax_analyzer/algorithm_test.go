@@ -178,3 +178,59 @@ fim`
 	assert.Equal(t, false, pr.Parsed)
 	assert.EqualError(t, pr.Err, "Expected SEMICOLON")
 }
+
+func TestBytecodeHelloWorldWithInput(t *testing.T) {
+	c :=
+		`algoritmo qual_o_seu_nome;
+
+		variáveis
+			nome: literal;
+		fim-variáveis
+		
+		início
+			imprima("Qual o seu nome?");
+			nome = leia();
+			imprima("Olá ");
+			imprima(nome);
+		fim
+		`
+	// CP:
+	//    0: STR "io.println"
+	//    1: STR "Qual o seu nome?"
+	//    2: STR "io.readln"
+	//    3: STR "Olá "
+	// VAR:
+	//    0: STR "nome"
+	// CODE:
+	//    LDC 1 (Qual o seu nome?)
+	//    CALL 0 (io.println)
+	//    CALL 2 (io.readln)
+	//    STV 0 (nome)
+	//    LDC 3 (Olá )
+	//    CALL 0 (io.println)
+	//    LDV 0 (nome)
+	//    CALL 0 (io.println)
+
+	expectedCp := constant_pool.NewCp()
+	printlnIndex := expectedCp.Add("io.println")
+	messageIndex1 := expectedCp.Add("Qual o seu nome?")
+	readlnIndex := expectedCp.Add("io.readln")
+	messageIndex2 := expectedCp.Add("Olá ")
+
+	l := lexer.NewLexer(c)
+	p := NewAlgorithm(l)
+	expectedBc := bytecode.NewBytecode()
+	expectedBc.Add(opcodes.Ldc, messageIndex1)
+	expectedBc.Add(opcodes.Call, printlnIndex)
+	expectedBc.Add(opcodes.Call, readlnIndex)
+	expectedBc.Add(opcodes.Stv, 0)
+	expectedBc.Add(opcodes.Ldc, messageIndex2)
+	expectedBc.Add(opcodes.Call, printlnIndex)
+	expectedBc.Add(opcodes.Ldv, 0)
+	expectedBc.Add(opcodes.Call, printlnIndex)
+
+	pr := p.Parser()
+	assert.Equal(t, true, pr.Parsed)
+	assert.Equal(t, expectedCp, p.GetCP())
+	assert.Equal(t, expectedBc, p.GetBC())
+}
