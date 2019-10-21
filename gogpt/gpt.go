@@ -9,6 +9,7 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
 	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 	bce "github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/bytecode_executor"
 	syntax "github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/syntax_analyzer"
 )
@@ -29,15 +30,16 @@ func main() {
 
 	pr := p.Parser()
 	if pr.Parsed == false {
-		log.Fatalf("Error in parsing: %s", pr.Err.Error())
+		log.Fatalf("Error in parsing: %v", pr.Err)
 		return
 	}
 
 	bce := bce.NewBytecodeExecutor(p.GetBC())
 	stdout := adapters.NewStdout()
 	st := stack.NewStack()
+	vars := vars.NewVars()
 
-	err = bce.Run(p.GetCP(), st, stdout)
+	err = bce.Run(p.GetCP(), vars, st, stdout)
 	if err != nil {
 		log.Fatalf("Error %s\n", err)
 	}
