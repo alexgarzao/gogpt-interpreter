@@ -3,6 +3,7 @@ package opcodes
 import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 )
 
 const (
@@ -10,6 +11,8 @@ const (
 	Ldc
 	Add
 	Call
+	Stv
+	Ldv
 )
 
 type Instruction struct {
@@ -21,5 +24,5 @@ type Instruction struct {
 type InstructionImplementation interface {
 	GetOperandCount() int
 	FetchOperands(op int) error
-	Execute(cp *constant_pool.CP, st *stack.Stack, stdout StdoutInterface) error
+	Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error
 }
