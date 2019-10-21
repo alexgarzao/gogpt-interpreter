@@ -6,6 +6,7 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/opcodes"
 )
 
@@ -25,11 +26,13 @@ func NewBytecodeExecutor(bc *bytecode.Bytecode) *BytecodeExecutor {
 	bce.instructions[opcodes.Nop] = opcodes.NewNopOpcode()
 	bce.instructions[opcodes.Ldc] = opcodes.NewLdcOpcode()
 	bce.instructions[opcodes.Call] = opcodes.NewCallOpcode()
+	bce.instructions[opcodes.Ldv] = opcodes.NewLdvOpcode()
+	bce.instructions[opcodes.Stv] = opcodes.NewStvOpcode()
 
 	return bce
 }
 
-func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, st *stack.Stack, stdout opcodes.StdoutInterface) error {
+func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout opcodes.StdoutInterface) error {
 	for {
 		opcode, err := bce.Next()
 		if err != nil {
@@ -49,7 +52,7 @@ func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, st *stack.Stack, stdout o
 				return err
 			}
 		}
-		err = instruction.Execute(cp, st, stdout)
+		err = instruction.Execute(cp, vars, st, stdout)
 		if err != nil {
 			return err
 		}
