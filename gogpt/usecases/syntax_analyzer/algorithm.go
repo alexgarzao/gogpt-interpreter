@@ -10,9 +10,10 @@ import (
 )
 
 type Algorithm struct {
-	l  *lexer.Lexer
-	cp *constant_pool.CP
-	bc *bytecode.Bytecode
+	l      *lexer.Lexer
+	cp     *constant_pool.CP
+	bc     *bytecode.Bytecode
+	symbol *SymbolTable
 }
 
 type ParserResult struct {
@@ -22,9 +23,10 @@ type ParserResult struct {
 
 func NewAlgorithm(l *lexer.Lexer) *Algorithm {
 	return &Algorithm{
-		l:  l,
-		cp: constant_pool.NewCp(),
-		bc: bytecode.NewBytecode(),
+		l:      l,
+		cp:     constant_pool.NewCp(),
+		bc:     bytecode.NewBytecode(),
+		symbol: NewSymbolTable(),
 	}
 }
 
@@ -111,7 +113,8 @@ func (a *Algorithm) ParserVarDeclBlock() ParserResult {
 //     : T_IDENTIFICADOR ("," T_IDENTIFICADOR)* ":" tp_primitivo
 //     ;
 func (a *Algorithm) ParserVarDecl() ParserResult {
-	if a.l.GetNextTokenIf(lexer.IDENT) == nil {
+	varId := a.l.GetNextTokenIf(lexer.IDENT)
+	if varId == nil {
 		return ParserResult{false, nil}
 	}
 
@@ -126,6 +129,10 @@ func (a *Algorithm) ParserVarDecl() ParserResult {
 
 	if a.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
 		return ParserResult{false, errors.New("Expected ;")}
+	}
+
+	if a.symbol.Add(varId.Value) == -1 {
+		return ParserResult{false, errors.New("Duplicated variable")}
 	}
 
 	return ParserResult{true, nil}
@@ -206,20 +213,58 @@ func (a *Algorithm) ParserStmList() ParserResult {
 //       ";"
 //     ;
 func (a *Algorithm) ParserStmAttr() ParserResult {
-	token1, _ := a.l.GetNextsTokensIf(lexer.IDENT, lexer.ATTR)
-	if token1 == nil {
+	id, _ := a.l.GetNextsTokensIf(lexer.IDENT, lexer.ATTR)
+	if id == nil {
 		return ParserResult{false, nil}
 	}
 
-	// TODO: expr
-	pr := a.ParserFunctionCall()
+	pr := a.ParserExpr()
 	if pr.Parsed == false {
-		return ParserResult{false, errors.New("Expected funcional call")}
+		return ParserResult{false, errors.New("Expected Expr")}
 	}
 
-	a.bc.Add(opcodes.Stv, 0) // TODO: Must be var index
+	a.bc.Add(opcodes.Stv, a.symbol.Index(id.Value))
 
 	return ParserResult{true, nil}
+}
+
+// expr
+//     : expr ("ou"|"||") expr
+//     | expr ("e"|"&&") expr
+//     | expr ("="|"<>") expr
+//     | expr (">"|">="|"<"|"<=") expr
+//     | expr ("+" | "-") expr
+//     | expr ("/"|"*") expr
+//     | ("+"|"-"|"não")? termo
+//     ;
+
+// termo
+//     : fcall
+//     | T_IDENTIFICADOR
+//     | literal
+//     | "(" expr ")"
+//     ;
+
+func (a *Algorithm) ParserExpr() ParserResult {
+	pr := a.ParserFunctionCall()
+	if pr.Parsed == true {
+		return ParserResult{true, nil}
+	}
+
+	id := a.l.GetNextTokenIf(lexer.IDENT)
+	if id != nil {
+		a.bc.Add(opcodes.Ldv, a.symbol.Index(id.Value))
+		return ParserResult{true, nil}
+	}
+
+	token := a.l.GetNextTokenIf(lexer.STRING)
+	if token != nil {
+		cpIndex := a.cp.Add(token.Value)
+		a.bc.Add(opcodes.Ldc, cpIndex)
+		return ParserResult{true, nil}
+	}
+
+	return ParserResult{false, nil}
 }
 
 // fcall
@@ -274,23 +319,6 @@ func (a *Algorithm) ParserFunctionArgs() ParserResult {
 	}
 }
 
-func (a *Algorithm) ParserExpr() ParserResult {
-	token := a.l.GetNextTokenIf(lexer.STRING)
-	if token != nil {
-		cpIndex := a.cp.Add(token.Value)
-		a.bc.Add(opcodes.Ldc, cpIndex)
-		return ParserResult{true, nil}
-	}
-
-	token = a.l.GetNextTokenIf(lexer.IDENT)
-	if token != nil {
-		a.bc.Add(opcodes.Ldv, 0) // TODO: Must be var index
-		return ParserResult{true, nil}
-	}
-
-	return ParserResult{false, nil}
-}
-
 // stm_ret
 //     : "retorne" expr? ";"
 //     ;
@@ -311,23 +339,6 @@ stm_para
 
 passo
     : "passo" ("+"|"-")? T_INT_LIT
-    ;
-
-expr
-    : expr ("ou"|"||") expr
-    | expr ("e"|"&&") expr
-    | expr ("="|"<>") expr
-    | expr (">"|">="|"<"|"<=") expr
-    | expr ("+" | "-") expr
-    | expr ("/"|"*") expr
-    | ("+"|"-"|"não")? termo
-    ;
-
-termo
-    : fcall
-    | T_IDENTIFICADOR
-    | literal
-    | "(" expr ")"
     ;
 
 literal
