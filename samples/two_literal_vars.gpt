@@ -1,0 +1,15 @@
+algoritmo two_vars;
+
+variáveis
+	nome: literal;
+	idade: literal;
+fim-variáveis
+
+início
+	nome = "name";
+	idade = "99";
+	imprima("Olá ");
+	imprima(nome);
+	imprima("Você tem a seguinte idade: ");
+	imprima(idade);
+fim

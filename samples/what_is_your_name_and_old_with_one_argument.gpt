@@ -1,0 +1,18 @@
+algoritmo qual_o_seu_nome;
+
+variáveis
+	nome: literal;
+	idade: literal;
+fim-variáveis
+
+início
+	imprima("Qual o seu nome?");
+	nome = leia();
+	imprima("Qual a sua idade?");
+	idade = leia();
+	imprima("Olá ");
+	imprima(nome);
+	imprima("Você tem ");
+	imprima(idade);
+	imprima("anos!!!");
+fim
