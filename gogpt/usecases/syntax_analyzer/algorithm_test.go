@@ -3,12 +3,16 @@ package syntax
 import (
 	"testing"
 
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 
 	"github.com/stretchr/testify/assert"
 
 	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
+	bce "github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/bytecode_executor"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/opcodes"
 )
 
@@ -233,4 +237,39 @@ func TestBytecodeHelloWorldWithInput(t *testing.T) {
 	assert.Equal(t, true, pr.Parsed)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
+}
+
+func TestRunningWithTwoVars(t *testing.T) {
+	a :=
+		`algoritmo two_vars;
+
+		variáveis
+			nome: literal;
+			idade: literal;
+		fim-variáveis
+		
+		início
+			nome = "name";
+			idade = "99";
+			imprima("Olá ");
+			imprima(nome);
+			imprima("Você tem a seguinte idade: ");
+			imprima(idade);
+		fim
+		`
+
+	l := lexer.NewLexer(a)
+	p := NewAlgorithm(l)
+
+	pr := p.Parser()
+	assert.True(t, pr.Parsed)
+	bce := bce.NewBytecodeExecutor(p.GetBC())
+	stdout := adapters.NewFakeStdout()
+	st := stack.NewStack()
+	vars := vars.NewVars()
+
+	err := bce.Run(p.GetCP(), vars, st, stdout)
+	assert.Nil(t, err)
+
+	assert.Equal(t, "99\n", stdout.LastLine)
 }
