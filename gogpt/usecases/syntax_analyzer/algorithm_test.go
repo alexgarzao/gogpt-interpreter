@@ -193,7 +193,7 @@ func TestBytecodeHelloWorldWithInput(t *testing.T) {
 		
 		início
 			imprima("Qual o seu nome?");
-			nome = leia();
+			nome := leia();
 			imprima("Olá ");
 			imprima(nome);
 		fim
@@ -249,8 +249,8 @@ func TestRunningWithTwoVars(t *testing.T) {
 		fim-variáveis
 		
 		início
-			nome = "name";
-			idade = "99";
+			nome := "name";
+			idade := "99";
 			imprima("Olá ");
 			imprima(nome);
 			imprima("Você tem a seguinte idade: ");

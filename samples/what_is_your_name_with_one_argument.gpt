@@ -6,7 +6,7 @@ fim-variáveis
 
 início
 	imprima("Qual o seu nome?");
-	nome = leia();
+	nome := leia();
 	imprima("Olá ");
 	imprima(nome);
 fim

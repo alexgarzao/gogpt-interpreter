@@ -6,8 +6,8 @@ variáveis
 fim-variáveis
 
 início
-	nome = "name";
-	idade = "99";
+	nome := "name";
+	idade := "99";
 	imprima("Olá ");
 	imprima(nome);
 	imprima("Você tem a seguinte idade: ");

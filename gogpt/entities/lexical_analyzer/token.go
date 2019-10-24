@@ -21,7 +21,7 @@ const (
 	SEMICOLON = ";"
 	LPAREN    = "("
 	RPAREN    = ")"
-	ATTR      = "=" // TODO: Must be :=
+	ATTR      = ":="
 
 	// Literals
 	INT    = "INTEIRO"

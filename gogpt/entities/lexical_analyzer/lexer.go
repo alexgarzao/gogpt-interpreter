@@ -29,7 +29,16 @@ func (l *Lexer) NextToken() *Token {
 			return &Token{EOF, EOF}
 		}
 		if isDelimiterChar(ch) {
-			return defineToken(string(ch))
+			token := string(ch)
+			if ch == ':' {
+				nextCh, _ := l.nextChar()
+				if nextCh == '=' {
+					token = ":="
+				} else {
+					l.currentPos--
+				}
+			}
+			return defineToken(token)
 		}
 		if !isUselessChar(ch) {
 			break

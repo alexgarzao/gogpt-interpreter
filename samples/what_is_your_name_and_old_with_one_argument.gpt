@@ -7,9 +7,9 @@ fim-variáveis
 
 início
 	imprima("Qual o seu nome?");
-	nome = leia();
+	nome := leia();
 	imprima("Qual a sua idade?");
-	idade = leia();
+	idade := leia();
 	imprima("Olá ");
 	imprima(nome);
 	imprima("Você tem ");

@@ -37,7 +37,7 @@ func TestInvalidKeywords(t *testing.T) {
 }
 
 func TestDelimiters(t *testing.T) {
-	l := NewLexer("(,:)( ());)= ")
+	l := NewLexer("(,:)( ());):= ) := ")
 	assert.Equal(t, &Token{LPAREN, LPAREN}, l.NextToken())
 	assert.Equal(t, &Token{COMMA, COMMA}, l.NextToken())
 	assert.Equal(t, &Token{COLON, COLON}, l.NextToken())
@@ -47,6 +47,8 @@ func TestDelimiters(t *testing.T) {
 	assert.Equal(t, &Token{RPAREN, RPAREN}, l.NextToken())
 	assert.Equal(t, &Token{RPAREN, RPAREN}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, SEMICOLON}, l.NextToken())
+	assert.Equal(t, &Token{RPAREN, RPAREN}, l.NextToken())
+	assert.Equal(t, &Token{ATTR, ATTR}, l.NextToken())
 	assert.Equal(t, &Token{RPAREN, RPAREN}, l.NextToken())
 	assert.Equal(t, &Token{ATTR, ATTR}, l.NextToken())
 	assert.Equal(t, &Token{EOF, EOF}, l.NextToken())
