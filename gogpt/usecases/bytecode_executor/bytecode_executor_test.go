@@ -147,5 +147,4 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.Equal(t, "aaa123\n", stdout.LastLine)
-
 }
