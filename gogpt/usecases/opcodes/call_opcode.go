@@ -1,6 +1,8 @@
 package opcodes
 
 import (
+	"strconv"
+
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
@@ -36,7 +38,30 @@ func (i *CallOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.St
 			return err
 		}
 
-		stdout.Println(stv)
+		argsCount := stv.(int)
+
+		text := ""
+
+		for argsCount > 0 {
+			stv, err := st.Pop()
+			if err != nil {
+				return err
+			}
+
+			res := ""
+			switch stv.(type) {
+			case int:
+				res = strconv.Itoa(stv.(int))
+			case string:
+				res = stv.(string)
+			}
+
+			text = res + text
+
+			argsCount--
+		}
+
+		stdout.Println(text)
 	} else if cpv == "io.readln" {
 		text := stdout.Readln()
 		st.Push(text)

@@ -16,18 +16,25 @@ func TestCallStringHello(t *testing.T) {
 	// CP:
 	//    0: STR "io.println"
 	//    1: STR "Hello World!"
+	//    2: INT 1
 
 	// CODE:
 	//    LDC 1 (Hello World!)
+	//    LDC 2 (1)
 	//    CALL 0 (io.println)
 	cp := constant_pool.NewCp()
 	printlnIndex := cp.Add("io.println")
 	messageIndex := cp.Add("Hello World!")
+	argsCountIndex := cp.Add(1)
 	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
+
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = messageIndex
+	ldc.Execute(cp, vars, st, stdout)
+	ldc = NewLdcOpcode()
+	ldc.CpIndex = argsCountIndex
 	ldc.Execute(cp, vars, st, stdout)
 	call := NewCallOpcode()
 	call.CpIndex = printlnIndex
