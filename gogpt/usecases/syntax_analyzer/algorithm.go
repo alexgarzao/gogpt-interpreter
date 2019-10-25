@@ -10,10 +10,11 @@ import (
 )
 
 type Algorithm struct {
-	l      *lexer.Lexer
-	cp     *constant_pool.CP
-	bc     *bytecode.Bytecode
-	symbol *SymbolTable
+	l         *lexer.Lexer
+	cp        *constant_pool.CP
+	bc        *bytecode.Bytecode
+	symbol    *SymbolTable
+	argsCount int
 }
 
 type ParserResult struct {
@@ -290,6 +291,11 @@ func (a *Algorithm) ParserFunctionCall() ParserResult {
 		return pr
 	}
 
+	if token.Value == "imprima" {
+		argsCountIndex := a.cp.Add(a.argsCount)
+		a.bc.Add(opcodes.Ldc, argsCountIndex)
+	}
+
 	a.bc.Add(opcodes.Call, funcIndex)
 
 	if a.l.GetNextTokenIf(lexer.RPAREN) == nil {
@@ -303,10 +309,14 @@ func (a *Algorithm) ParserFunctionCall() ParserResult {
 //     : expr ("," expr)*
 //     ;
 func (a *Algorithm) ParserFunctionArgs() ParserResult {
+	a.argsCount = 0
+
 	pr := a.ParserExpr()
 	if pr.Parsed == false {
 		return pr
 	}
+
+	a.argsCount += 1
 
 	for {
 		if a.l.GetNextTokenIf(lexer.COMMA) == nil {
@@ -316,6 +326,8 @@ func (a *Algorithm) ParserFunctionArgs() ParserResult {
 		if pr.Parsed == false {
 			return ParserResult{false, errors.New("Expected EXPR")}
 		}
+
+		a.argsCount += 1
 	}
 }
 

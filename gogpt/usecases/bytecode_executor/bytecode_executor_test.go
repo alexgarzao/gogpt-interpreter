@@ -72,18 +72,23 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	// CP:
 	//    0: STR "io.println"
 	//    1: STR "Hello World!"
+	//    2: INT 1
 
 	// CODE:
 	//    LDC 1 (Hello World!)
+	//    LDC 2 (1)
 	//    CALL 0 (io.println)
 	cp := constant_pool.NewCp()
 	printlnIndex := cp.Add("io.println")
 	messageIndex := cp.Add("Hello World!")
+	argsCountIndex := cp.Add(1)
+
 	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdout := adapters.NewFakeStdout()
 	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Ldc, messageIndex)
+	bc.Add(opcodes.Ldc, argsCountIndex)
 	bc.Add(opcodes.Call, printlnIndex)
 	bce := NewBytecodeExecutor(bc)
 	err := bce.Run(cp, vars, st, stdout)
@@ -109,16 +114,20 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 	//    1: STR "Qual o seu nome?"
 	//    2: STR "io.readln"
 	//    3: STR "Olá "
+	//    4: INT 1
 	// VAR:
 	//    0: STR "nome"
 	// CODE:
 	//    LDC 1 (Qual o seu nome?)
+	//    LDC 4 (1)
 	//    CALL 0 (io.println)
 	//    CALL 2 (io.readln)
 	//    STV 0 (nome)
 	//    LDC 3 (Olá )
+	//    LDC 4 (1)
 	//    CALL 0 (io.println)
 	//    LDV 0 (nome)
+	//    LDC 4 (1)
 	//    CALL 0 (io.println)
 
 	cp := constant_pool.NewCp()
@@ -126,15 +135,19 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 	messageIndex1 := cp.Add("Qual o seu nome?")
 	readlnIndex := cp.Add("io.readln")
 	messageIndex2 := cp.Add("Olá ")
+	argsCountIndex := cp.Add(1)
 
 	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Ldc, messageIndex1)
+	bc.Add(opcodes.Ldc, argsCountIndex)
 	bc.Add(opcodes.Call, printlnIndex)
 	bc.Add(opcodes.Call, readlnIndex)
 	bc.Add(opcodes.Stv, 0)
 	bc.Add(opcodes.Ldc, messageIndex2)
+	bc.Add(opcodes.Ldc, argsCountIndex)
 	bc.Add(opcodes.Call, printlnIndex)
 	bc.Add(opcodes.Ldv, 0)
+	bc.Add(opcodes.Ldc, argsCountIndex)
 	bc.Add(opcodes.Call, printlnIndex)
 
 	vars := vars.NewVars()
