@@ -6,10 +6,7 @@ variáveis
 fim-variáveis
 
 início
-	nome := "name";
+	nome := "Fulano";
 	idade := "99";
-	imprima("Olá ");
-	imprima(nome);
-	imprima("Você tem a seguinte idade: ");
-	imprima(idade);
+	imprima("Olá ", nome, ". Você tem a seguinte idade: ", idade);
 fim
