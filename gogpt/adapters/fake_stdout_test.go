@@ -11,9 +11,3 @@ func TestOutputStringMessage(t *testing.T) {
 	fs.Println("ABC")
 	assert.Equal(t, fs.LastLine, "ABC\n")
 }
-
-func TestNextStringToRead(t *testing.T) {
-	fs := NewFakeStdout()
-	fs.NextLineToRead("aaa123")
-	assert.Equal(t, fs.Readln(), "aaa123")
-}
