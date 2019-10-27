@@ -32,7 +32,7 @@ func NewBytecodeExecutor(bc *bytecode.Bytecode) *BytecodeExecutor {
 	return bce
 }
 
-func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout opcodes.StdoutInterface) error {
+func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin opcodes.StdinInterface, stdout opcodes.StdoutInterface) error {
 	for {
 		opcode, err := bce.Next()
 		if err != nil {
@@ -52,7 +52,7 @@ func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, vars *vars.Vars, st *stac
 				return err
 			}
 		}
-		err = instruction.Execute(cp, vars, st, stdout)
+		err = instruction.Execute(cp, vars, st, stdin, stdout)
 		if err != nil {
 			return err
 		}

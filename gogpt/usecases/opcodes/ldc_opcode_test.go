@@ -18,6 +18,7 @@ func TestValidLdcInt123(t *testing.T) {
 	cpIndex := cp.Add(123)
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 	cpv, _ := cp.Get(0)
 	assert.Equal(t, cpv, constant_pool.CPItem(123))
@@ -27,7 +28,7 @@ func TestValidLdcInt123(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	j.Execute(cp, vars, st, stdout)
+	j.Execute(cp, vars, st, stdin, stdout)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, constant_pool.CPItem(123))
 	stv, _ = st.Top()
@@ -41,6 +42,7 @@ func TestValidLdcABC(t *testing.T) {
 	cpIndex := cp.Add("ABC")
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 	cpv, _ := cp.Get(0)
 	assert.Equal(t, cpv, constant_pool.CPItem("ABC"))
@@ -50,7 +52,7 @@ func TestValidLdcABC(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	j.Execute(cp, vars, st, stdout)
+	j.Execute(cp, vars, st, stdin, stdout)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, constant_pool.CPItem("ABC"))
 	stv, _ = st.Top()

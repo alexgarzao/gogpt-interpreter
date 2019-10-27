@@ -24,5 +24,5 @@ type Instruction struct {
 type InstructionImplementation interface {
 	GetOperandCount() int
 	FetchOperands(op int) error
-	Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error
+	Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error
 }

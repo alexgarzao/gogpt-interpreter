@@ -35,11 +35,12 @@ func main() {
 	}
 
 	bce := bce.NewBytecodeExecutor(p.GetBC())
+	stdin := adapters.NewStdin()
 	stdout := adapters.NewStdout()
 	st := stack.NewStack()
 	vars := vars.NewVars()
 
-	err = bce.Run(p.GetCP(), vars, st, stdout)
+	err = bce.Run(p.GetCP(), vars, st, stdin, stdout)
 	if err != nil {
 		log.Fatalf("Error %s\n", err)
 	}

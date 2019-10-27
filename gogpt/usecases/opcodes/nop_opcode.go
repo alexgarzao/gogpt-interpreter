@@ -22,6 +22,6 @@ func (d *NopOpcode) FetchOperands(op int) error {
 	return nil
 }
 
-func (d *NopOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error {
+func (d *NopOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	return nil
 }

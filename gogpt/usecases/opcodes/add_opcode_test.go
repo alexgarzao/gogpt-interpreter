@@ -25,14 +25,15 @@ func TestValidAdd2And3(t *testing.T) {
 	cpIndex3 := cp.Add(3)
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = cpIndex2
-	ldc.Execute(cp, vars, st, stdout)
+	ldc.Execute(cp, vars, st, stdin, stdout)
 	ldc.CpIndex = cpIndex3
-	ldc.Execute(cp, vars, st, stdout)
+	ldc.Execute(cp, vars, st, stdin, stdout)
 
 	add := NewAddOpcode()
 	add.Execute(cp, st)
@@ -56,14 +57,15 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	cpIndex3 := cp.Add("World")
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 
 	// LDC 0
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = cpIndex2
-	ldc.Execute(cp, vars, st, stdout)
+	ldc.Execute(cp, vars, st, stdin, stdout)
 	ldc.CpIndex = cpIndex3
-	ldc.Execute(cp, vars, st, stdout)
+	ldc.Execute(cp, vars, st, stdin, stdout)
 
 	add := NewAddOpcode()
 	add.Execute(cp, st)

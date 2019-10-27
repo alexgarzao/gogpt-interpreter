@@ -15,11 +15,12 @@ func TestValidNop(t *testing.T) {
 	cp := constant_pool.NewCp()
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 
 	// NOP
 	i := NewNopOpcode()
-	i.Execute(cp, vars, st, stdout)
+	i.Execute(cp, vars, st, stdin, stdout)
 	_, err := cp.Get(0)
 	assert.EqualError(t, err, "Index not found")
 	_, err = st.Top()

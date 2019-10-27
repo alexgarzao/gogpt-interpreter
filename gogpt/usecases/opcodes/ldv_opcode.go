@@ -24,7 +24,7 @@ func (d *LdvOpcode) FetchOperands(op int) error {
 	return nil
 }
 
-func (d *LdvOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error {
+func (d *LdvOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	value, err := vars.Get(d.VarIndex)
 	if err != nil {
 		return err

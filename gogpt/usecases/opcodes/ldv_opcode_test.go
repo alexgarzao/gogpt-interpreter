@@ -19,6 +19,7 @@ func TestValidLdvInt(t *testing.T) {
 	cp := constant_pool.NewCp()
 	cpIndex := cp.Add(123)
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 	vars := vars.NewVars()
 	varIndex := 0
@@ -26,12 +27,12 @@ func TestValidLdvInt(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	j.Execute(cp, vars, st, stdout)
+	j.Execute(cp, vars, st, stdin, stdout)
 
 	// STV 0
 	stvOpcode := NewStvOpcode()
 	stvOpcode.VarIndex = varIndex
-	stvOpcode.Execute(cp, vars, st, stdout)
+	stvOpcode.Execute(cp, vars, st, stdin, stdout)
 	vv, _ := vars.Get(varIndex)
 	assert.Equal(t, vv, constant_pool.CPItem(123))
 	assert.Equal(t, 0, st.Size())
@@ -39,7 +40,7 @@ func TestValidLdvInt(t *testing.T) {
 	// LDV 0
 	ldvOpcode := NewLdvOpcode()
 	ldvOpcode.VarIndex = varIndex
-	ldvOpcode.Execute(cp, vars, st, stdout)
+	ldvOpcode.Execute(cp, vars, st, stdin, stdout)
 
 	stv, _ := st.Top()
 	assert.Equal(t, stv, stack.StackItem(123))
@@ -53,6 +54,7 @@ func TestValidLdvStr(t *testing.T) {
 	cp := constant_pool.NewCp()
 	cpIndex := cp.Add("ABC")
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 	vars := vars.NewVars()
 	varIndex := 0
@@ -60,12 +62,12 @@ func TestValidLdvStr(t *testing.T) {
 	// LDC 0
 	j := NewLdcOpcode()
 	j.CpIndex = cpIndex
-	j.Execute(cp, vars, st, stdout)
+	j.Execute(cp, vars, st, stdin, stdout)
 
 	// STV 0
 	stvOpcode := NewStvOpcode()
 	stvOpcode.VarIndex = varIndex
-	stvOpcode.Execute(cp, vars, st, stdout)
+	stvOpcode.Execute(cp, vars, st, stdin, stdout)
 	vv, _ := vars.Get(varIndex)
 	assert.Equal(t, vv, constant_pool.CPItem("ABC"))
 	assert.Equal(t, 0, st.Size())
@@ -73,7 +75,7 @@ func TestValidLdvStr(t *testing.T) {
 	// LDV 0
 	ldvOpcode := NewLdvOpcode()
 	ldvOpcode.VarIndex = varIndex
-	ldvOpcode.Execute(cp, vars, st, stdout)
+	ldvOpcode.Execute(cp, vars, st, stdin, stdout)
 
 	stv, _ := st.Top()
 	assert.Equal(t, stv, stack.StackItem("ABC"))

@@ -26,7 +26,7 @@ func (i *CallOpcode) FetchOperands(op int) error {
 	return nil
 }
 
-func (i *CallOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error {
+func (i *CallOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	cpv, err := cp.Get(i.CpIndex)
 	if err != nil {
 		return err
@@ -63,7 +63,7 @@ func (i *CallOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.St
 
 		stdout.Println(text)
 	} else if cpv == "io.readln" {
-		text := stdout.Readln()
+		text := stdin.Readln()
 		st.Push(text)
 	}
 

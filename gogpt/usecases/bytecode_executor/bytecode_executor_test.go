@@ -8,9 +8,11 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/constant_pool"
+	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/opcodes"
+	syntax "github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/syntax_analyzer"
 )
 
 func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
@@ -40,11 +42,12 @@ func TestBCERunningLdc222(t *testing.T) {
 	cpIndex := cp.Add(222)
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Ldc, cpIndex)
 	bce := NewBytecodeExecutor(bc)
-	err := bce.Run(cp, vars, st, stdout)
+	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	cpv, _ := cp.Get(0)
 	assert.Equal(t, cpv, constant_pool.CPItem(222))
@@ -56,11 +59,12 @@ func TestBCERunningNop(t *testing.T) {
 	cp := constant_pool.NewCp()
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Nop, 0)
 	bce := NewBytecodeExecutor(bc)
-	err := bce.Run(cp, vars, st, stdout)
+	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	_, err = cp.Get(0)
 	assert.EqualError(t, err, "Index not found")
@@ -85,13 +89,14 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 	bc := bytecode.NewBytecode()
 	bc.Add(opcodes.Ldc, messageIndex)
 	bc.Add(opcodes.Ldc, argsCountIndex)
 	bc.Add(opcodes.Call, printlnIndex)
 	bce := NewBytecodeExecutor(bc)
-	err := bce.Run(cp, vars, st, stdout)
+	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	assert.Equal(t, stdout.LastLine, "Hello World!\n")
 }
@@ -100,11 +105,12 @@ func TestBCERunningInvalidOpcode(t *testing.T) {
 	cp := constant_pool.NewCp()
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 	bc := bytecode.NewBytecode()
 	bc.Add(123, 0)
 	bce := NewBytecodeExecutor(bc)
-	err := bce.Run(cp, vars, st, stdout)
+	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.EqualError(t, err, "Invalid opcode 123")
 }
 
@@ -152,12 +158,49 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
-	stdout.NextLineToRead("aaa123")
+	stdin.NextLineToRead("aaa123")
 
 	bce := NewBytecodeExecutor(bc)
-	err := bce.Run(cp, vars, st, stdout)
+	err := bce.Run(cp, vars, st, stdin, stdout)
 
 	assert.Nil(t, err)
 	assert.Equal(t, "aaa123\n", stdout.LastLine)
+}
+
+func TestRunningWithTwoVars(t *testing.T) {
+	a :=
+		`algoritmo two_vars;
+
+		variáveis
+			nome: literal;
+			idade: literal;
+		fim-variáveis
+		
+		início
+			nome := "name";
+			idade := "99";
+			imprima("Olá ");
+			imprima(nome);
+			imprima("Você tem a seguinte idade: ");
+			imprima(idade);
+		fim
+		`
+
+	l := lexer.NewLexer(a)
+	p := syntax.NewAlgorithm(l)
+
+	pr := p.Parser()
+	assert.True(t, pr.Parsed)
+	bce := NewBytecodeExecutor(p.GetBC())
+	stdin := adapters.NewFakeStdin()
+	stdout := adapters.NewFakeStdout()
+	st := stack.NewStack()
+	vars := vars.NewVars()
+
+	err := bce.Run(p.GetCP(), vars, st, stdin, stdout)
+	assert.Nil(t, err)
+
+	assert.Equal(t, "99\n", stdout.LastLine)
 }

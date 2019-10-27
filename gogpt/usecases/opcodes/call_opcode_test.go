@@ -28,16 +28,17 @@ func TestCallStringHello(t *testing.T) {
 	argsCountIndex := cp.Add(1)
 	vars := vars.NewVars()
 	st := stack.NewStack()
+	stdin := adapters.NewFakeStdin()
 	stdout := adapters.NewFakeStdout()
 
 	ldc := NewLdcOpcode()
 	ldc.CpIndex = messageIndex
-	ldc.Execute(cp, vars, st, stdout)
+	ldc.Execute(cp, vars, st, stdin, stdout)
 	ldc = NewLdcOpcode()
 	ldc.CpIndex = argsCountIndex
-	ldc.Execute(cp, vars, st, stdout)
+	ldc.Execute(cp, vars, st, stdin, stdout)
 	call := NewCallOpcode()
 	call.CpIndex = printlnIndex
-	call.Execute(cp, vars, st, stdout)
+	call.Execute(cp, vars, st, stdin, stdout)
 	assert.Equal(t, stdout.LastLine, "Hello World!\n")
 }

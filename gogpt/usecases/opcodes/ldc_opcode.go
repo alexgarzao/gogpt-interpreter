@@ -24,7 +24,7 @@ func (d *LdcOpcode) FetchOperands(op int) error {
 	return nil
 }
 
-func (d *LdcOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error {
+func (d *LdcOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	cpv, err := cp.Get(d.CpIndex)
 	if err != nil {
 		return err

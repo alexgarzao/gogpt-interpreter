@@ -24,7 +24,7 @@ func (d *StvOpcode) FetchOperands(op int) error {
 	return nil
 }
 
-func (d *StvOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdout StdoutInterface) error {
+func (d *StvOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	value, err := st.Pop()
 	if err != nil {
 		return err
