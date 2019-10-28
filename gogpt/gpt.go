@@ -6,12 +6,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/adapters"
-	lexer "github.com/alexgarzao/gogpt-interpreter/gogpt/entities/lexical_analyzer"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/stack"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/entities/vars"
-	bce "github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/bytecode_executor"
-	syntax "github.com/alexgarzao/gogpt-interpreter/gogpt/usecases/syntax_analyzer"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/infrastructure"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/bce"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/lexer"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/parser"
 )
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 	}
 
 	l := lexer.NewLexer(string(algorithm))
-	p := syntax.NewAlgorithm(l)
+	p := parser.NewAlgorithm(l)
 
 	pr := p.Parser()
 	if pr.Parsed == false {
@@ -35,8 +35,8 @@ func main() {
 	}
 
 	bce := bce.NewBytecodeExecutor(p.GetBC())
-	stdin := adapters.NewStdin()
-	stdout := adapters.NewStdout()
+	stdin := infrastructure.NewStdin()
+	stdout := infrastructure.NewStdout()
 	st := stack.NewStack()
 	vars := vars.NewVars()
 
