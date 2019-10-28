@@ -8,24 +8,29 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 )
 
+// CallOpcode is responsible for get the operand and call the lib function.
 type CallOpcode struct {
 	Instruction
 	CpIndex int
 }
 
+// NewCallOpcode creates a new CallOpcode.
 func NewCallOpcode() *CallOpcode {
 	return &CallOpcode{Instruction{"CALL", Call, 1}, 0}
 }
 
+// GetOperandCount gets the numbers os opcode operands.
 func (i *CallOpcode) GetOperandCount() int {
 	return i.OperandCount
 }
 
+// FetchOperands gets the opcode operands.
 func (i *CallOpcode) FetchOperands(op int) error {
 	i.CpIndex = op
 	return nil
 }
 
+// Execute receives the context and runs the opcode.
 func (i *CallOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	cpv, err := cp.Get(i.CpIndex)
 	if err != nil {

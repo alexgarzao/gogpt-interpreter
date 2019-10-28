@@ -4,34 +4,43 @@ import (
 	"errors"
 )
 
+// Bytecode is responsible for keep the opcodes.
 type Bytecode struct {
-	items []int
+	opcodes []int
 }
 
+// NewBytecode creates a new bytecode.
 func NewBytecode() *Bytecode {
 	return &Bytecode{
-		items: make([]int, 0),
+		opcodes: make([]int, 0),
 	}
 }
 
+// Add adds a new opcode to the bytecode.
 func (bc *Bytecode) Add(item int, op int) {
 	if bc == nil {
 		return
 	}
-	bc.items = append(bc.items, item)
-	bc.items = append(bc.items, op)
+	bc.opcodes = append(bc.opcodes, item)
+	bc.opcodes = append(bc.opcodes, op)
 }
 
+// Get returns the opcode at a specific index.
 func (bc *Bytecode) Get(index int) (int, error) {
-	if index > len(bc.items)-1 {
+	if bc == nil || index > len(bc.opcodes)-1 {
 		return 0, errors.New("Index not found")
 	}
 
-	res := bc.items[index]
+	res := bc.opcodes[index]
 
 	return res, nil
 }
 
+// Len returns the bytecode length.
 func (bc *Bytecode) Len() int {
-	return len(bc.items)
+	if bc == nil {
+		return 0
+	}
+
+	return len(bc.opcodes)
 }

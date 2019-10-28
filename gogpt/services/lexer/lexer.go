@@ -6,12 +6,14 @@ import (
 	"unicode/utf8"
 )
 
+// Lexer keeps the infos to do the lexical analysis.
 type Lexer struct {
 	input        string
 	currentPos   int
 	backTracking int
 }
 
+// NewLexer creates a new Lexer.
 func NewLexer(input string) *Lexer {
 	return &Lexer{
 		input:      input,
@@ -19,6 +21,7 @@ func NewLexer(input string) *Lexer {
 	}
 }
 
+// NextToken returns the next token.
 func (l *Lexer) NextToken() *Token {
 	var ch rune
 
@@ -46,7 +49,7 @@ func (l *Lexer) NextToken() *Token {
 	}
 
 	// Test if is an Identifier or Keyword.
-	if token := l.tryIdOrKeyword(ch); token != nil {
+	if token := l.tryIDOrKeyword(ch); token != nil {
 		return token
 	}
 
@@ -63,6 +66,7 @@ func (l *Lexer) NextToken() *Token {
 	return &Token{INVALID, ""}
 }
 
+// GetNextTokenIf get the next token if match a specific token type.
 func (l *Lexer) GetNextTokenIf(expectedType string) *Token {
 	backTracking := l.currentPos
 	token := l.NextToken()
@@ -73,6 +77,7 @@ func (l *Lexer) GetNextTokenIf(expectedType string) *Token {
 	return nil
 }
 
+// GetNextsTokensIf get the nexts tokens if both match a specifics tokens types.
 func (l *Lexer) GetNextsTokensIf(expectedType1, expectedType2 string) (*Token, *Token) {
 	backTracking := l.currentPos
 
@@ -91,7 +96,7 @@ func (l *Lexer) GetNextsTokensIf(expectedType1, expectedType2 string) (*Token, *
 	return token1, token2
 }
 
-func (l *Lexer) tryIdOrKeyword(ch rune) *Token {
+func (l *Lexer) tryIDOrKeyword(ch rune) *Token {
 	// [A-Z|_|-] ([A-Z]|[0-9]|_|-)*
 	token := string(ch)
 	if (strings.ToUpper(token) < "A" || strings.ToUpper(token) > "Z") && token != "_" && token != "-" {

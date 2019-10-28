@@ -7,13 +7,13 @@ import (
 )
 
 func TestCpAddIntConstants(t *testing.T) {
-	cp := NewCp()
+	cp := NewCP()
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add(456), 1)
 }
 
 func TestCpGetIntConstants(t *testing.T) {
-	cp := NewCp()
+	cp := NewCP()
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add(456), 1)
 	v, _ := cp.Get(0)
@@ -23,7 +23,7 @@ func TestCpGetIntConstants(t *testing.T) {
 }
 
 func TestCpGetIntConstantsError(t *testing.T) {
-	cp := NewCp()
+	cp := NewCP()
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add(456), 1)
 	v, err := cp.Get(0)
@@ -37,13 +37,13 @@ func TestCpGetIntConstantsError(t *testing.T) {
 }
 
 func TestCpAddStrConstants(t *testing.T) {
-	cp := NewCp()
+	cp := NewCP()
 	assert.Equal(t, cp.Add("ABC"), 0)
 	assert.Equal(t, cp.Add("DEF"), 1)
 }
 
 func TestCpGetStrConstants(t *testing.T) {
-	cp := NewCp()
+	cp := NewCP()
 	assert.Equal(t, cp.Add("ABC"), 0)
 	assert.Equal(t, cp.Add("DEF"), 1)
 	v, _ := cp.Get(0)
@@ -53,7 +53,7 @@ func TestCpGetStrConstants(t *testing.T) {
 }
 
 func TestCpGetStrConstantsError(t *testing.T) {
-	cp := NewCp()
+	cp := NewCP()
 	assert.Equal(t, cp.Add("ABC"), 0)
 	assert.Equal(t, cp.Add("DEF"), 1)
 	v, err := cp.Get(0)
@@ -67,7 +67,7 @@ func TestCpGetStrConstantsError(t *testing.T) {
 }
 
 func TestCpAddingIntAndStrConstants(t *testing.T) {
-	cp := NewCp()
+	cp := NewCP()
 	assert.Equal(t, cp.Add(123), 0)
 	assert.Equal(t, cp.Add("456"), 1)
 	v, _ := cp.Get(0)
@@ -77,7 +77,7 @@ func TestCpAddingIntAndStrConstants(t *testing.T) {
 }
 
 func TestCpAddingDuplicatedValues(t *testing.T) {
-	cp := NewCp()
+	cp := NewCP()
 	assert.Equal(t, 0, cp.Add(123))
 	assert.Equal(t, 0, cp.Add(123))
 	assert.Equal(t, 1, cp.Add(456))

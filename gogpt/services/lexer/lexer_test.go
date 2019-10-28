@@ -8,7 +8,7 @@ import (
 
 func TestIfUselessCharsHasBeenRemoved(t *testing.T) {
 	l := NewLexer("   algoritmo\t\t  \t\t\n\t\r meuid;")
-	assert.Equal(t, &Token{ALGORITMO, ALGORITMO}, l.NextToken())
+	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "meuid"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, SEMICOLON}, l.NextToken())
 	assert.Equal(t, &Token{EOF, EOF}, l.NextToken())
@@ -16,11 +16,11 @@ func TestIfUselessCharsHasBeenRemoved(t *testing.T) {
 
 func TestValidKeywords(t *testing.T) {
 	l := NewLexer("algoritmo início fim variáveis fim-variáveis")
-	assert.Equal(t, &Token{ALGORITMO, ALGORITMO}, l.NextToken())
-	assert.Equal(t, &Token{INICIO, INICIO}, l.NextToken())
-	assert.Equal(t, &Token{FIM, FIM}, l.NextToken())
-	assert.Equal(t, &Token{VARIAVEIS, VARIAVEIS}, l.NextToken())
-	assert.Equal(t, &Token{FIMVARIAVEIS, FIMVARIAVEIS}, l.NextToken())
+	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.NextToken())
+	assert.Equal(t, &Token{BLOCKBEGIN, BLOCKBEGIN}, l.NextToken())
+	assert.Equal(t, &Token{BLOCKEND, BLOCKEND}, l.NextToken())
+	assert.Equal(t, &Token{VARSBEGIN, VARSBEGIN}, l.NextToken())
+	assert.Equal(t, &Token{VARSEND, VARSEND}, l.NextToken())
 	assert.Equal(t, &Token{EOF, EOF}, l.NextToken())
 }
 
@@ -124,11 +124,11 @@ func TestInvalidInts(t *testing.T) {
 
 func TestValidTokensWithoutPontuations(t *testing.T) {
 	l := NewLexer("algoritmo meuid; imprima fim(),")
-	assert.Equal(t, &Token{ALGORITMO, ALGORITMO}, l.NextToken())
+	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "meuid"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, SEMICOLON}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "imprima"}, l.NextToken())
-	assert.Equal(t, &Token{FIM, FIM}, l.NextToken())
+	assert.Equal(t, &Token{BLOCKEND, BLOCKEND}, l.NextToken())
 	assert.Equal(t, &Token{LPAREN, LPAREN}, l.NextToken())
 	assert.Equal(t, &Token{RPAREN, RPAREN}, l.NextToken())
 	assert.Equal(t, &Token{COMMA, COMMA}, l.NextToken())
@@ -137,10 +137,10 @@ func TestValidTokensWithoutPontuations(t *testing.T) {
 
 func TestTokensWithPontuations(t *testing.T) {
 	l := NewLexer("algoritmo olá; início")
-	assert.Equal(t, &Token{ALGORITMO, ALGORITMO}, l.NextToken())
+	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "olá"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, ";"}, l.NextToken())
-	assert.Equal(t, &Token{INICIO, "INÍCIO"}, l.NextToken())
+	assert.Equal(t, &Token{BLOCKBEGIN, "INÍCIO"}, l.NextToken())
 	assert.Equal(t, &Token{EOF, EOF}, l.NextToken())
 }
 
@@ -160,27 +160,27 @@ início
 fim`
 
 	l := NewLexer(c)
-	assert.Equal(t, &Token{ALGORITMO, "ALGORITMO"}, l.NextToken())
+	assert.Equal(t, &Token{ALGORITHM, "ALGORITMO"}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "olá_mundo"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, ";"}, l.NextToken())
-	assert.Equal(t, &Token{INICIO, "INÍCIO"}, l.NextToken())
+	assert.Equal(t, &Token{BLOCKBEGIN, "INÍCIO"}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "imprima"}, l.NextToken())
 	assert.Equal(t, &Token{LPAREN, "("}, l.NextToken())
 	assert.Equal(t, &Token{STRING, "Olá mundo!"}, l.NextToken())
 	assert.Equal(t, &Token{RPAREN, ")"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, ";"}, l.NextToken())
-	assert.Equal(t, &Token{FIM, "FIM"}, l.NextToken())
+	assert.Equal(t, &Token{BLOCKEND, "FIM"}, l.NextToken())
 	assert.Equal(t, &Token{EOF, EOF}, l.NextToken())
 }
 
 func TestGetIf(t *testing.T) {
 	l := NewLexer("algoritmo início ( xxx ) fim")
 	assert.Nil(t, l.GetNextTokenIf(IDENT))
-	assert.Equal(t, &Token{ALGORITMO, ALGORITMO}, l.GetNextTokenIf(ALGORITMO))
-	assert.Equal(t, &Token{INICIO, INICIO}, l.GetNextTokenIf(INICIO))
+	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.GetNextTokenIf(ALGORITHM))
+	assert.Equal(t, &Token{BLOCKBEGIN, BLOCKBEGIN}, l.GetNextTokenIf(BLOCKBEGIN))
 	assert.Equal(t, &Token{LPAREN, LPAREN}, l.GetNextTokenIf(LPAREN))
 	assert.Equal(t, &Token{IDENT, "xxx"}, l.GetNextTokenIf(IDENT))
 	assert.Equal(t, &Token{RPAREN, RPAREN}, l.GetNextTokenIf(RPAREN))
-	assert.Equal(t, &Token{FIM, FIM}, l.GetNextTokenIf(FIM))
+	assert.Equal(t, &Token{BLOCKEND, BLOCKEND}, l.GetNextTokenIf(BLOCKEND))
 	assert.Equal(t, &Token{EOF, EOF}, l.GetNextTokenIf(EOF))
 }

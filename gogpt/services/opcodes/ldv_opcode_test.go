@@ -3,10 +3,10 @@ package opcodes
 import (
 	"testing"
 
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/infrastructure"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/infrastructure"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,7 +15,7 @@ func TestValidLdvInt(t *testing.T) {
 	//		0: (INT) 123
 	// VAR map:
 	//		0: (INT) Value
-	cp := constant_pool.NewCp()
+	cp := constant_pool.NewCP()
 	cpIndex := cp.Add(123)
 	st := stack.NewStack()
 	stdin := infrastructure.NewFakeStdin()
@@ -50,7 +50,7 @@ func TestValidLdvStr(t *testing.T) {
 	//		0: (STR) ABC
 	// VAR map:
 	//		0: (STR) Value
-	cp := constant_pool.NewCp()
+	cp := constant_pool.NewCP()
 	cpIndex := cp.Add("ABC")
 	st := stack.NewStack()
 	stdin := infrastructure.NewFakeStdin()

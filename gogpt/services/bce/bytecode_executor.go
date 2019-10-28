@@ -10,12 +10,14 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/opcodes"
 )
 
+// BytecodeExecutor is responsible for execute the bytecode.
 type BytecodeExecutor struct {
 	bc           *bytecode.Bytecode
 	instructions map[int]opcodes.InstructionImplementation
 	ip           int
 }
 
+// NewBytecodeExecutor creates a new BytecodeExecutor.
 func NewBytecodeExecutor(bc *bytecode.Bytecode) *BytecodeExecutor {
 	bce := &BytecodeExecutor{
 		ip:           0,
@@ -32,9 +34,10 @@ func NewBytecodeExecutor(bc *bytecode.Bytecode) *BytecodeExecutor {
 	return bce
 }
 
+// Run receives the context (constant pool, vars, stack, stdin and stdout) and runs the bytecode.
 func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin opcodes.StdinInterface, stdout opcodes.StdoutInterface) error {
 	for {
-		opcode, err := bce.Next()
+		opcode, err := bce.next()
 		if err != nil {
 			return nil
 		}
@@ -43,7 +46,7 @@ func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, vars *vars.Vars, st *stac
 			return fmt.Errorf("Invalid opcode %d", opcode)
 		}
 		if instruction.GetOperandCount() == 1 {
-			operand, err := bce.Next()
+			operand, err := bce.next()
 			if err != nil {
 				return err
 			}
@@ -57,12 +60,10 @@ func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, vars *vars.Vars, st *stac
 			return err
 		}
 	}
-
-	return nil
 }
 
-func (bce *BytecodeExecutor) Next() (code int, err error) {
+func (bce *BytecodeExecutor) next() (code int, err error) {
 	code, err = bce.bc.Get(bce.ip)
-	bce.ip += 1
+	bce.ip++
 	return
 }

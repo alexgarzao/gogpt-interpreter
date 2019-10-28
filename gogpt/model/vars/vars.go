@@ -4,32 +4,38 @@ import (
 	"errors"
 )
 
+// VarsItem has the type of a var item.
 type VarsItem interface{}
 
+// Vars has the variables of an algorithm.
 type Vars struct {
-	items map[int]VarsItem
+	vars map[int]VarsItem
 }
 
+// NewVars creates a new vars.
 func NewVars() *Vars {
 	s := &Vars{}
-	s.items = make(map[int]VarsItem)
+	s.vars = make(map[int]VarsItem)
 
 	return s
 }
 
+// Add adds a new var.
 func (s *Vars) Add() int {
-	index := len(s.items)
-	s.items[index] = nil
+	index := len(s.vars)
+	s.vars[index] = nil
 
 	return index
 }
 
-func (s *Vars) Set(index int, item VarsItem) {
-	s.items[index] = item
+// Set defines a var value.
+func (s *Vars) Set(index int, value VarsItem) {
+	s.vars[index] = value
 }
 
+// Get gets a var value.
 func (s *Vars) Get(index int) (VarsItem, error) {
-	value, ok := s.items[index]
+	value, ok := s.vars[index]
 	if !ok {
 		return 0, errors.New("Variable index undefined")
 	}

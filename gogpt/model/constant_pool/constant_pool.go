@@ -4,13 +4,16 @@ import (
 	"errors"
 )
 
+// CPItem has the type of a Contant Pool item.
 type CPItem interface{}
 
+// CP has the items in a constant pool.
 type CP struct {
 	items []CPItem
 }
 
-func NewCp() *CP {
+// NewCP creates a new contant pool.
+func NewCP() *CP {
 	cp := &CP{}
 	cp.items = make([]CPItem, 0)
 	return cp

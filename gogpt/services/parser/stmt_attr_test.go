@@ -10,6 +10,6 @@ import (
 func TestFunctionCallWithReturn(t *testing.T) {
 	l := lexer.NewLexer(`nome := leia()`)
 	s := NewAlgorithm(l)
-	pr := s.ParserStmAttr()
+	pr := s.parserStmAttr()
 	assert.Equal(t, true, pr.Parsed)
 }

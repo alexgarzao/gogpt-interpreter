@@ -72,7 +72,7 @@ fim`
 	//    LDC  1 (0)
 	//    CALL 0 (io.println)
 
-	expectedCp := constant_pool.NewCp()
+	expectedCp := constant_pool.NewCP()
 	printlnIndex := expectedCp.Add("io.println")
 	argsCountIndex := expectedCp.Add(0)
 
@@ -103,7 +103,7 @@ fim`
 	//    LDC 2 (1)
 	//    CALL 0 (io.println)
 
-	expectedCp := constant_pool.NewCp()
+	expectedCp := constant_pool.NewCP()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex := expectedCp.Add("Olá mundo!")
 	argsCountIndex := expectedCp.Add(1)
@@ -141,7 +141,7 @@ fim`
 	//    LDC 2 (1)
 	//    CALL 0 (io.println)
 
-	expectedCp := constant_pool.NewCp()
+	expectedCp := constant_pool.NewCP()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex1 := expectedCp.Add("Olá...")
 	argsCountIndex := expectedCp.Add(1)
@@ -227,7 +227,7 @@ func TestBytecodeHelloWorldWithInput(t *testing.T) {
 	//    LDC 3 (1)
 	//    CALL 0 (io.println)
 
-	expectedCp := constant_pool.NewCp()
+	expectedCp := constant_pool.NewCP()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex1 := expectedCp.Add("Qual o seu nome?")
 	argsCountIndex := expectedCp.Add(1)
@@ -272,7 +272,7 @@ fim`
 	//    LDC 3 (2)
 	//    CALL 0 (io.println)
 
-	expectedCp := constant_pool.NewCp()
+	expectedCp := constant_pool.NewCP()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex1 := expectedCp.Add("Olá...")
 	messageIndex2 := expectedCp.Add("mundo!")

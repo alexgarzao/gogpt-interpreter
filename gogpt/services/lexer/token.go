@@ -9,11 +9,11 @@ const (
 	INVALID = "INVALID"
 
 	// Keywords
-	ALGORITMO    = "ALGORITMO"
-	INICIO       = "INÍCIO"
-	FIM          = "FIM"
-	VARIAVEIS    = "VARIÁVEIS"
-	FIMVARIAVEIS = "FIM-VARIÁVEIS"
+	ALGORITHM  = "ALGORITMO"
+	BLOCKBEGIN = "INÍCIO"
+	BLOCKEND   = "FIM"
+	VARSBEGIN  = "VARIÁVEIS"
+	VARSEND    = "FIM-VARIÁVEIS"
 
 	// Delimiters
 	COMMA     = ","
@@ -61,16 +61,16 @@ func defineToken(token string) *Token {
 	}
 
 	switch strings.ToUpper(token) {
-	case ALGORITMO:
-		return &Token{ALGORITMO, ALGORITMO}
-	case INICIO:
-		return &Token{INICIO, INICIO}
-	case FIM:
-		return &Token{FIM, FIM}
-	case VARIAVEIS:
-		return &Token{VARIAVEIS, VARIAVEIS}
-	case FIMVARIAVEIS:
-		return &Token{FIMVARIAVEIS, FIMVARIAVEIS}
+	case ALGORITHM:
+		return &Token{ALGORITHM, ALGORITHM}
+	case BLOCKBEGIN:
+		return &Token{BLOCKBEGIN, BLOCKBEGIN}
+	case BLOCKEND:
+		return &Token{BLOCKEND, BLOCKEND}
+	case VARSBEGIN:
+		return &Token{VARSBEGIN, VARSBEGIN}
+	case VARSEND:
+		return &Token{VARSEND, VARSEND}
 	case STRING:
 		return &Token{STRING, STRING}
 	case INT:

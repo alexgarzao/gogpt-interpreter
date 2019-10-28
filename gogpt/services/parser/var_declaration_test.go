@@ -13,6 +13,6 @@ func TestValidVarDeclaration(t *testing.T) {
 fim-variáveis`
 	l := lexer.NewLexer(c)
 	p := NewAlgorithm(l)
-	pr := p.ParserVarDeclBlock()
+	pr := p.parserVarDeclBlock()
 	assert.Equal(t, true, pr.Parsed)
 }

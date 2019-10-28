@@ -10,14 +10,14 @@ import (
 func TestValidEmptyMainBlock(t *testing.T) {
 	l := lexer.NewLexer(`início fim`)
 	s := NewAlgorithm(l)
-	pr := s.ParserStmBlock()
+	pr := s.parserStmBlock()
 	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestInvalidEmptyMainBlock(t *testing.T) {
 	l := lexer.NewLexer(`início fimm`)
 	s := NewAlgorithm(l)
-	pr := s.ParserStmBlock()
+	pr := s.parserStmBlock()
 	assert.Equal(t, false, pr.Parsed)
 	assert.EqualError(t, pr.Err, "Expected FIM")
 }
@@ -25,21 +25,21 @@ func TestInvalidEmptyMainBlock(t *testing.T) {
 func TestValidMainBlockWithOneSentence(t *testing.T) {
 	l := lexer.NewLexer(`início imprima("hello"); fim`)
 	s := NewAlgorithm(l)
-	pr := s.ParserStmBlock()
+	pr := s.parserStmBlock()
 	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestValidMainBlockWithNSentences(t *testing.T) {
 	l := lexer.NewLexer(`início imprima("hello"); imprima("hello again!"); myfunction(); fim`)
 	s := NewAlgorithm(l)
-	pr := s.ParserStmBlock()
+	pr := s.parserStmBlock()
 	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestInvalidMainBlockWithOneSentence(t *testing.T) {
 	l := lexer.NewLexer(`início imprima("hello") fim`)
 	s := NewAlgorithm(l)
-	pr := s.ParserStmBlock()
+	pr := s.parserStmBlock()
 	assert.Equal(t, false, pr.Parsed)
 	assert.EqualError(t, pr.Err, "Expected SEMICOLON")
 }
@@ -47,7 +47,7 @@ func TestInvalidMainBlockWithOneSentence(t *testing.T) {
 func TestInvalidMainBlockWithNSentences(t *testing.T) {
 	l := lexer.NewLexer(`início xxx("aa") imprima("hello"); fim`)
 	s := NewAlgorithm(l)
-	pr := s.ParserStmBlock()
+	pr := s.parserStmBlock()
 	assert.Equal(t, false, pr.Parsed)
 	assert.EqualError(t, pr.Err, "Expected SEMICOLON")
 }

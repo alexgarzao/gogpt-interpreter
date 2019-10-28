@@ -45,3 +45,10 @@ func TestBytecodeEofError(t *testing.T) {
 	_, err := bc.Get(2)
 	assert.EqualError(t, err, "Index not found")
 }
+
+func TestBytecodeAddWithoutInstance(t *testing.T) {
+	var bc *Bytecode
+	bc.Add(MyFakeOpcode, 111)
+
+	assert.Equal(t, 0, bc.Len())
+}
