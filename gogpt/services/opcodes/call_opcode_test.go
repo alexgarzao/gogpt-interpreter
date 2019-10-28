@@ -29,13 +29,13 @@ func TestCallStringHello(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 
-	ldc := NewLdcOpcode()
+	ldc := NewLDCOpcode()
 	ldc.CpIndex = messageIndex
 	ldc.Execute(cp, vars, st, stdin, stdout)
-	ldc = NewLdcOpcode()
+	ldc = NewLDCOpcode()
 	ldc.CpIndex = argsCountIndex
 	ldc.Execute(cp, vars, st, stdin, stdout)
-	call := NewCallOpcode()
+	call := NewCALLOpcode()
 	call.CpIndex = printlnIndex
 	call.Execute(cp, vars, st, stdin, stdout)
 	assert.Equal(t, stdout.LastLine, "Hello World!\n")

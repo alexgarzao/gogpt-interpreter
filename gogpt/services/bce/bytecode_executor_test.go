@@ -17,25 +17,25 @@ import (
 
 func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
 	bc := bytecode.NewBytecode()
-	bc.Add(opcodes.Ldc, 111)
-	bc.Add(opcodes.Ldc, 222)
+	bc.Add(opcodes.LDC, 111)
+	bc.Add(opcodes.LDC, 222)
 
 	assert.Equal(t, bc.Len(), 4)
 
 	bce := NewBytecodeExecutor(bc)
 
 	v, _ := bce.next()
-	assert.Equal(t, v, opcodes.Ldc)
+	assert.Equal(t, v, opcodes.LDC)
 	v, _ = bce.next()
 	assert.Equal(t, v, 111)
 
 	v, _ = bce.next()
-	assert.Equal(t, v, opcodes.Ldc)
+	assert.Equal(t, v, opcodes.LDC)
 	v, _ = bce.next()
 	assert.Equal(t, v, 222)
 }
 
-func TestBCERunningLdc222(t *testing.T) {
+func TestBCERunningLDC222(t *testing.T) {
 	// CP map:
 	//		0: 222
 	cp := constant_pool.NewCP()
@@ -45,7 +45,7 @@ func TestBCERunningLdc222(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	bc := bytecode.NewBytecode()
-	bc.Add(opcodes.Ldc, cpIndex)
+	bc.Add(opcodes.LDC, cpIndex)
 	bce := NewBytecodeExecutor(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
@@ -55,14 +55,14 @@ func TestBCERunningLdc222(t *testing.T) {
 	assert.Equal(t, stv, stack.StackItem(222))
 }
 
-func TestBCERunningNop(t *testing.T) {
+func TestBCERunningNOP(t *testing.T) {
 	cp := constant_pool.NewCP()
 	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	bc := bytecode.NewBytecode()
-	bc.Add(opcodes.Nop, 0)
+	bc.Add(opcodes.NOP, 0)
 	bce := NewBytecodeExecutor(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
@@ -92,9 +92,9 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	bc := bytecode.NewBytecode()
-	bc.Add(opcodes.Ldc, messageIndex)
-	bc.Add(opcodes.Ldc, argsCountIndex)
-	bc.Add(opcodes.Call, printlnIndex)
+	bc.Add(opcodes.LDC, messageIndex)
+	bc.Add(opcodes.LDC, argsCountIndex)
+	bc.Add(opcodes.CALL, printlnIndex)
 	bce := NewBytecodeExecutor(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
@@ -144,17 +144,17 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 	argsCountIndex := cp.Add(1)
 
 	bc := bytecode.NewBytecode()
-	bc.Add(opcodes.Ldc, messageIndex1)
-	bc.Add(opcodes.Ldc, argsCountIndex)
-	bc.Add(opcodes.Call, printlnIndex)
-	bc.Add(opcodes.Call, readlnIndex)
-	bc.Add(opcodes.Stv, 0)
-	bc.Add(opcodes.Ldc, messageIndex2)
-	bc.Add(opcodes.Ldc, argsCountIndex)
-	bc.Add(opcodes.Call, printlnIndex)
-	bc.Add(opcodes.Ldv, 0)
-	bc.Add(opcodes.Ldc, argsCountIndex)
-	bc.Add(opcodes.Call, printlnIndex)
+	bc.Add(opcodes.LDC, messageIndex1)
+	bc.Add(opcodes.LDC, argsCountIndex)
+	bc.Add(opcodes.CALL, printlnIndex)
+	bc.Add(opcodes.CALL, readlnIndex)
+	bc.Add(opcodes.STV, 0)
+	bc.Add(opcodes.LDC, messageIndex2)
+	bc.Add(opcodes.LDC, argsCountIndex)
+	bc.Add(opcodes.CALL, printlnIndex)
+	bc.Add(opcodes.LDV, 0)
+	bc.Add(opcodes.LDC, argsCountIndex)
+	bc.Add(opcodes.CALL, printlnIndex)
 
 	vars := vars.NewVars()
 	st := stack.NewStack()

@@ -25,7 +25,7 @@ func TestValidLdcInt123(t *testing.T) {
 	assert.Equal(t, stv, stack.StackItem(0))
 
 	// LDC 0
-	j := NewLdcOpcode()
+	j := NewLDCOpcode()
 	j.CpIndex = cpIndex
 	j.Execute(cp, vars, st, stdin, stdout)
 	cpv, _ = cp.Get(0)
@@ -49,7 +49,7 @@ func TestValidLdcABC(t *testing.T) {
 	assert.Equal(t, stv, stack.StackItem(0))
 
 	// LDC 0
-	j := NewLdcOpcode()
+	j := NewLDCOpcode()
 	j.CpIndex = cpIndex
 	j.Execute(cp, vars, st, stdin, stdout)
 	cpv, _ = cp.Get(0)

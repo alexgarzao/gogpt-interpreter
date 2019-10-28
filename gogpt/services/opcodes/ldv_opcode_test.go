@@ -24,12 +24,12 @@ func TestValidLdvInt(t *testing.T) {
 	varIndex := 0
 
 	// LDC 0
-	j := NewLdcOpcode()
+	j := NewLDCOpcode()
 	j.CpIndex = cpIndex
 	j.Execute(cp, vars, st, stdin, stdout)
 
 	// STV 0
-	stvOpcode := NewStvOpcode()
+	stvOpcode := NewSTVOpcode()
 	stvOpcode.VarIndex = varIndex
 	stvOpcode.Execute(cp, vars, st, stdin, stdout)
 	vv, _ := vars.Get(varIndex)
@@ -37,7 +37,7 @@ func TestValidLdvInt(t *testing.T) {
 	assert.Equal(t, 0, st.Size())
 
 	// LDV 0
-	ldvOpcode := NewLdvOpcode()
+	ldvOpcode := NewLDVOpcode()
 	ldvOpcode.VarIndex = varIndex
 	ldvOpcode.Execute(cp, vars, st, stdin, stdout)
 
@@ -59,12 +59,12 @@ func TestValidLdvStr(t *testing.T) {
 	varIndex := 0
 
 	// LDC 0
-	j := NewLdcOpcode()
+	j := NewLDCOpcode()
 	j.CpIndex = cpIndex
 	j.Execute(cp, vars, st, stdin, stdout)
 
 	// STV 0
-	stvOpcode := NewStvOpcode()
+	stvOpcode := NewSTVOpcode()
 	stvOpcode.VarIndex = varIndex
 	stvOpcode.Execute(cp, vars, st, stdin, stdout)
 	vv, _ := vars.Get(varIndex)
@@ -72,7 +72,7 @@ func TestValidLdvStr(t *testing.T) {
 	assert.Equal(t, 0, st.Size())
 
 	// LDV 0
-	ldvOpcode := NewLdvOpcode()
+	ldvOpcode := NewLDVOpcode()
 	ldvOpcode.VarIndex = varIndex
 	ldvOpcode.Execute(cp, vars, st, stdin, stdout)
 

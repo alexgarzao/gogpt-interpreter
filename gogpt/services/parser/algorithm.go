@@ -221,7 +221,7 @@ func (a *Algorithm) parserStmAttr() ParserResult {
 		return ParserResult{false, errors.New("Expected Expr")}
 	}
 
-	a.bc.Add(opcodes.Stv, a.symbol.Index(id.Value))
+	a.bc.Add(opcodes.STV, a.symbol.Index(id.Value))
 
 	return ParserResult{true, nil}
 }
@@ -251,14 +251,14 @@ func (a *Algorithm) parserExpr() ParserResult {
 
 	id := a.l.GetNextTokenIf(lexer.IDENT)
 	if id != nil {
-		a.bc.Add(opcodes.Ldv, a.symbol.Index(id.Value))
+		a.bc.Add(opcodes.LDV, a.symbol.Index(id.Value))
 		return ParserResult{true, nil}
 	}
 
 	token := a.l.GetNextTokenIf(lexer.STRING)
 	if token != nil {
 		cpIndex := a.cp.Add(token.Value)
-		a.bc.Add(opcodes.Ldc, cpIndex)
+		a.bc.Add(opcodes.LDC, cpIndex)
 		return ParserResult{true, nil}
 	}
 
@@ -290,10 +290,10 @@ func (a *Algorithm) parserFunctionCall() ParserResult {
 
 	if token.Value == "imprima" {
 		argsCountIndex := a.cp.Add(a.argsCount)
-		a.bc.Add(opcodes.Ldc, argsCountIndex)
+		a.bc.Add(opcodes.LDC, argsCountIndex)
 	}
 
-	a.bc.Add(opcodes.Call, funcIndex)
+	a.bc.Add(opcodes.CALL, funcIndex)
 
 	if a.l.GetNextTokenIf(lexer.RPAREN) == nil {
 		return ParserResult{false, errors.New("Expected RPAREN")}

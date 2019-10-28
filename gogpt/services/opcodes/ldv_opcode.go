@@ -6,30 +6,30 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 )
 
-// LdvOpcode is responsible for push a variable content into the stack.
-type LdvOpcode struct {
+// LDVOpcode is responsible for push a variable content into the stack.
+type LDVOpcode struct {
 	Instruction
 	VarIndex int
 }
 
-// NewLdvOpcode creates a new LdvOpcode.
-func NewLdvOpcode() *LdvOpcode {
-	return &LdvOpcode{Instruction{"LDV", Ldv, 1}, 0}
+// NewLDVOpcode creates a new LDVOpcode.
+func NewLDVOpcode() *LDVOpcode {
+	return &LDVOpcode{Instruction{"LDV", LDV, 1}, 0}
 }
 
 // GetOperandCount gets the numbers os opcode operands.
-func (d *LdvOpcode) GetOperandCount() int {
+func (d *LDVOpcode) GetOperandCount() int {
 	return d.OperandCount
 }
 
 // FetchOperands gets the opcode operands.
-func (d *LdvOpcode) FetchOperands(op int) error {
+func (d *LDVOpcode) FetchOperands(op int) error {
 	d.VarIndex = op
 	return nil
 }
 
 // Execute receives the context and runs the opcode.
-func (d *LdvOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+func (d *LDVOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	value, err := vars.Get(d.VarIndex)
 	if err != nil {
 		return err

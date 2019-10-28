@@ -7,12 +7,12 @@ import (
 )
 
 const (
-	Nop int = iota
-	Ldc
-	Add
-	Call
-	Stv
-	Ldv
+	NOP int = iota
+	LDC
+	ADD
+	CALL
+	STV
+	LDV
 )
 
 // Instruction has the common data of all instructions.

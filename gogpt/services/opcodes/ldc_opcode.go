@@ -6,30 +6,30 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 )
 
-// LdcOpcode is responsible for push a constant into the stack.
-type LdcOpcode struct {
+// LDCOpcode is responsible for push a constant into the stack.
+type LDCOpcode struct {
 	Instruction
 	CpIndex int
 }
 
-// NewLdcOpcode creates a new LdcOpcode.
-func NewLdcOpcode() *LdcOpcode {
-	return &LdcOpcode{Instruction{"LDC", Ldc, 1}, 0}
+// NewLDCOpcode creates a new LDCOpcode.
+func NewLDCOpcode() *LDCOpcode {
+	return &LDCOpcode{Instruction{"LDC", LDC, 1}, 0}
 }
 
 // GetOperandCount gets the numbers os opcode operands.
-func (d *LdcOpcode) GetOperandCount() int {
+func (d *LDCOpcode) GetOperandCount() int {
 	return d.OperandCount
 }
 
 // FetchOperands gets the opcode operands.
-func (d *LdcOpcode) FetchOperands(op int) error {
+func (d *LDCOpcode) FetchOperands(op int) error {
 	d.CpIndex = op
 	return nil
 }
 
 // Execute receives the context and runs the opcode.
-func (d *LdcOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+func (d *LDCOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	cpv, err := cp.Get(d.CpIndex)
 	if err != nil {
 		return err

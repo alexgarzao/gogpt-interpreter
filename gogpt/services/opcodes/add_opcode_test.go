@@ -28,13 +28,13 @@ func TestValidAdd2And3(t *testing.T) {
 	stdout := infrastructure.NewFakeStdout()
 
 	// LDC 0
-	ldc := NewLdcOpcode()
+	ldc := NewLDCOpcode()
 	ldc.CpIndex = cpIndex2
 	ldc.Execute(cp, vars, st, stdin, stdout)
 	ldc.CpIndex = cpIndex3
 	ldc.Execute(cp, vars, st, stdin, stdout)
 
-	add := NewAddOpcode()
+	add := NewADDOpcode()
 	add.Execute(cp, st)
 
 	stv, _ := st.Top()
@@ -60,13 +60,13 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	stdout := infrastructure.NewFakeStdout()
 
 	// LDC 0
-	ldc := NewLdcOpcode()
+	ldc := NewLDCOpcode()
 	ldc.CpIndex = cpIndex2
 	ldc.Execute(cp, vars, st, stdin, stdout)
 	ldc.CpIndex = cpIndex3
 	ldc.Execute(cp, vars, st, stdin, stdout)
 
-	add := NewAddOpcode()
+	add := NewADDOpcode()
 	add.Execute(cp, st)
 
 	stv, _ := st.Top()

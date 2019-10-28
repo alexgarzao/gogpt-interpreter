@@ -25,11 +25,11 @@ func NewBytecodeExecutor(bc *bytecode.Bytecode) *BytecodeExecutor {
 		instructions: make(map[int]opcodes.InstructionImplementation),
 	}
 
-	bce.instructions[opcodes.Nop] = opcodes.NewNopOpcode()
-	bce.instructions[opcodes.Ldc] = opcodes.NewLdcOpcode()
-	bce.instructions[opcodes.Call] = opcodes.NewCallOpcode()
-	bce.instructions[opcodes.Ldv] = opcodes.NewLdvOpcode()
-	bce.instructions[opcodes.Stv] = opcodes.NewStvOpcode()
+	bce.instructions[opcodes.NOP] = opcodes.NewNOPOpcode()
+	bce.instructions[opcodes.LDC] = opcodes.NewLDCOpcode()
+	bce.instructions[opcodes.CALL] = opcodes.NewCALLOpcode()
+	bce.instructions[opcodes.LDV] = opcodes.NewLDVOpcode()
+	bce.instructions[opcodes.STV] = opcodes.NewSTVOpcode()
 
 	return bce
 }
