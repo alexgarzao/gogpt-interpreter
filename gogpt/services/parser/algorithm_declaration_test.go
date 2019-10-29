@@ -8,16 +8,16 @@ import (
 )
 
 func TestValidAlgorithmDeclaration(t *testing.T) {
-	c := `algoritmo olá_mundo;`
-	l := lexer.New(c)
+	alg := `algoritmo olá_mundo;`
+	l := lexer.New(alg)
 	p := New(l)
 	pr := p.parserAlgorithmDeclaration()
 	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestInvalidAlgorithmDeclarationWithoutTokenAlgoritmo(t *testing.T) {
-	c := `olá_mundo;`
-	l := lexer.New(c)
+	alg := `olá_mundo;`
+	l := lexer.New(alg)
 	p := New(l)
 	pr := p.parserAlgorithmDeclaration()
 	assert.Equal(t, false, pr.Parsed)
@@ -25,8 +25,8 @@ func TestInvalidAlgorithmDeclarationWithoutTokenAlgoritmo(t *testing.T) {
 }
 
 func TestInvalidAlgorithmDeclarationWithoutId(t *testing.T) {
-	c := `algoritmo ;`
-	l := lexer.New(c)
+	alg := `algoritmo ;`
+	l := lexer.New(alg)
 	p := New(l)
 	pr := p.parserAlgorithmDeclaration()
 	assert.Equal(t, false, pr.Parsed)
@@ -34,8 +34,8 @@ func TestInvalidAlgorithmDeclarationWithoutId(t *testing.T) {
 }
 
 func TestInvalidAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
-	c := `algoritmo olá_mundo`
-	l := lexer.New(c)
+	alg := `algoritmo olá_mundo`
+	l := lexer.New(alg)
 	p := New(l)
 	pr := p.parserAlgorithmDeclaration()
 	assert.Equal(t, false, pr.Parsed)

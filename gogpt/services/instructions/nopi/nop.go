@@ -14,7 +14,12 @@ type NOPInst struct {
 
 // New creates a new NOPInst.
 func New() *NOPInst {
-	return &NOPInst{instructions.Instruction{"NOP", instructions.NOP, 0}}
+	return &NOPInst{
+		instructions.Instruction{
+			Name:         "NOP",
+			Opcode:       instructions.NOP,
+			OperandCount: 0},
+	}
 }
 
 // GetOperandCount gets the numbers os opcode operands.

@@ -46,20 +46,24 @@ func (bce *BytecodeExecutor) Run(cp *cp.CP, vars *vars.Vars, st *stack.Stack, st
 		if err != nil {
 			return nil
 		}
+
 		instruction, exist := bce.instructions[opcode]
 		if !exist {
 			return fmt.Errorf("Invalid opcode %d", opcode)
 		}
+
 		if instruction.GetOperandCount() == 1 {
 			operand, err := bce.next()
 			if err != nil {
 				return err
 			}
+
 			err = instruction.FetchOperands(operand)
 			if err != nil {
 				return err
 			}
 		}
+
 		err = instruction.Execute(cp, vars, st, stdin, stdout)
 		if err != nil {
 			return err
@@ -70,5 +74,6 @@ func (bce *BytecodeExecutor) Run(cp *cp.CP, vars *vars.Vars, st *stack.Stack, st
 func (bce *BytecodeExecutor) next() (code int, err error) {
 	code, err = bce.bc.Get(bce.ip)
 	bce.ip++
+
 	return
 }

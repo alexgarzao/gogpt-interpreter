@@ -17,7 +17,13 @@ type CALLInst struct {
 
 // New creates a new CALLInst.
 func New() *CALLInst {
-	return &CALLInst{instructions.Instruction{"CALL", instructions.CALL, 1}, 0}
+	return &CALLInst{
+		instructions.Instruction{
+			Name:         "CALL",
+			Opcode:       instructions.CALL,
+			OperandCount: 1},
+		0,
+	}
 }
 
 // GetOperandCount gets the numbers os opcode operands.

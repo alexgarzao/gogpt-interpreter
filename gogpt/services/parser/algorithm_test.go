@@ -11,47 +11,47 @@ import (
 )
 
 func TestValidEmptyAlgorithm(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 fim`
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestValidHelloWorldAlgorithm(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 	imprima("Olá mundo!");
 fim`
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestValidHelloWorldWithTwoSentences(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 	imprima("Olá...");
 	imprima("Mundo!");
 fim`
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
 }
 
 func TestBytecodeEmptyAlgorithm(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 fim`
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	bc := bytecode.New()
 	pr := p.Parser()
@@ -60,7 +60,7 @@ fim`
 }
 
 func TestBytecodeFunctionCallWithoutArguments(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 	imprima();
@@ -76,7 +76,7 @@ fim`
 	printlnIndex := expectedCp.Add("io.println")
 	argsCountIndex := expectedCp.Add(0)
 
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	expectedBc := bytecode.New()
 	expectedBc.Add(instructions.LDC, argsCountIndex)
@@ -89,7 +89,7 @@ fim`
 }
 
 func TestBytecodeHelloWorldAlgorithm(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 	imprima("Olá mundo!");
@@ -108,7 +108,7 @@ fim`
 	messageIndex := expectedCp.Add("Olá mundo!")
 	argsCountIndex := expectedCp.Add(1)
 
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	expectedBc := bytecode.New()
 	expectedBc.Add(instructions.LDC, messageIndex)
@@ -122,7 +122,7 @@ fim`
 }
 
 func TestBytecodeHelloWorldWithTwoWrites(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 	imprima("Olá...");
@@ -147,7 +147,7 @@ fim`
 	argsCountIndex := expectedCp.Add(1)
 	messageIndex2 := expectedCp.Add("mundo!")
 
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	expectedBc := bytecode.New()
 	expectedBc.Add(instructions.LDC, messageIndex1)
@@ -164,12 +164,12 @@ fim`
 }
 
 func TestInvalidCompleteAlgorithmDeclarationWithoutId(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo ;
 início
 	imprima("Olá...");
 fim`
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 
 	pr := p.Parser()
@@ -178,12 +178,12 @@ fim`
 }
 
 func TestInvalidCompleteAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo ola
 início
 	imprima("Olá...");
 fim`
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 
 	pr := p.Parser()
@@ -192,7 +192,7 @@ fim`
 }
 
 func TestBytecodeHelloWorldWithInput(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo qual_o_seu_nome;
 
 		variáveis
@@ -234,7 +234,7 @@ func TestBytecodeHelloWorldWithInput(t *testing.T) {
 	readlnIndex := expectedCp.Add("io.readln")
 	messageIndex2 := expectedCp.Add("Olá ")
 
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	expectedBc := bytecode.New()
 	expectedBc.Add(instructions.LDC, messageIndex1)
@@ -256,7 +256,7 @@ func TestBytecodeHelloWorldWithInput(t *testing.T) {
 }
 
 func TestBytecodeHelloWorldWithTwoArgs(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 	imprima("Olá...", "mundo!");
@@ -278,7 +278,7 @@ fim`
 	messageIndex2 := expectedCp.Add("mundo!")
 	argsCountIndex := expectedCp.Add(2)
 
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	expectedBc := bytecode.New()
 	expectedBc.Add(instructions.LDC, messageIndex1)

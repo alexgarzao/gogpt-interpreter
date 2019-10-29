@@ -153,13 +153,13 @@ func TestLiteralsOrIdentifiersTokens(t *testing.T) {
 }
 
 func TestValidHelloWorld(t *testing.T) {
-	c :=
+	alg :=
 		`algoritmo olá_mundo;
 início
 	imprima("Olá mundo!");
 fim`
 
-	l := New(c)
+	l := New(alg)
 	assert.Equal(t, &Token{ALGORITHM, "ALGORITMO"}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "olá_mundo"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, ";"}, l.NextToken())

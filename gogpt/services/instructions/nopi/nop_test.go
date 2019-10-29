@@ -18,8 +18,8 @@ func TestValidNop(t *testing.T) {
 	stdout := infrastructure.NewFakeStdout()
 
 	// NOP
-	i := New()
-	i.Execute(cp, vars, st, stdin, stdout)
+	nop := New()
+	nop.Execute(cp, vars, st, stdin, stdout)
 	_, err := cp.Get(0)
 	assert.EqualError(t, err, "Index not found")
 	_, err = st.Top()

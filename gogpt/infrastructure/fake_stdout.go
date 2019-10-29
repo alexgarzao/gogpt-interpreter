@@ -13,6 +13,6 @@ func NewFakeStdout() *FakeStdout {
 }
 
 // Println prints the next mocked info.
-func (s *FakeStdout) Println(text interface{}) {
-	s.LastLine = fmt.Sprintf("%v", text)
+func (fs *FakeStdout) Println(text interface{}) {
+	fs.LastLine = fmt.Sprintf("%v", text)
 }

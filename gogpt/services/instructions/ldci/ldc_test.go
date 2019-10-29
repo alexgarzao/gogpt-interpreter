@@ -25,9 +25,9 @@ func TestValidLdcInt123(t *testing.T) {
 	assert.Equal(t, stv, 0)
 
 	// LDC 0
-	j := New()
-	j.CpIndex = cpIndex
-	j.Execute(cp, vars, st, stdin, stdout)
+	ldc := New()
+	ldc.CpIndex = cpIndex
+	ldc.Execute(cp, vars, st, stdin, stdout)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, 123)
 	stv, _ = st.Top()
@@ -49,9 +49,9 @@ func TestValidLdcABC(t *testing.T) {
 	assert.Equal(t, stv, 0)
 
 	// LDC 0
-	j := New()
-	j.CpIndex = cpIndex
-	j.Execute(cp, vars, st, stdin, stdout)
+	ldc := New()
+	ldc.CpIndex = cpIndex
+	ldc.Execute(cp, vars, st, stdin, stdout)
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, "ABC")
 	stv, _ = st.Top()

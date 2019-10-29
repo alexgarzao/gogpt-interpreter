@@ -16,7 +16,12 @@ type ADDInst struct {
 
 // New creates a new ADDInst.
 func New() *ADDInst {
-	return &ADDInst{instructions.Instruction{"ADD", instructions.ADD, 0}}
+	return &ADDInst{
+		instructions.Instruction{
+			Name:         "ADD",
+			Opcode:       instructions.ADD,
+			OperandCount: 0},
+	}
 }
 
 // GetOperandCount gets the numbers os opcode operands.
@@ -35,10 +40,12 @@ func (i *ADDInst) Execute(cp *cp.CP, st *stack.Stack) error {
 	if err != nil {
 		return err
 	}
+
 	op1, err := st.Pop()
 	if err != nil {
 		return err
 	}
+
 	if fmt.Sprintf("%T", op1) != fmt.Sprintf("%T", op2) {
 		log.Fatalln("Invalid types in ADD opcode: ")
 	}

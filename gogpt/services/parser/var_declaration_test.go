@@ -8,10 +8,10 @@ import (
 )
 
 func TestValidVarDeclaration(t *testing.T) {
-	c := `		variáveis
+	alg := `		variáveis
 	nome: literal;
 fim-variáveis`
-	l := lexer.New(c)
+	l := lexer.New(alg)
 	p := New(l)
 	pr := p.parserVarDeclBlock()
 	assert.Equal(t, true, pr.Parsed)

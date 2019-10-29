@@ -15,7 +15,13 @@ type LDVInst struct {
 
 // New creates a new LDVInst.
 func New() *LDVInst {
-	return &LDVInst{instructions.Instruction{"LDV", instructions.LDV, 1}, 0}
+	return &LDVInst{
+		instructions.Instruction{
+			Name:         "LDV",
+			Opcode:       instructions.LDV,
+			OperandCount: 1},
+		0,
+	}
 }
 
 // GetOperandCount gets the numbers os opcode operands.

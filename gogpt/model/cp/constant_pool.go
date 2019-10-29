@@ -6,13 +6,13 @@ import (
 
 // CP has the items in a constant pool.
 type CP struct {
-	items []interface{}
+	constants []interface{}
 }
 
 // New creates a new constant pool.
 func New() *CP {
 	cp := &CP{}
-	cp.items = make([]interface{}, 0)
+	cp.constants = make([]interface{}, 0)
 	return cp
 }
 
@@ -26,24 +26,25 @@ func (cp *CP) Add(item interface{}) int {
 		return n
 	}
 
-	cp.items = append(cp.items, item)
-	return len(cp.items) - 1
+	cp.constants = append(cp.constants, item)
+
+	return len(cp.constants) - 1
 }
 
 // Get gets an item from the constant pool.
 func (cp *CP) Get(index int) (interface{}, error) {
-	if index > len(cp.items)-1 {
+	if index > len(cp.constants)-1 {
 		return 0, errors.New("Index not found")
 	}
 
-	res := cp.items[index]
+	res := cp.constants[index]
 
 	return res, nil
 }
 
 // Find finds if a specific item is at the constant pool.
 func (cp *CP) Find(item interface{}) int {
-	for i, v := range cp.items {
+	for i, v := range cp.constants {
 		if v == item {
 			return i
 		}

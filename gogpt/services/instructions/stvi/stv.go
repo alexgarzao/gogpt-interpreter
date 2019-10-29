@@ -15,7 +15,13 @@ type STVInst struct {
 
 // New creates a new STVInst.
 func New() *STVInst {
-	return &STVInst{instructions.Instruction{"STV", instructions.STV, 1}, 0}
+	return &STVInst{
+		instructions.Instruction{
+			Name:         "STV",
+			Opcode:       instructions.STV,
+			OperandCount: 1},
+		0,
+	}
 }
 
 // GetOperandCount gets the numbers os opcode operands.

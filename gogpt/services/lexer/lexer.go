@@ -73,6 +73,7 @@ func (l *Lexer) GetNextTokenIf(expectedType string) *Token {
 	if token.Type == expectedType {
 		return token
 	}
+
 	l.currentPos = backTracking
 	return nil
 }

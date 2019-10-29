@@ -11,28 +11,28 @@ type Vars struct {
 
 // New creates a new vars.
 func New() *Vars {
-	s := &Vars{}
-	s.vars = make(map[int]interface{})
+	v := &Vars{}
+	v.vars = make(map[int]interface{})
 
-	return s
+	return v
 }
 
 // Add adds a new var.
-func (s *Vars) Add() int {
-	index := len(s.vars)
-	s.vars[index] = nil
+func (v *Vars) Add() int {
+	index := len(v.vars)
+	v.vars[index] = nil
 
 	return index
 }
 
 // Set defines a var value.
-func (s *Vars) Set(index int, value interface{}) {
-	s.vars[index] = value
+func (v *Vars) Set(index int, value interface{}) {
+	v.vars[index] = value
 }
 
 // Get gets a var value.
-func (s *Vars) Get(index int) (interface{}, error) {
-	value, ok := s.vars[index]
+func (v *Vars) Get(index int) (interface{}, error) {
+	value, ok := v.vars[index]
 	if !ok {
 		return 0, errors.New("Variable index undefined")
 	}

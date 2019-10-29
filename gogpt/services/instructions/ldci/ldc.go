@@ -15,7 +15,13 @@ type LDCInst struct {
 
 // New creates a new LDCInst.
 func New() *LDCInst {
-	return &LDCInst{instructions.Instruction{"LDC", instructions.LDC, 1}, 0}
+	return &LDCInst{
+		instructions.Instruction{
+			Name:         "LDC",
+			Opcode:       instructions.LDC,
+			OperandCount: 1},
+		0,
+	}
 }
 
 // GetOperandCount gets the numbers os opcode operands.
