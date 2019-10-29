@@ -4,23 +4,20 @@ import (
 	"errors"
 )
 
-// CPItem has the type of a Constant Pool item.
-type CPItem interface{}
-
 // CP has the items in a constant pool.
 type CP struct {
-	items []CPItem
+	items []interface{}
 }
 
 // NewCP creates a new constant pool.
 func NewCP() *CP {
 	cp := &CP{}
-	cp.items = make([]CPItem, 0)
+	cp.items = make([]interface{}, 0)
 	return cp
 }
 
 // Add adds a new item to the constant pool.
-func (cp *CP) Add(item CPItem) int {
+func (cp *CP) Add(item interface{}) int {
 	if cp == nil {
 		return -1
 	}
@@ -34,7 +31,7 @@ func (cp *CP) Add(item CPItem) int {
 }
 
 // Get gets an item from the constant pool.
-func (cp *CP) Get(index int) (CPItem, error) {
+func (cp *CP) Get(index int) (interface{}, error) {
 	if index > len(cp.items)-1 {
 		return 0, errors.New("Index not found")
 	}
@@ -45,7 +42,7 @@ func (cp *CP) Get(index int) (CPItem, error) {
 }
 
 // Find finds if a specific item is at the constant pool.
-func (cp *CP) Find(item CPItem) int {
+func (cp *CP) Find(item interface{}) int {
 	for i, v := range cp.items {
 		if v == item {
 			return i
