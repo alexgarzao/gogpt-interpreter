@@ -13,8 +13,8 @@ type Lexer struct {
 	backTracking int
 }
 
-// NewLexer creates a new Lexer.
-func NewLexer(input string) *Lexer {
+// New creates a new Lexer.
+func New(input string) *Lexer {
 	return &Lexer{
 		input:      input,
 		currentPos: 0,

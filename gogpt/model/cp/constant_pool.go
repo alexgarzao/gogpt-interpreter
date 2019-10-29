@@ -9,8 +9,8 @@ type CP struct {
 	items []interface{}
 }
 
-// NewCP creates a new constant pool.
-func NewCP() *CP {
+// New creates a new constant pool.
+func New() *CP {
 	cp := &CP{}
 	cp.items = make([]interface{}, 0)
 	return cp

@@ -9,8 +9,8 @@ type Bytecode struct {
 	instructions []int
 }
 
-// NewBytecode creates a new bytecode.
-func NewBytecode() *Bytecode {
+// New creates a new bytecode.
+func New() *Bytecode {
 	return &Bytecode{
 		instructions: make([]int, 0),
 	}

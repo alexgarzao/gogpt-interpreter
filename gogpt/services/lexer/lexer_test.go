@@ -7,7 +7,7 @@ import (
 )
 
 func TestIfUselessCharsHasBeenRemoved(t *testing.T) {
-	l := NewLexer("   algoritmo\t\t  \t\t\n\t\r meuid;")
+	l := New("   algoritmo\t\t  \t\t\n\t\r meuid;")
 	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "meuid"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, SEMICOLON}, l.NextToken())
@@ -15,7 +15,7 @@ func TestIfUselessCharsHasBeenRemoved(t *testing.T) {
 }
 
 func TestValidKeywords(t *testing.T) {
-	l := NewLexer("algoritmo início fim variáveis fim-variáveis")
+	l := New("algoritmo início fim variáveis fim-variáveis")
 	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.NextToken())
 	assert.Equal(t, &Token{BLOCKBEGIN, BLOCKBEGIN}, l.NextToken())
 	assert.Equal(t, &Token{BLOCKEND, BLOCKEND}, l.NextToken())
@@ -25,7 +25,7 @@ func TestValidKeywords(t *testing.T) {
 }
 
 func TestInvalidKeywords(t *testing.T) {
-	l := NewLexer("algoritmoa in ício inicio fimm afim")
+	l := New("algoritmoa in ício inicio fimm afim")
 	assert.Equal(t, &Token{IDENT, "algoritmoa"}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "in"}, l.NextToken())
 	assert.Equal(t, &Token{INVALID, ""}, l.NextToken())
@@ -37,7 +37,7 @@ func TestInvalidKeywords(t *testing.T) {
 }
 
 func TestDelimiters(t *testing.T) {
-	l := NewLexer("(,:)( ());):= ) := ")
+	l := New("(,:)( ());):= ) := ")
 	assert.Equal(t, &Token{LPAREN, LPAREN}, l.NextToken())
 	assert.Equal(t, &Token{COMMA, COMMA}, l.NextToken())
 	assert.Equal(t, &Token{COLON, COLON}, l.NextToken())
@@ -55,7 +55,7 @@ func TestDelimiters(t *testing.T) {
 }
 
 func TestValidIDs(t *testing.T) {
-	l := NewLexer("i ix ir2 if_ _Id Ix iX Camel_Case NotCamelCase ComAcentuação")
+	l := New("i ix ir2 if_ _Id Ix iX Camel_Case NotCamelCase ComAcentuação")
 	assert.Equal(t, &Token{IDENT, "i"}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "ix"}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "ir2"}, l.NextToken())
@@ -70,7 +70,7 @@ func TestValidIDs(t *testing.T) {
 }
 
 func TestValidStrings(t *testing.T) {
-	l := NewLexer(`i "" "a" "aaaaaa" "bb bbbb bbbb" "ccc cccc c  " "  ccc   "`)
+	l := New(`i "" "a" "aaaaaa" "bb bbbb bbbb" "ccc cccc c  " "  ccc   "`)
 	assert.Equal(t, &Token{IDENT, "i"}, l.NextToken())
 	assert.Equal(t, &Token{STRING, ""}, l.NextToken())
 	assert.Equal(t, &Token{STRING, "a"}, l.NextToken())
@@ -82,7 +82,7 @@ func TestValidStrings(t *testing.T) {
 }
 
 func TestInvalidStrings(t *testing.T) {
-	l := NewLexer("\"a\t\" \"aaa\nbbb\" \"cc \"dddd \r eeee\" \"\"\"\"")
+	l := New("\"a\t\" \"aaa\nbbb\" \"cc \"dddd \r eeee\" \"\"\"\"")
 	assert.Equal(t, &Token{STRING, "a\t"}, l.NextToken())
 	assert.Equal(t, &Token{INVALID, "\"aaa"}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "bbb"}, l.NextToken())
@@ -97,7 +97,7 @@ func TestInvalidStrings(t *testing.T) {
 }
 
 func TestValidInts(t *testing.T) {
-	l := NewLexer(`1 123 0123 123456789 1230`)
+	l := New(`1 123 0123 123456789 1230`)
 	assert.Equal(t, &Token{INT, "1"}, l.NextToken())
 	assert.Equal(t, &Token{INT, "123"}, l.NextToken())
 	assert.Equal(t, &Token{INT, "123"}, l.NextToken())
@@ -107,7 +107,7 @@ func TestValidInts(t *testing.T) {
 }
 
 func TestInvalidInts(t *testing.T) {
-	l := NewLexer("1a 1b23 c123 123\"\" 12\r .89 30 4\n567")
+	l := New("1a 1b23 c123 123\"\" 12\r .89 30 4\n567")
 	assert.Equal(t, &Token{INVALID, "1a"}, l.NextToken())
 	assert.Equal(t, &Token{INVALID, "1b"}, l.NextToken())
 	assert.Equal(t, &Token{INT, "23"}, l.NextToken())
@@ -123,7 +123,7 @@ func TestInvalidInts(t *testing.T) {
 }
 
 func TestValidTokensWithoutPontuations(t *testing.T) {
-	l := NewLexer("algoritmo meuid; imprima fim(),")
+	l := New("algoritmo meuid; imprima fim(),")
 	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "meuid"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, SEMICOLON}, l.NextToken())
@@ -136,7 +136,7 @@ func TestValidTokensWithoutPontuations(t *testing.T) {
 }
 
 func TestTokensWithPontuations(t *testing.T) {
-	l := NewLexer("algoritmo olá; início")
+	l := New("algoritmo olá; início")
 	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "olá"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, ";"}, l.NextToken())
@@ -145,7 +145,7 @@ func TestTokensWithPontuations(t *testing.T) {
 }
 
 func TestLiteralsOrIdentifiersTokens(t *testing.T) {
-	l := NewLexer(`olá "oi !" 123`)
+	l := New(`olá "oi !" 123`)
 	assert.Equal(t, &Token{IDENT, "olá"}, l.NextToken())
 	assert.Equal(t, &Token{STRING, "oi !"}, l.NextToken())
 	assert.Equal(t, &Token{INT, "123"}, l.NextToken())
@@ -159,7 +159,7 @@ início
 	imprima("Olá mundo!");
 fim`
 
-	l := NewLexer(c)
+	l := New(c)
 	assert.Equal(t, &Token{ALGORITHM, "ALGORITMO"}, l.NextToken())
 	assert.Equal(t, &Token{IDENT, "olá_mundo"}, l.NextToken())
 	assert.Equal(t, &Token{SEMICOLON, ";"}, l.NextToken())
@@ -174,7 +174,7 @@ fim`
 }
 
 func TestGetIf(t *testing.T) {
-	l := NewLexer("algoritmo início ( xxx ) fim")
+	l := New("algoritmo início ( xxx ) fim")
 	assert.Nil(t, l.GetNextTokenIf(IDENT))
 	assert.Equal(t, &Token{ALGORITHM, ALGORITHM}, l.GetNextTokenIf(ALGORITHM))
 	assert.Equal(t, &Token{BLOCKBEGIN, BLOCKBEGIN}, l.GetNextTokenIf(BLOCKBEGIN))

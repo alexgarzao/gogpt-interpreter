@@ -9,7 +9,7 @@ import (
 const MyFakeOpcode = 1
 
 func TestBytecodeAddingOneInstruction(t *testing.T) {
-	bc := NewBytecode()
+	bc := New()
 	bc.Add(MyFakeOpcode, 111)
 
 	v, _ := bc.Get(0)
@@ -21,7 +21,7 @@ func TestBytecodeAddingOneInstruction(t *testing.T) {
 }
 
 func TestBytecodeAddingAndFetchingBytecodes(t *testing.T) {
-	bc := NewBytecode()
+	bc := New()
 	bc.Add(MyFakeOpcode, 111)
 	bc.Add(MyFakeOpcode, 222)
 
@@ -39,7 +39,7 @@ func TestBytecodeAddingAndFetchingBytecodes(t *testing.T) {
 }
 
 func TestBytecodeEofError(t *testing.T) {
-	bc := NewBytecode()
+	bc := New()
 	bc.Add(MyFakeOpcode, 111)
 
 	_, err := bc.Get(2)

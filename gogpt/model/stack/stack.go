@@ -9,8 +9,8 @@ type Stack struct {
 	items []interface{}
 }
 
-// NewStack creates a new stack.
-func NewStack() *Stack {
+// New creates a new stack.
+func New() *Stack {
 	s := &Stack{}
 	s.items = make([]interface{}, 0)
 	return s

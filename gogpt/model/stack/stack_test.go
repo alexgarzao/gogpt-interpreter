@@ -7,14 +7,14 @@ import (
 )
 
 func TestStackPushOneValue(t *testing.T) {
-	s := NewStack()
+	s := New()
 	s.Push(111)
 	v, _ := s.Top()
 	assert.Equal(t, v, 111)
 }
 
 func TestStackPushTwoValues(t *testing.T) {
-	s := NewStack()
+	s := New()
 	s.Push(111)
 	s.Push(222)
 	v, _ := s.Top()
@@ -22,14 +22,14 @@ func TestStackPushTwoValues(t *testing.T) {
 }
 
 func TestStackPushAndPopOneValue(t *testing.T) {
-	s := NewStack()
+	s := New()
 	s.Push(111)
 	v, _ := s.Pop()
 	assert.Equal(t, v, 111)
 }
 
 func TestStackPushAndPopTwoValues(t *testing.T) {
-	s := NewStack()
+	s := New()
 	s.Push(111)
 	s.Push(222)
 	v, _ := s.Pop()
@@ -39,7 +39,7 @@ func TestStackPushAndPopTwoValues(t *testing.T) {
 }
 
 func TestStackTop(t *testing.T) {
-	s := NewStack()
+	s := New()
 	_, err := s.Top()
 	assert.EqualError(t, err, "Stack underflow")
 	s.Push(111)
@@ -57,7 +57,7 @@ func TestStackTop(t *testing.T) {
 }
 
 func TestStackPopError(t *testing.T) {
-	s := NewStack()
+	s := New()
 	_, err := s.Pop()
 	assert.EqualError(t, err, "Stack underflow")
 	s.Push(111)
@@ -68,7 +68,7 @@ func TestStackPopError(t *testing.T) {
 }
 
 func TestStackPushAndPopTwoValuesCheckingSize(t *testing.T) {
-	s := NewStack()
+	s := New()
 	assert.Equal(t, 0, s.Size())
 
 	s.Push(111)

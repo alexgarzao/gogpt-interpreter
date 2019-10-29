@@ -13,10 +13,10 @@ import (
 func TestValidLdcInt123(t *testing.T) {
 	// CP map:
 	//		0: (INT) 123
-	cp := cp.NewCP()
+	cp := cp.New()
 	cpIndex := cp.Add(123)
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	cpv, _ := cp.Get(0)
@@ -37,10 +37,10 @@ func TestValidLdcInt123(t *testing.T) {
 func TestValidLdcABC(t *testing.T) {
 	// CP map:
 	//		0: STR: "ABC"
-	cp := cp.NewCP()
+	cp := cp.New()
 	cpIndex := cp.Add("ABC")
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	cpv, _ := cp.Get(0)

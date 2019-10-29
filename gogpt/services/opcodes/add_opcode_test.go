@@ -19,11 +19,11 @@ func TestValidAdd2And3(t *testing.T) {
 	// 		LDC 0
 	// 		LDC 1
 	// 		ADD
-	cp := cp.NewCP()
+	cp := cp.New()
 	cpIndex2 := cp.Add(2)
 	cpIndex3 := cp.Add(3)
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 
@@ -51,11 +51,11 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	// 		LDC 1
 	// 		ADD
 
-	cp := cp.NewCP()
+	cp := cp.New()
 	cpIndex2 := cp.Add("Hello")
 	cpIndex3 := cp.Add("World")
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 

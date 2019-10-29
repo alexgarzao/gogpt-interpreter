@@ -25,8 +25,8 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	l := lexer.NewLexer(string(algorithm))
-	p := parser.NewAlgorithm(l)
+	l := lexer.New(string(algorithm))
+	p := parser.New(l)
 
 	pr := p.Parser()
 	if pr.Parsed == false {
@@ -34,11 +34,11 @@ func main() {
 		return
 	}
 
-	bce := bce.NewBytecodeExecutor(p.GetBC())
+	bce := bce.New(p.GetBC())
 	stdin := infrastructure.NewStdin()
 	stdout := infrastructure.NewStdout()
-	st := stack.NewStack()
-	vars := vars.NewVars()
+	st := stack.New()
+	vars := vars.New()
 
 	err = bce.Run(p.GetCP(), vars, st, stdin, stdout)
 	if err != nil {

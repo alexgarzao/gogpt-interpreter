@@ -15,8 +15,8 @@ func TestValidEmptyAlgorithm(t *testing.T) {
 		`algoritmo olá_mundo;
 início
 fim`
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
+	l := lexer.New(c)
+	p := New(l)
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
 }
@@ -27,8 +27,8 @@ func TestValidHelloWorldAlgorithm(t *testing.T) {
 início
 	imprima("Olá mundo!");
 fim`
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
+	l := lexer.New(c)
+	p := New(l)
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
 }
@@ -40,8 +40,8 @@ início
 	imprima("Olá...");
 	imprima("Mundo!");
 fim`
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
+	l := lexer.New(c)
+	p := New(l)
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
 }
@@ -51,9 +51,9 @@ func TestBytecodeEmptyAlgorithm(t *testing.T) {
 		`algoritmo olá_mundo;
 início
 fim`
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
-	bc := bytecode.NewBytecode()
+	l := lexer.New(c)
+	p := New(l)
+	bc := bytecode.New()
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
 	assert.Equal(t, bc, p.GetBC())
@@ -72,13 +72,13 @@ fim`
 	//    LDC  1 (0)
 	//    CALL 0 (io.println)
 
-	expectedCp := cp.NewCP()
+	expectedCp := cp.New()
 	printlnIndex := expectedCp.Add("io.println")
 	argsCountIndex := expectedCp.Add(0)
 
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
-	expectedBc := bytecode.NewBytecode()
+	l := lexer.New(c)
+	p := New(l)
+	expectedBc := bytecode.New()
 	expectedBc.Add(opcodes.LDC, argsCountIndex)
 	expectedBc.Add(opcodes.CALL, printlnIndex)
 
@@ -103,14 +103,14 @@ fim`
 	//    LDC 2 (1)
 	//    CALL 0 (io.println)
 
-	expectedCp := cp.NewCP()
+	expectedCp := cp.New()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex := expectedCp.Add("Olá mundo!")
 	argsCountIndex := expectedCp.Add(1)
 
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
-	expectedBc := bytecode.NewBytecode()
+	l := lexer.New(c)
+	p := New(l)
+	expectedBc := bytecode.New()
 	expectedBc.Add(opcodes.LDC, messageIndex)
 	expectedBc.Add(opcodes.LDC, argsCountIndex)
 	expectedBc.Add(opcodes.CALL, printlnIndex)
@@ -141,15 +141,15 @@ fim`
 	//    LDC 2 (1)
 	//    CALL 0 (io.println)
 
-	expectedCp := cp.NewCP()
+	expectedCp := cp.New()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex1 := expectedCp.Add("Olá...")
 	argsCountIndex := expectedCp.Add(1)
 	messageIndex2 := expectedCp.Add("mundo!")
 
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
-	expectedBc := bytecode.NewBytecode()
+	l := lexer.New(c)
+	p := New(l)
+	expectedBc := bytecode.New()
 	expectedBc.Add(opcodes.LDC, messageIndex1)
 	expectedBc.Add(opcodes.LDC, argsCountIndex)
 	expectedBc.Add(opcodes.CALL, printlnIndex)
@@ -169,8 +169,8 @@ func TestInvalidCompleteAlgorithmDeclarationWithoutId(t *testing.T) {
 início
 	imprima("Olá...");
 fim`
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
+	l := lexer.New(c)
+	p := New(l)
 
 	pr := p.Parser()
 	assert.Equal(t, false, pr.Parsed)
@@ -183,8 +183,8 @@ func TestInvalidCompleteAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
 início
 	imprima("Olá...");
 fim`
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
+	l := lexer.New(c)
+	p := New(l)
 
 	pr := p.Parser()
 	assert.Equal(t, false, pr.Parsed)
@@ -227,16 +227,16 @@ func TestBytecodeHelloWorldWithInput(t *testing.T) {
 	//    LDC 3 (1)
 	//    CALL 0 (io.println)
 
-	expectedCp := cp.NewCP()
+	expectedCp := cp.New()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex1 := expectedCp.Add("Qual o seu nome?")
 	argsCountIndex := expectedCp.Add(1)
 	readlnIndex := expectedCp.Add("io.readln")
 	messageIndex2 := expectedCp.Add("Olá ")
 
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
-	expectedBc := bytecode.NewBytecode()
+	l := lexer.New(c)
+	p := New(l)
+	expectedBc := bytecode.New()
 	expectedBc.Add(opcodes.LDC, messageIndex1)
 	expectedBc.Add(opcodes.LDC, argsCountIndex)
 	expectedBc.Add(opcodes.CALL, printlnIndex)
@@ -272,15 +272,15 @@ fim`
 	//    LDC 3 (2)
 	//    CALL 0 (io.println)
 
-	expectedCp := cp.NewCP()
+	expectedCp := cp.New()
 	printlnIndex := expectedCp.Add("io.println")
 	messageIndex1 := expectedCp.Add("Olá...")
 	messageIndex2 := expectedCp.Add("mundo!")
 	argsCountIndex := expectedCp.Add(2)
 
-	l := lexer.NewLexer(c)
-	p := NewAlgorithm(l)
-	expectedBc := bytecode.NewBytecode()
+	l := lexer.New(c)
+	p := New(l)
+	expectedBc := bytecode.New()
 	expectedBc.Add(opcodes.LDC, messageIndex1)
 	expectedBc.Add(opcodes.LDC, messageIndex2)
 	expectedBc.Add(opcodes.LDC, argsCountIndex)

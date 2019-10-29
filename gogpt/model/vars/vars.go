@@ -9,8 +9,8 @@ type Vars struct {
 	vars map[int]interface{}
 }
 
-// NewVars creates a new vars.
-func NewVars() *Vars {
+// New creates a new vars.
+func New() *Vars {
 	s := &Vars{}
 	s.vars = make(map[int]interface{})
 

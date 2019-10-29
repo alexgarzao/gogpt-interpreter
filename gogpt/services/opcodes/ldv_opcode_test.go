@@ -15,12 +15,12 @@ func TestValidLdvInt(t *testing.T) {
 	//		0: (INT) 123
 	// VAR map:
 	//		0: (INT) Value
-	cp := cp.NewCP()
+	cp := cp.New()
 	cpIndex := cp.Add(123)
-	st := stack.NewStack()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
-	vars := vars.NewVars()
+	vars := vars.New()
 	varIndex := 0
 
 	// LDC 0
@@ -50,12 +50,12 @@ func TestValidLdvStr(t *testing.T) {
 	//		0: (STR) ABC
 	// VAR map:
 	//		0: (STR) Value
-	cp := cp.NewCP()
+	cp := cp.New()
 	cpIndex := cp.Add("ABC")
-	st := stack.NewStack()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
-	vars := vars.NewVars()
+	vars := vars.New()
 	varIndex := 0
 
 	// LDC 0

@@ -16,13 +16,13 @@ import (
 )
 
 func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
-	bc := bytecode.NewBytecode()
+	bc := bytecode.New()
 	bc.Add(opcodes.LDC, 111)
 	bc.Add(opcodes.LDC, 222)
 
 	assert.Equal(t, bc.Len(), 4)
 
-	bce := NewBytecodeExecutor(bc)
+	bce := New(bc)
 
 	v, _ := bce.next()
 	assert.Equal(t, v, opcodes.LDC)
@@ -38,15 +38,15 @@ func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
 func TestBCERunningLDC222(t *testing.T) {
 	// CP map:
 	//		0: 222
-	cp := cp.NewCP()
+	cp := cp.New()
 	cpIndex := cp.Add(222)
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
-	bc := bytecode.NewBytecode()
+	bc := bytecode.New()
 	bc.Add(opcodes.LDC, cpIndex)
-	bce := NewBytecodeExecutor(bc)
+	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	cpv, _ := cp.Get(0)
@@ -56,14 +56,14 @@ func TestBCERunningLDC222(t *testing.T) {
 }
 
 func TestBCERunningNOP(t *testing.T) {
-	cp := cp.NewCP()
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	cp := cp.New()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
-	bc := bytecode.NewBytecode()
+	bc := bytecode.New()
 	bc.Add(opcodes.NOP, 0)
-	bce := NewBytecodeExecutor(bc)
+	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	_, err = cp.Get(0)
@@ -82,34 +82,34 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	//    LDC 1 (Hello World!)
 	//    LDC 2 (1)
 	//    CALL 0 (io.println)
-	cp := cp.NewCP()
+	cp := cp.New()
 	printlnIndex := cp.Add("io.println")
 	messageIndex := cp.Add("Hello World!")
 	argsCountIndex := cp.Add(1)
 
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
-	bc := bytecode.NewBytecode()
+	bc := bytecode.New()
 	bc.Add(opcodes.LDC, messageIndex)
 	bc.Add(opcodes.LDC, argsCountIndex)
 	bc.Add(opcodes.CALL, printlnIndex)
-	bce := NewBytecodeExecutor(bc)
+	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	assert.Equal(t, stdout.LastLine, "Hello World!")
 }
 
 func TestBCERunningInvalidOpcode(t *testing.T) {
-	cp := cp.NewCP()
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	cp := cp.New()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
-	bc := bytecode.NewBytecode()
+	bc := bytecode.New()
 	bc.Add(123, 0)
-	bce := NewBytecodeExecutor(bc)
+	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.EqualError(t, err, "Invalid opcode 123")
 }
@@ -136,14 +136,14 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 	//    LDC 4 (1)
 	//    CALL 0 (io.println)
 
-	cp := cp.NewCP()
+	cp := cp.New()
 	printlnIndex := cp.Add("io.println")
 	messageIndex1 := cp.Add("Qual o seu nome?")
 	readlnIndex := cp.Add("io.readln")
 	messageIndex2 := cp.Add("Olá ")
 	argsCountIndex := cp.Add(1)
 
-	bc := bytecode.NewBytecode()
+	bc := bytecode.New()
 	bc.Add(opcodes.LDC, messageIndex1)
 	bc.Add(opcodes.LDC, argsCountIndex)
 	bc.Add(opcodes.CALL, printlnIndex)
@@ -156,13 +156,13 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 	bc.Add(opcodes.LDC, argsCountIndex)
 	bc.Add(opcodes.CALL, printlnIndex)
 
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	stdin.NextLineToRead("aaa123")
 
-	bce := NewBytecodeExecutor(bc)
+	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 
 	assert.Nil(t, err)
@@ -188,16 +188,16 @@ func TestRunningWithTwoVars(t *testing.T) {
 		fim
 		`
 
-	l := lexer.NewLexer(a)
-	p := parser.NewAlgorithm(l)
+	l := lexer.New(a)
+	p := parser.New(l)
 
 	pr := p.Parser()
 	assert.True(t, pr.Parsed)
-	bce := NewBytecodeExecutor(p.GetBC())
+	bce := New(p.GetBC())
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
-	st := stack.NewStack()
-	vars := vars.NewVars()
+	st := stack.New()
+	vars := vars.New()
 
 	err := bce.Run(p.GetCP(), vars, st, stdin, stdout)
 	assert.Nil(t, err)

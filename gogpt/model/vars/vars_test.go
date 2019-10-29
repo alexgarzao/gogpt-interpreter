@@ -7,14 +7,14 @@ import (
 )
 
 func TestVarsOneValue(t *testing.T) {
-	s := NewVars()
+	s := New()
 	s.Set(0, 111)
 	v, _ := s.Get(0)
 	assert.Equal(t, v, 111)
 }
 
 func TestVarsTwoValues(t *testing.T) {
-	s := NewVars()
+	s := New()
 	s.Set(0, 111)
 	s.Set(1, 222)
 	v, _ := s.Get(0)
@@ -24,7 +24,7 @@ func TestVarsTwoValues(t *testing.T) {
 }
 
 func TestVarsTwoTypeValues(t *testing.T) {
-	s := NewVars()
+	s := New()
 	s.Set(0, 111)
 	s.Set(1, "222")
 	v, _ := s.Get(0)
@@ -34,7 +34,7 @@ func TestVarsTwoTypeValues(t *testing.T) {
 }
 
 func TestVarsWitInvalidIndex(t *testing.T) {
-	s := NewVars()
+	s := New()
 	s.Set(0, 111)
 	v, err := s.Get(1)
 	assert.EqualError(t, err, "Variable index undefined")
@@ -42,7 +42,7 @@ func TestVarsWitInvalidIndex(t *testing.T) {
 }
 
 func TestVarsTwoTypeValuesWithAdd(t *testing.T) {
-	s := NewVars()
+	s := New()
 	v1index := s.Add()
 	s.Set(v1index, 111)
 	v2index := s.Add()

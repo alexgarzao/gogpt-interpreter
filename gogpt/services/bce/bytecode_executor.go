@@ -17,8 +17,8 @@ type BytecodeExecutor struct {
 	ip           int
 }
 
-// NewBytecodeExecutor creates a new BytecodeExecutor.
-func NewBytecodeExecutor(bc *bytecode.Bytecode) *BytecodeExecutor {
+// New creates a new BytecodeExecutor.
+func New(bc *bytecode.Bytecode) *BytecodeExecutor {
 	bce := &BytecodeExecutor{
 		ip:           0,
 		bc:           bc,

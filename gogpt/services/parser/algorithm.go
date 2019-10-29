@@ -24,12 +24,12 @@ type ParserResult struct {
 	Err    error
 }
 
-// NewAlgorithm creates a new Algorithm.
-func NewAlgorithm(l *lexer.Lexer) *Algorithm {
+// New creates a new Algorithm.
+func New(l *lexer.Lexer) *Algorithm {
 	return &Algorithm{
 		l:      l,
-		cp:     cp.NewCP(),
-		bc:     bytecode.NewBytecode(),
+		cp:     cp.New(),
+		bc:     bytecode.New(),
 		symbol: NewSymbolTable(),
 	}
 }

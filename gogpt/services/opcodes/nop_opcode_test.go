@@ -11,9 +11,9 @@ import (
 )
 
 func TestValidNop(t *testing.T) {
-	cp := cp.NewCP()
-	vars := vars.NewVars()
-	st := stack.NewStack()
+	cp := cp.New()
+	vars := vars.New()
+	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 
