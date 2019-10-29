@@ -18,19 +18,19 @@ func NewLDCOpcode() *LDCOpcode {
 }
 
 // GetOperandCount gets the numbers os opcode operands.
-func (d *LDCOpcode) GetOperandCount() int {
-	return d.OperandCount
+func (i *LDCOpcode) GetOperandCount() int {
+	return i.OperandCount
 }
 
 // FetchOperands gets the opcode operands.
-func (d *LDCOpcode) FetchOperands(op int) error {
-	d.CpIndex = op
+func (i *LDCOpcode) FetchOperands(op int) error {
+	i.CpIndex = op
 	return nil
 }
 
 // Execute receives the context and runs the opcode.
-func (d *LDCOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
-	cpv, err := cp.Get(d.CpIndex)
+func (i *LDCOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+	cpv, err := cp.Get(i.CpIndex)
 	if err != nil {
 		return err
 	}

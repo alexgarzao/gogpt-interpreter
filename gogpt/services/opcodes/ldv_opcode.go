@@ -18,19 +18,19 @@ func NewLDVOpcode() *LDVOpcode {
 }
 
 // GetOperandCount gets the numbers os opcode operands.
-func (d *LDVOpcode) GetOperandCount() int {
-	return d.OperandCount
+func (i *LDVOpcode) GetOperandCount() int {
+	return i.OperandCount
 }
 
 // FetchOperands gets the opcode operands.
-func (d *LDVOpcode) FetchOperands(op int) error {
-	d.VarIndex = op
+func (i *LDVOpcode) FetchOperands(op int) error {
+	i.VarIndex = op
 	return nil
 }
 
 // Execute receives the context and runs the opcode.
-func (d *LDVOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
-	value, err := vars.Get(d.VarIndex)
+func (i *LDVOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+	value, err := vars.Get(i.VarIndex)
 	if err != nil {
 		return err
 	}

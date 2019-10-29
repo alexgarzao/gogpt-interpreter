@@ -17,16 +17,16 @@ func NewNOPOpcode() *NOPOpcode {
 }
 
 // GetOperandCount gets the numbers os opcode operands.
-func (d *NOPOpcode) GetOperandCount() int {
-	return d.OperandCount
+func (i *NOPOpcode) GetOperandCount() int {
+	return i.OperandCount
 }
 
 // FetchOperands gets the opcode operands.
-func (d *NOPOpcode) FetchOperands(op int) error {
+func (i *NOPOpcode) FetchOperands(op int) error {
 	return nil
 }
 
 // Execute receives the context and runs the opcode.
-func (d *NOPOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+func (i *NOPOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	return nil
 }

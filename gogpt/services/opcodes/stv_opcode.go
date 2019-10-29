@@ -18,24 +18,24 @@ func NewSTVOpcode() *STVOpcode {
 }
 
 // GetOperandCount gets the numbers os opcode operands.
-func (d *STVOpcode) GetOperandCount() int {
-	return d.OperandCount
+func (i *STVOpcode) GetOperandCount() int {
+	return i.OperandCount
 }
 
 // FetchOperands gets the opcode operands.
-func (d *STVOpcode) FetchOperands(op int) error {
-	d.VarIndex = op
+func (i *STVOpcode) FetchOperands(op int) error {
+	i.VarIndex = op
 	return nil
 }
 
 // Execute receives the context and runs the opcode.
-func (d *STVOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+func (i *STVOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	value, err := st.Pop()
 	if err != nil {
 		return err
 	}
 
-	vars.Set(d.VarIndex, value)
+	vars.Set(i.VarIndex, value)
 
 	return nil
 }
