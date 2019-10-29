@@ -1,7 +1,7 @@
 package opcodes
 
 import (
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 )
@@ -26,5 +26,5 @@ type Instruction struct {
 type InstructionImplementation interface {
 	GetOperandCount() int
 	FetchOperands(op int) error
-	Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error
+	Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error
 }

@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/bytecode"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/lexer"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/opcodes"
 )
@@ -12,7 +12,7 @@ import (
 // Algorithm keeps data about the whole parser process.
 type Algorithm struct {
 	l         *lexer.Lexer
-	cp        *constant_pool.CP
+	cp        *cp.CP
 	bc        *bytecode.Bytecode
 	symbol    *SymbolTable
 	argsCount int
@@ -28,7 +28,7 @@ type ParserResult struct {
 func NewAlgorithm(l *lexer.Lexer) *Algorithm {
 	return &Algorithm{
 		l:      l,
-		cp:     constant_pool.NewCP(),
+		cp:     cp.NewCP(),
 		bc:     bytecode.NewBytecode(),
 		symbol: NewSymbolTable(),
 	}
@@ -329,7 +329,7 @@ func (a *Algorithm) parserFunctionArgs() ParserResult {
 }
 
 // GetCP gets the constant pool resulted of a parser.
-func (a *Algorithm) GetCP() *constant_pool.CP {
+func (a *Algorithm) GetCP() *cp.CP {
 	return a.cp
 }
 

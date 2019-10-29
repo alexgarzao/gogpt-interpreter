@@ -1,7 +1,7 @@
 package opcodes
 
 import (
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 )
@@ -29,7 +29,7 @@ func (i *LDVOpcode) FetchOperands(op int) error {
 }
 
 // Execute receives the context and runs the opcode.
-func (i *LDVOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+func (i *LDVOpcode) Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	value, err := vars.Get(i.VarIndex)
 	if err != nil {
 		return err

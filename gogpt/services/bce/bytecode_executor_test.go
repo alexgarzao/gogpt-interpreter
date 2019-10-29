@@ -7,7 +7,7 @@ import (
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/infrastructure"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/bytecode"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/lexer"
@@ -38,7 +38,7 @@ func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
 func TestBCERunningLDC222(t *testing.T) {
 	// CP map:
 	//		0: 222
-	cp := constant_pool.NewCP()
+	cp := cp.NewCP()
 	cpIndex := cp.Add(222)
 	vars := vars.NewVars()
 	st := stack.NewStack()
@@ -50,13 +50,13 @@ func TestBCERunningLDC222(t *testing.T) {
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	cpv, _ := cp.Get(0)
-	assert.Equal(t, cpv, constant_pool.CPItem(222))
+	assert.Equal(t, cpv, 222)
 	stv, _ := st.Top()
 	assert.Equal(t, stv, stack.StackItem(222))
 }
 
 func TestBCERunningNOP(t *testing.T) {
-	cp := constant_pool.NewCP()
+	cp := cp.NewCP()
 	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdin := infrastructure.NewFakeStdin()
@@ -82,7 +82,7 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	//    LDC 1 (Hello World!)
 	//    LDC 2 (1)
 	//    CALL 0 (io.println)
-	cp := constant_pool.NewCP()
+	cp := cp.NewCP()
 	printlnIndex := cp.Add("io.println")
 	messageIndex := cp.Add("Hello World!")
 	argsCountIndex := cp.Add(1)
@@ -102,7 +102,7 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 }
 
 func TestBCERunningInvalidOpcode(t *testing.T) {
-	cp := constant_pool.NewCP()
+	cp := cp.NewCP()
 	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdin := infrastructure.NewFakeStdin()
@@ -136,7 +136,7 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 	//    LDC 4 (1)
 	//    CALL 0 (io.println)
 
-	cp := constant_pool.NewCP()
+	cp := cp.NewCP()
 	printlnIndex := cp.Add("io.println")
 	messageIndex1 := cp.Add("Qual o seu nome?")
 	readlnIndex := cp.Add("io.readln")

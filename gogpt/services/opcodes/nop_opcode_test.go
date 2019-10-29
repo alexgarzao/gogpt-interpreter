@@ -4,14 +4,14 @@ import (
 	"testing"
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/infrastructure"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestValidNop(t *testing.T) {
-	cp := constant_pool.NewCP()
+	cp := cp.NewCP()
 	vars := vars.NewVars()
 	st := stack.NewStack()
 	stdin := infrastructure.NewFakeStdin()

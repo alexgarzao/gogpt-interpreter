@@ -3,7 +3,7 @@ package opcodes
 import (
 	"strconv"
 
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 )
@@ -31,7 +31,7 @@ func (i *CALLOpcode) FetchOperands(op int) error {
 }
 
 // Execute receives the context and runs the opcode.
-func (i *CALLOpcode) Execute(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+func (i *CALLOpcode) Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
 	cpv, err := cp.Get(i.CpIndex)
 	if err != nil {
 		return err

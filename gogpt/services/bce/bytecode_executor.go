@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/bytecode"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/opcodes"
@@ -35,7 +35,7 @@ func NewBytecodeExecutor(bc *bytecode.Bytecode) *BytecodeExecutor {
 }
 
 // Run receives the context (constant pool, vars, stack, stdin and stdout) and runs the bytecode.
-func (bce *BytecodeExecutor) Run(cp *constant_pool.CP, vars *vars.Vars, st *stack.Stack, stdin opcodes.StdinInterface, stdout opcodes.StdoutInterface) error {
+func (bce *BytecodeExecutor) Run(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin opcodes.StdinInterface, stdout opcodes.StdoutInterface) error {
 	for {
 		opcode, err := bce.next()
 		if err != nil {

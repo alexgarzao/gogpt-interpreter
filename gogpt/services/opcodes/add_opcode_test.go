@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/infrastructure"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
 	"github.com/stretchr/testify/assert"
@@ -19,7 +19,7 @@ func TestValidAdd2And3(t *testing.T) {
 	// 		LDC 0
 	// 		LDC 1
 	// 		ADD
-	cp := constant_pool.NewCP()
+	cp := cp.NewCP()
 	cpIndex2 := cp.Add(2)
 	cpIndex3 := cp.Add(3)
 	vars := vars.NewVars()
@@ -51,7 +51,7 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	// 		LDC 1
 	// 		ADD
 
-	cp := constant_pool.NewCP()
+	cp := cp.NewCP()
 	cpIndex2 := cp.Add("Hello")
 	cpIndex3 := cp.Add("World")
 	vars := vars.NewVars()

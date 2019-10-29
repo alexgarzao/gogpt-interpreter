@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/constant_pool"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 )
 
@@ -29,7 +29,7 @@ func (i *ADDOpcode) FetchOperands(op int) error {
 }
 
 // Execute receives the context and runs the opcode.
-func (i *ADDOpcode) Execute(cp *constant_pool.CP, st *stack.Stack) error {
+func (i *ADDOpcode) Execute(cp *cp.CP, st *stack.Stack) error {
 	op2, err := st.Pop()
 	if err != nil {
 		return err

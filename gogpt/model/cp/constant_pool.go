@@ -1,4 +1,4 @@
-package constant_pool
+package cp
 
 import (
 	"errors"
