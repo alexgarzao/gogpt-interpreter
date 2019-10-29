@@ -10,7 +10,7 @@ func TestVarsOneValue(t *testing.T) {
 	s := NewVars()
 	s.Set(0, 111)
 	v, _ := s.Get(0)
-	assert.Equal(t, v, VarsItem(111))
+	assert.Equal(t, v, 111)
 }
 
 func TestVarsTwoValues(t *testing.T) {
@@ -18,9 +18,9 @@ func TestVarsTwoValues(t *testing.T) {
 	s.Set(0, 111)
 	s.Set(1, 222)
 	v, _ := s.Get(0)
-	assert.Equal(t, v, VarsItem(111))
+	assert.Equal(t, v, 111)
 	v, _ = s.Get(1)
-	assert.Equal(t, v, VarsItem(222))
+	assert.Equal(t, v, 222)
 }
 
 func TestVarsTwoTypeValues(t *testing.T) {
@@ -28,9 +28,9 @@ func TestVarsTwoTypeValues(t *testing.T) {
 	s.Set(0, 111)
 	s.Set(1, "222")
 	v, _ := s.Get(0)
-	assert.Equal(t, v, VarsItem(111))
+	assert.Equal(t, v, 111)
 	v, _ = s.Get(1)
-	assert.Equal(t, v, VarsItem("222"))
+	assert.Equal(t, v, "222")
 }
 
 func TestVarsWitInvalidIndex(t *testing.T) {
@@ -38,7 +38,7 @@ func TestVarsWitInvalidIndex(t *testing.T) {
 	s.Set(0, 111)
 	v, err := s.Get(1)
 	assert.EqualError(t, err, "Variable index undefined")
-	assert.Equal(t, VarsItem(0), v)
+	assert.Equal(t, 0, v)
 }
 
 func TestVarsTwoTypeValuesWithAdd(t *testing.T) {
@@ -48,7 +48,7 @@ func TestVarsTwoTypeValuesWithAdd(t *testing.T) {
 	v2index := s.Add()
 	s.Set(v2index, "222")
 	v, _ := s.Get(v1index)
-	assert.Equal(t, v, VarsItem(111))
+	assert.Equal(t, v, 111)
 	v, _ = s.Get(v2index)
-	assert.Equal(t, v, VarsItem("222"))
+	assert.Equal(t, v, "222")
 }
