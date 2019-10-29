@@ -35,7 +35,7 @@ func (i *LDCOpcode) Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin S
 		return err
 	}
 
-	st.Push(stack.StackItem(cpv))
+	st.Push(cpv)
 
 	return nil
 }

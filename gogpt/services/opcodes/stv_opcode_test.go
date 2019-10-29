@@ -28,7 +28,7 @@ func TestValidStvInt(t *testing.T) {
 	j.CpIndex = cpIndex
 	j.Execute(cp, vars, st, stdin, stdout)
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem(123))
+	assert.Equal(t, stv, 123)
 
 	// STV 0
 	stvOpcode := NewSTVOpcode()
@@ -57,7 +57,7 @@ func TestValidStvStr(t *testing.T) {
 	j.CpIndex = cpIndex
 	j.Execute(cp, vars, st, stdin, stdout)
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem("ABC"))
+	assert.Equal(t, stv, "ABC")
 
 	// STV 0
 	stvOpcode := NewSTVOpcode()

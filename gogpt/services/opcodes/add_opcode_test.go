@@ -38,7 +38,7 @@ func TestValidAdd2And3(t *testing.T) {
 	add.Execute(cp, st)
 
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem(5))
+	assert.Equal(t, stv, 5)
 }
 
 func TestValidAddHelloAndWorld(t *testing.T) {
@@ -70,5 +70,5 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	add.Execute(cp, st)
 
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem("HelloWorld"))
+	assert.Equal(t, stv, "HelloWorld")
 }

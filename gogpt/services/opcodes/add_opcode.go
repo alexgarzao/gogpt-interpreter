@@ -50,7 +50,7 @@ func (i *ADDOpcode) Execute(cp *cp.CP, st *stack.Stack) error {
 		res = op1.(string) + op2.(string)
 	}
 
-	st.Push(stack.StackItem(res))
+	st.Push(res)
 
 	return nil
 }

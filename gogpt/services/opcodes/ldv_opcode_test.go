@@ -42,7 +42,7 @@ func TestValidLdvInt(t *testing.T) {
 	ldvOpcode.Execute(cp, vars, st, stdin, stdout)
 
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem(123))
+	assert.Equal(t, stv, 123)
 }
 
 func TestValidLdvStr(t *testing.T) {
@@ -77,5 +77,5 @@ func TestValidLdvStr(t *testing.T) {
 	ldvOpcode.Execute(cp, vars, st, stdin, stdout)
 
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem("ABC"))
+	assert.Equal(t, stv, "ABC")
 }

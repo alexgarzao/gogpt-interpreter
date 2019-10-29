@@ -52,7 +52,7 @@ func TestBCERunningLDC222(t *testing.T) {
 	cpv, _ := cp.Get(0)
 	assert.Equal(t, cpv, 222)
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem(222))
+	assert.Equal(t, stv, 222)
 }
 
 func TestBCERunningNOP(t *testing.T) {

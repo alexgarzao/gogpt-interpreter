@@ -22,7 +22,7 @@ func TestValidLdcInt123(t *testing.T) {
 	cpv, _ := cp.Get(0)
 	assert.Equal(t, cpv, 123)
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem(0))
+	assert.Equal(t, stv, 0)
 
 	// LDC 0
 	j := NewLDCOpcode()
@@ -31,7 +31,7 @@ func TestValidLdcInt123(t *testing.T) {
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, 123)
 	stv, _ = st.Top()
-	assert.Equal(t, stv, stack.StackItem(123))
+	assert.Equal(t, stv, 123)
 }
 
 func TestValidLdcABC(t *testing.T) {
@@ -46,7 +46,7 @@ func TestValidLdcABC(t *testing.T) {
 	cpv, _ := cp.Get(0)
 	assert.Equal(t, cpv, "ABC")
 	stv, _ := st.Top()
-	assert.Equal(t, stv, stack.StackItem(0))
+	assert.Equal(t, stv, 0)
 
 	// LDC 0
 	j := NewLDCOpcode()
@@ -55,5 +55,5 @@ func TestValidLdcABC(t *testing.T) {
 	cpv, _ = cp.Get(0)
 	assert.Equal(t, cpv, "ABC")
 	stv, _ = st.Top()
-	assert.Equal(t, stv, stack.StackItem("ABC"))
+	assert.Equal(t, stv, "ABC")
 }
