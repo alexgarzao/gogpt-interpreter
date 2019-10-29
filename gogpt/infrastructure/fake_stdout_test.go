@@ -9,5 +9,5 @@ import (
 func TestOutputStringMessage(t *testing.T) {
 	fs := NewFakeStdout()
 	fs.Println("ABC")
-	assert.Equal(t, fs.LastLine, "ABC\n")
+	assert.Equal(t, fs.LastLine, "ABC")
 }

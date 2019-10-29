@@ -14,5 +14,5 @@ func NewFakeStdout() *FakeStdout {
 
 // Println prints the next mocked info.
 func (s *FakeStdout) Println(text interface{}) {
-	s.LastLine = fmt.Sprintf("%v\n", text)
+	s.LastLine = fmt.Sprintf("%v", text)
 }

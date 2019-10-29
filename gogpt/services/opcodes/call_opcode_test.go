@@ -38,5 +38,5 @@ func TestCallStringHello(t *testing.T) {
 	call := NewCALLOpcode()
 	call.CpIndex = printlnIndex
 	call.Execute(cp, vars, st, stdin, stdout)
-	assert.Equal(t, stdout.LastLine, "Hello World!\n")
+	assert.Equal(t, stdout.LastLine, "Hello World!")
 }

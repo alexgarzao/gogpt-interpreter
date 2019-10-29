@@ -98,7 +98,7 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	bce := NewBytecodeExecutor(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
-	assert.Equal(t, stdout.LastLine, "Hello World!\n")
+	assert.Equal(t, stdout.LastLine, "Hello World!")
 }
 
 func TestBCERunningInvalidOpcode(t *testing.T) {
@@ -166,7 +166,7 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 	err := bce.Run(cp, vars, st, stdin, stdout)
 
 	assert.Nil(t, err)
-	assert.Equal(t, "aaa123\n", stdout.LastLine)
+	assert.Equal(t, "aaa123", stdout.LastLine)
 }
 
 func TestRunningWithTwoVars(t *testing.T) {
@@ -202,5 +202,5 @@ func TestRunningWithTwoVars(t *testing.T) {
 	err := bce.Run(p.GetCP(), vars, st, stdin, stdout)
 	assert.Nil(t, err)
 
-	assert.Equal(t, "99\n", stdout.LastLine)
+	assert.Equal(t, "99", stdout.LastLine)
 }
