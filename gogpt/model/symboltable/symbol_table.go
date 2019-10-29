@@ -1,12 +1,12 @@
-package parser
+package symboltable
 
 // SymbolTable keeps info about the symbols that were found during the parser.
 type SymbolTable struct {
 	symbols map[string]int
 }
 
-// NewSymbolTable creates a new SymbolTable.
-func NewSymbolTable() *SymbolTable {
+// New creates a new SymbolTable.
+func New() *SymbolTable {
 	st := &SymbolTable{}
 	st.symbols = make(map[string]int)
 

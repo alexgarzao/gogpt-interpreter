@@ -5,6 +5,7 @@ import (
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/symboltable"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/lexer"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/opcodes"
 )
@@ -14,7 +15,7 @@ type Algorithm struct {
 	l         *lexer.Lexer
 	cp        *cp.CP
 	bc        *bytecode.Bytecode
-	symbol    *SymbolTable
+	symbol    *symboltable.SymbolTable
 	argsCount int
 }
 
@@ -30,7 +31,7 @@ func New(l *lexer.Lexer) *Algorithm {
 		l:      l,
 		cp:     cp.New(),
 		bc:     bytecode.New(),
-		symbol: NewSymbolTable(),
+		symbol: symboltable.New(),
 	}
 }
 

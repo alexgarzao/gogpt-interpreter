@@ -1,4 +1,4 @@
-package parser
+package symboltable
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 )
 
 func TestAddingSymbolsToSymbolTable(t *testing.T) {
-	st := NewSymbolTable()
+	st := New()
 
 	assert.Equal(t, 0, st.Add("Var1"))
 	assert.Equal(t, 1, st.Add("Var2"))
