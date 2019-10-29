@@ -4,15 +4,15 @@ import (
 	"errors"
 )
 
-// Bytecode is responsible for keep the opcodes.
+// Bytecode is responsible for keep the instructions.
 type Bytecode struct {
-	opcodes []int
+	instructions []int
 }
 
 // NewBytecode creates a new bytecode.
 func NewBytecode() *Bytecode {
 	return &Bytecode{
-		opcodes: make([]int, 0),
+		instructions: make([]int, 0),
 	}
 }
 
@@ -21,17 +21,17 @@ func (bc *Bytecode) Add(item int, op int) {
 	if bc == nil {
 		return
 	}
-	bc.opcodes = append(bc.opcodes, item)
-	bc.opcodes = append(bc.opcodes, op)
+	bc.instructions = append(bc.instructions, item)
+	bc.instructions = append(bc.instructions, op)
 }
 
 // Get returns the opcode at a specific index.
 func (bc *Bytecode) Get(index int) (int, error) {
-	if bc == nil || index > len(bc.opcodes)-1 {
+	if bc == nil || index > len(bc.instructions)-1 {
 		return 0, errors.New("Index not found")
 	}
 
-	res := bc.opcodes[index]
+	res := bc.instructions[index]
 
 	return res, nil
 }
@@ -42,5 +42,5 @@ func (bc *Bytecode) Len() int {
 		return 0
 	}
 
-	return len(bc.opcodes)
+	return len(bc.instructions)
 }
