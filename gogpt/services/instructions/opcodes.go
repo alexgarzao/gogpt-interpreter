@@ -7,11 +7,17 @@ import (
 )
 
 const (
+	// NOP opcode
 	NOP int = iota
+	// LDC opcode
 	LDC
+	// ADD opcode
 	ADD
+	// CALL opcode
 	CALL
+	// STV opcode
 	STV
+	// LDV opcode
 	LDV
 )
 
