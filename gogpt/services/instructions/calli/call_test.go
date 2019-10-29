@@ -1,4 +1,4 @@
-package opcodes
+package calli
 
 import (
 	"testing"
@@ -7,6 +7,7 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/ldci"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -29,13 +30,13 @@ func TestCallStringHello(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 
-	ldc := NewLDCOpcode()
+	ldc := ldci.New()
 	ldc.CpIndex = messageIndex
 	ldc.Execute(cp, vars, st, stdin, stdout)
-	ldc = NewLDCOpcode()
+	ldc = ldci.New()
 	ldc.CpIndex = argsCountIndex
 	ldc.Execute(cp, vars, st, stdin, stdout)
-	call := NewCALLOpcode()
+	call := New()
 	call.CpIndex = printlnIndex
 	call.Execute(cp, vars, st, stdin, stdout)
 	assert.Equal(t, stdout.LastLine, "Hello World!")

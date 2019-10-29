@@ -1,4 +1,4 @@
-package opcodes
+package nopi
 
 import (
 	"testing"
@@ -18,7 +18,7 @@ func TestValidNop(t *testing.T) {
 	stdout := infrastructure.NewFakeStdout()
 
 	// NOP
-	i := NewNOPOpcode()
+	i := New()
 	i.Execute(cp, vars, st, stdin, stdout)
 	_, err := cp.Get(0)
 	assert.EqualError(t, err, "Index not found")

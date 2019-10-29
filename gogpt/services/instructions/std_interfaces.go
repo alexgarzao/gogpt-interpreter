@@ -1,4 +1,4 @@
-package opcodes
+package instructions
 
 // StdinInterface has the interface necessary to a stdin.
 type StdinInterface interface {

@@ -1,4 +1,4 @@
-package opcodes
+package ldvi
 
 import (
 	"testing"
@@ -7,6 +7,8 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/ldci"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/stvi"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,22 +26,22 @@ func TestValidLdvInt(t *testing.T) {
 	varIndex := 0
 
 	// LDC 0
-	j := NewLDCOpcode()
+	j := ldci.New()
 	j.CpIndex = cpIndex
 	j.Execute(cp, vars, st, stdin, stdout)
 
 	// STV 0
-	stvOpcode := NewSTVOpcode()
-	stvOpcode.VarIndex = varIndex
-	stvOpcode.Execute(cp, vars, st, stdin, stdout)
+	stvInst := stvi.New()
+	stvInst.VarIndex = varIndex
+	stvInst.Execute(cp, vars, st, stdin, stdout)
 	vv, _ := vars.Get(varIndex)
 	assert.Equal(t, vv, 123)
 	assert.Equal(t, 0, st.Size())
 
 	// LDV 0
-	ldvOpcode := NewLDVOpcode()
-	ldvOpcode.VarIndex = varIndex
-	ldvOpcode.Execute(cp, vars, st, stdin, stdout)
+	ldvInst := New()
+	ldvInst.VarIndex = varIndex
+	ldvInst.Execute(cp, vars, st, stdin, stdout)
 
 	stv, _ := st.Top()
 	assert.Equal(t, stv, 123)
@@ -59,22 +61,22 @@ func TestValidLdvStr(t *testing.T) {
 	varIndex := 0
 
 	// LDC 0
-	j := NewLDCOpcode()
+	j := ldci.New()
 	j.CpIndex = cpIndex
 	j.Execute(cp, vars, st, stdin, stdout)
 
 	// STV 0
-	stvOpcode := NewSTVOpcode()
-	stvOpcode.VarIndex = varIndex
-	stvOpcode.Execute(cp, vars, st, stdin, stdout)
+	stvInst := stvi.New()
+	stvInst.VarIndex = varIndex
+	stvInst.Execute(cp, vars, st, stdin, stdout)
 	vv, _ := vars.Get(varIndex)
 	assert.Equal(t, vv, "ABC")
 	assert.Equal(t, 0, st.Size())
 
 	// LDV 0
-	ldvOpcode := NewLDVOpcode()
-	ldvOpcode.VarIndex = varIndex
-	ldvOpcode.Execute(cp, vars, st, stdin, stdout)
+	ldvInst := New()
+	ldvInst.VarIndex = varIndex
+	ldvInst.Execute(cp, vars, st, stdin, stdout)
 
 	stv, _ := st.Top()
 	assert.Equal(t, stv, "ABC")

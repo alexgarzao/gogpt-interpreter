@@ -7,13 +7,18 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/opcodes"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/calli"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/ldci"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/ldvi"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/nopi"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/stvi"
 )
 
 // BytecodeExecutor is responsible for execute the bytecode.
 type BytecodeExecutor struct {
 	bc           *bytecode.Bytecode
-	instructions map[int]opcodes.InstructionImplementation
+	instructions map[int]instructions.InstructionImplementation
 	ip           int
 }
 
@@ -22,20 +27,20 @@ func New(bc *bytecode.Bytecode) *BytecodeExecutor {
 	bce := &BytecodeExecutor{
 		ip:           0,
 		bc:           bc,
-		instructions: make(map[int]opcodes.InstructionImplementation),
+		instructions: make(map[int]instructions.InstructionImplementation),
 	}
 
-	bce.instructions[opcodes.NOP] = opcodes.NewNOPOpcode()
-	bce.instructions[opcodes.LDC] = opcodes.NewLDCOpcode()
-	bce.instructions[opcodes.CALL] = opcodes.NewCALLOpcode()
-	bce.instructions[opcodes.LDV] = opcodes.NewLDVOpcode()
-	bce.instructions[opcodes.STV] = opcodes.NewSTVOpcode()
+	bce.instructions[instructions.NOP] = nopi.New()
+	bce.instructions[instructions.LDC] = ldci.New()
+	bce.instructions[instructions.CALL] = calli.New()
+	bce.instructions[instructions.LDV] = ldvi.New()
+	bce.instructions[instructions.STV] = stvi.New()
 
 	return bce
 }
 
 // Run receives the context (constant pool, vars, stack, stdin and stdout) and runs the bytecode.
-func (bce *BytecodeExecutor) Run(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin opcodes.StdinInterface, stdout opcodes.StdoutInterface) error {
+func (bce *BytecodeExecutor) Run(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin instructions.StdinInterface, stdout instructions.StdoutInterface) error {
 	for {
 		opcode, err := bce.next()
 		if err != nil {

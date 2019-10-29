@@ -1,4 +1,4 @@
-package opcodes
+package calli
 
 import (
 	"strconv"
@@ -6,32 +6,33 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions"
 )
 
-// CALLOpcode is responsible for get the operand and call the lib function.
-type CALLOpcode struct {
-	Instruction
+// CALLInst is responsible for get the operand and call the lib function.
+type CALLInst struct {
+	instructions.Instruction
 	CpIndex int
 }
 
-// NewCALLOpcode creates a new CALLOpcode.
-func NewCALLOpcode() *CALLOpcode {
-	return &CALLOpcode{Instruction{"CALL", CALL, 1}, 0}
+// New creates a new CALLInst.
+func New() *CALLInst {
+	return &CALLInst{instructions.Instruction{"CALL", instructions.CALL, 1}, 0}
 }
 
 // GetOperandCount gets the numbers os opcode operands.
-func (i *CALLOpcode) GetOperandCount() int {
+func (i *CALLInst) GetOperandCount() int {
 	return i.OperandCount
 }
 
 // FetchOperands gets the opcode operands.
-func (i *CALLOpcode) FetchOperands(op int) error {
+func (i *CALLInst) FetchOperands(op int) error {
 	i.CpIndex = op
 	return nil
 }
 
 // Execute receives the context and runs the opcode.
-func (i *CALLOpcode) Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error {
+func (i *CALLInst) Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin instructions.StdinInterface, stdout instructions.StdoutInterface) error {
 	cpv, err := cp.Get(i.CpIndex)
 	if err != nil {
 		return err

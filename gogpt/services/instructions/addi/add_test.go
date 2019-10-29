@@ -1,4 +1,4 @@
-package opcodes
+package addi
 
 import (
 	"testing"
@@ -7,6 +7,7 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions/ldci"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,13 +29,13 @@ func TestValidAdd2And3(t *testing.T) {
 	stdout := infrastructure.NewFakeStdout()
 
 	// LDC 0
-	ldc := NewLDCOpcode()
+	ldc := ldci.New()
 	ldc.CpIndex = cpIndex2
 	ldc.Execute(cp, vars, st, stdin, stdout)
 	ldc.CpIndex = cpIndex3
 	ldc.Execute(cp, vars, st, stdin, stdout)
 
-	add := NewADDOpcode()
+	add := New()
 	add.Execute(cp, st)
 
 	stv, _ := st.Top()
@@ -60,13 +61,13 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	stdout := infrastructure.NewFakeStdout()
 
 	// LDC 0
-	ldc := NewLDCOpcode()
+	ldc := ldci.New()
 	ldc.CpIndex = cpIndex2
 	ldc.Execute(cp, vars, st, stdin, stdout)
 	ldc.CpIndex = cpIndex3
 	ldc.Execute(cp, vars, st, stdin, stdout)
 
-	add := NewADDOpcode()
+	add := New()
 	add.Execute(cp, st)
 
 	stv, _ := st.Top()

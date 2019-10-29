@@ -1,4 +1,4 @@
-package opcodes
+package addi
 
 import (
 	"fmt"
@@ -6,30 +6,31 @@ import (
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions"
 )
 
-// ADDOpcode is an opcode responsible for get two elements from the stack, add, and push onto the stack again.
-type ADDOpcode struct {
-	Instruction
+// ADDInst is an opcode responsible for get two elements from the stack, add, and push onto the stack again.
+type ADDInst struct {
+	instructions.Instruction
 }
 
-// NewADDOpcode creates a new ADDOpcode.
-func NewADDOpcode() *ADDOpcode {
-	return &ADDOpcode{Instruction{"ADD", ADD, 0}}
+// New creates a new ADDInst.
+func New() *ADDInst {
+	return &ADDInst{instructions.Instruction{"ADD", instructions.ADD, 0}}
 }
 
 // GetOperandCount gets the numbers os opcode operands.
-func (i *ADDOpcode) GetOperandCount() int {
+func (i *ADDInst) GetOperandCount() int {
 	return i.OperandCount
 }
 
 // FetchOperands gets the opcode operands.
-func (i *ADDOpcode) FetchOperands(op int) error {
+func (i *ADDInst) FetchOperands(op int) error {
 	return nil
 }
 
 // Execute receives the context and runs the opcode.
-func (i *ADDOpcode) Execute(cp *cp.CP, st *stack.Stack) error {
+func (i *ADDInst) Execute(cp *cp.CP, st *stack.Stack) error {
 	op2, err := st.Pop()
 	if err != nil {
 		return err

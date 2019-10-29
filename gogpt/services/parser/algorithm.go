@@ -6,8 +6,8 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/symboltable"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/lexer"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/opcodes"
 )
 
 // Algorithm keeps data about the whole parser process.
@@ -222,7 +222,7 @@ func (a *Algorithm) parserStmAttr() ParserResult {
 		return ParserResult{false, errors.New("Expected Expr")}
 	}
 
-	a.bc.Add(opcodes.STV, a.symbol.Index(id.Value))
+	a.bc.Add(instructions.STV, a.symbol.Index(id.Value))
 
 	return ParserResult{true, nil}
 }
@@ -252,14 +252,14 @@ func (a *Algorithm) parserExpr() ParserResult {
 
 	id := a.l.GetNextTokenIf(lexer.IDENT)
 	if id != nil {
-		a.bc.Add(opcodes.LDV, a.symbol.Index(id.Value))
+		a.bc.Add(instructions.LDV, a.symbol.Index(id.Value))
 		return ParserResult{true, nil}
 	}
 
 	token := a.l.GetNextTokenIf(lexer.STRING)
 	if token != nil {
 		cpIndex := a.cp.Add(token.Value)
-		a.bc.Add(opcodes.LDC, cpIndex)
+		a.bc.Add(instructions.LDC, cpIndex)
 		return ParserResult{true, nil}
 	}
 
@@ -291,10 +291,10 @@ func (a *Algorithm) parserFunctionCall() ParserResult {
 
 	if token.Value == "imprima" {
 		argsCountIndex := a.cp.Add(a.argsCount)
-		a.bc.Add(opcodes.LDC, argsCountIndex)
+		a.bc.Add(instructions.LDC, argsCountIndex)
 	}
 
-	a.bc.Add(opcodes.CALL, funcIndex)
+	a.bc.Add(instructions.CALL, funcIndex)
 
 	if a.l.GetNextTokenIf(lexer.RPAREN) == nil {
 		return ParserResult{false, errors.New("Expected RPAREN")}

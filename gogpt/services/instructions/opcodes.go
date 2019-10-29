@@ -1,4 +1,4 @@
-package opcodes
+package instructions
 
 import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"

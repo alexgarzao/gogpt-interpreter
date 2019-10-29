@@ -10,27 +10,27 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/stack"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/vars"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/lexer"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/opcodes"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/parser"
 )
 
 func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
 	bc := bytecode.New()
-	bc.Add(opcodes.LDC, 111)
-	bc.Add(opcodes.LDC, 222)
+	bc.Add(instructions.LDC, 111)
+	bc.Add(instructions.LDC, 222)
 
 	assert.Equal(t, bc.Len(), 4)
 
 	bce := New(bc)
 
 	v, _ := bce.next()
-	assert.Equal(t, v, opcodes.LDC)
+	assert.Equal(t, v, instructions.LDC)
 	v, _ = bce.next()
 	assert.Equal(t, v, 111)
 
 	v, _ = bce.next()
-	assert.Equal(t, v, opcodes.LDC)
+	assert.Equal(t, v, instructions.LDC)
 	v, _ = bce.next()
 	assert.Equal(t, v, 222)
 }
@@ -45,7 +45,7 @@ func TestBCERunningLDC222(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	bc := bytecode.New()
-	bc.Add(opcodes.LDC, cpIndex)
+	bc.Add(instructions.LDC, cpIndex)
 	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
@@ -62,7 +62,7 @@ func TestBCERunningNOP(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	bc := bytecode.New()
-	bc.Add(opcodes.NOP, 0)
+	bc.Add(instructions.NOP, 0)
 	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
@@ -92,9 +92,9 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	bc := bytecode.New()
-	bc.Add(opcodes.LDC, messageIndex)
-	bc.Add(opcodes.LDC, argsCountIndex)
-	bc.Add(opcodes.CALL, printlnIndex)
+	bc.Add(instructions.LDC, messageIndex)
+	bc.Add(instructions.LDC, argsCountIndex)
+	bc.Add(instructions.CALL, printlnIndex)
 	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
@@ -144,17 +144,17 @@ func TestBCEHelloWorldWithInput(t *testing.T) {
 	argsCountIndex := cp.Add(1)
 
 	bc := bytecode.New()
-	bc.Add(opcodes.LDC, messageIndex1)
-	bc.Add(opcodes.LDC, argsCountIndex)
-	bc.Add(opcodes.CALL, printlnIndex)
-	bc.Add(opcodes.CALL, readlnIndex)
-	bc.Add(opcodes.STV, 0)
-	bc.Add(opcodes.LDC, messageIndex2)
-	bc.Add(opcodes.LDC, argsCountIndex)
-	bc.Add(opcodes.CALL, printlnIndex)
-	bc.Add(opcodes.LDV, 0)
-	bc.Add(opcodes.LDC, argsCountIndex)
-	bc.Add(opcodes.CALL, printlnIndex)
+	bc.Add(instructions.LDC, messageIndex1)
+	bc.Add(instructions.LDC, argsCountIndex)
+	bc.Add(instructions.CALL, printlnIndex)
+	bc.Add(instructions.CALL, readlnIndex)
+	bc.Add(instructions.STV, 0)
+	bc.Add(instructions.LDC, messageIndex2)
+	bc.Add(instructions.LDC, argsCountIndex)
+	bc.Add(instructions.CALL, printlnIndex)
+	bc.Add(instructions.LDV, 0)
+	bc.Add(instructions.LDC, argsCountIndex)
+	bc.Add(instructions.CALL, printlnIndex)
 
 	vars := vars.New()
 	st := stack.New()

@@ -5,8 +5,8 @@ import (
 
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/model/cp"
+	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/instructions"
 	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/lexer"
-	"github.com/alexgarzao/gogpt-interpreter/gogpt/services/opcodes"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -79,8 +79,8 @@ fim`
 	l := lexer.New(c)
 	p := New(l)
 	expectedBc := bytecode.New()
-	expectedBc.Add(opcodes.LDC, argsCountIndex)
-	expectedBc.Add(opcodes.CALL, printlnIndex)
+	expectedBc.Add(instructions.LDC, argsCountIndex)
+	expectedBc.Add(instructions.CALL, printlnIndex)
 
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
@@ -111,9 +111,9 @@ fim`
 	l := lexer.New(c)
 	p := New(l)
 	expectedBc := bytecode.New()
-	expectedBc.Add(opcodes.LDC, messageIndex)
-	expectedBc.Add(opcodes.LDC, argsCountIndex)
-	expectedBc.Add(opcodes.CALL, printlnIndex)
+	expectedBc.Add(instructions.LDC, messageIndex)
+	expectedBc.Add(instructions.LDC, argsCountIndex)
+	expectedBc.Add(instructions.CALL, printlnIndex)
 
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
@@ -150,12 +150,12 @@ fim`
 	l := lexer.New(c)
 	p := New(l)
 	expectedBc := bytecode.New()
-	expectedBc.Add(opcodes.LDC, messageIndex1)
-	expectedBc.Add(opcodes.LDC, argsCountIndex)
-	expectedBc.Add(opcodes.CALL, printlnIndex)
-	expectedBc.Add(opcodes.LDC, messageIndex2)
-	expectedBc.Add(opcodes.LDC, argsCountIndex)
-	expectedBc.Add(opcodes.CALL, printlnIndex)
+	expectedBc.Add(instructions.LDC, messageIndex1)
+	expectedBc.Add(instructions.LDC, argsCountIndex)
+	expectedBc.Add(instructions.CALL, printlnIndex)
+	expectedBc.Add(instructions.LDC, messageIndex2)
+	expectedBc.Add(instructions.LDC, argsCountIndex)
+	expectedBc.Add(instructions.CALL, printlnIndex)
 
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
@@ -237,17 +237,17 @@ func TestBytecodeHelloWorldWithInput(t *testing.T) {
 	l := lexer.New(c)
 	p := New(l)
 	expectedBc := bytecode.New()
-	expectedBc.Add(opcodes.LDC, messageIndex1)
-	expectedBc.Add(opcodes.LDC, argsCountIndex)
-	expectedBc.Add(opcodes.CALL, printlnIndex)
-	expectedBc.Add(opcodes.CALL, readlnIndex)
-	expectedBc.Add(opcodes.STV, 0)
-	expectedBc.Add(opcodes.LDC, messageIndex2)
-	expectedBc.Add(opcodes.LDC, argsCountIndex)
-	expectedBc.Add(opcodes.CALL, printlnIndex)
-	expectedBc.Add(opcodes.LDV, 0)
-	expectedBc.Add(opcodes.LDC, argsCountIndex)
-	expectedBc.Add(opcodes.CALL, printlnIndex)
+	expectedBc.Add(instructions.LDC, messageIndex1)
+	expectedBc.Add(instructions.LDC, argsCountIndex)
+	expectedBc.Add(instructions.CALL, printlnIndex)
+	expectedBc.Add(instructions.CALL, readlnIndex)
+	expectedBc.Add(instructions.STV, 0)
+	expectedBc.Add(instructions.LDC, messageIndex2)
+	expectedBc.Add(instructions.LDC, argsCountIndex)
+	expectedBc.Add(instructions.CALL, printlnIndex)
+	expectedBc.Add(instructions.LDV, 0)
+	expectedBc.Add(instructions.LDC, argsCountIndex)
+	expectedBc.Add(instructions.CALL, printlnIndex)
 
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
@@ -281,10 +281,10 @@ fim`
 	l := lexer.New(c)
 	p := New(l)
 	expectedBc := bytecode.New()
-	expectedBc.Add(opcodes.LDC, messageIndex1)
-	expectedBc.Add(opcodes.LDC, messageIndex2)
-	expectedBc.Add(opcodes.LDC, argsCountIndex)
-	expectedBc.Add(opcodes.CALL, printlnIndex)
+	expectedBc.Add(instructions.LDC, messageIndex1)
+	expectedBc.Add(instructions.LDC, messageIndex2)
+	expectedBc.Add(instructions.LDC, argsCountIndex)
+	expectedBc.Add(instructions.CALL, printlnIndex)
 
 	pr := p.Parser()
 	assert.Equal(t, true, pr.Parsed)
