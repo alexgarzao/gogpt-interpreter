@@ -17,22 +17,19 @@ type STVInst struct {
 func New() *STVInst {
 	return &STVInst{
 		instructions.Instruction{
-			Name:         "STV",
-			Opcode:       instructions.STV,
-			OperandCount: 1},
+			Name:   "STV",
+			Opcode: instructions.STV,
+		},
 		0,
 	}
 }
 
-// GetOperandCount gets the numbers os opcode operands.
-func (i *STVInst) GetOperandCount() int {
-	return i.OperandCount
-}
-
 // FetchOperands gets the opcode operands.
-func (i *STVInst) FetchOperands(op int) error {
-	i.VarIndex = op
-	return nil
+func (i *STVInst) FetchOperands(fetch instructions.FetchOperandsImplementation) error {
+	var err error
+	i.VarIndex, err = fetch.Next()
+
+	return err
 }
 
 // Execute receives the context and runs the opcode.

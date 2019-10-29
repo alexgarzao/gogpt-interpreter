@@ -24,14 +24,14 @@ func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
 
 	bce := New(bc)
 
-	v, _ := bce.next()
+	v, _ := bce.Next()
 	assert.Equal(t, v, instructions.LDC)
-	v, _ = bce.next()
+	v, _ = bce.Next()
 	assert.Equal(t, v, 111)
 
-	v, _ = bce.next()
+	v, _ = bce.Next()
 	assert.Equal(t, v, instructions.LDC)
-	v, _ = bce.next()
+	v, _ = bce.Next()
 	assert.Equal(t, v, 222)
 }
 

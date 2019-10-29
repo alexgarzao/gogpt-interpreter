@@ -17,22 +17,19 @@ type LDVInst struct {
 func New() *LDVInst {
 	return &LDVInst{
 		instructions.Instruction{
-			Name:         "LDV",
-			Opcode:       instructions.LDV,
-			OperandCount: 1},
+			Name:   "LDV",
+			Opcode: instructions.LDV,
+		},
 		0,
 	}
 }
 
-// GetOperandCount gets the numbers os opcode operands.
-func (i *LDVInst) GetOperandCount() int {
-	return i.OperandCount
-}
-
 // FetchOperands gets the opcode operands.
-func (i *LDVInst) FetchOperands(op int) error {
-	i.VarIndex = op
-	return nil
+func (i *LDVInst) FetchOperands(fetch instructions.FetchOperandsImplementation) error {
+	var err error
+	i.VarIndex, err = fetch.Next()
+
+	return err
 }
 
 // Execute receives the context and runs the opcode.

@@ -16,19 +16,14 @@ type NOPInst struct {
 func New() *NOPInst {
 	return &NOPInst{
 		instructions.Instruction{
-			Name:         "NOP",
-			Opcode:       instructions.NOP,
-			OperandCount: 0},
+			Name:   "NOP",
+			Opcode: instructions.NOP,
+		},
 	}
 }
 
-// GetOperandCount gets the numbers os opcode operands.
-func (i *NOPInst) GetOperandCount() int {
-	return i.OperandCount
-}
-
 // FetchOperands gets the opcode operands.
-func (i *NOPInst) FetchOperands(op int) error {
+func (i *NOPInst) FetchOperands(fetch instructions.FetchOperandsImplementation) error {
 	return nil
 }
 

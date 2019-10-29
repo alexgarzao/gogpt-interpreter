@@ -42,7 +42,7 @@ func New(bc *bytecode.Bytecode) *BytecodeExecutor {
 // Run receives the context (constant pool, vars, stack, stdin and stdout) and runs the bytecode.
 func (bce *BytecodeExecutor) Run(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin instructions.StdinInterface, stdout instructions.StdoutInterface) error {
 	for {
-		opcode, err := bce.next()
+		opcode, err := bce.Next()
 		if err != nil {
 			return nil
 		}
@@ -52,16 +52,9 @@ func (bce *BytecodeExecutor) Run(cp *cp.CP, vars *vars.Vars, st *stack.Stack, st
 			return fmt.Errorf("Invalid opcode %d", opcode)
 		}
 
-		if instruction.GetOperandCount() == 1 {
-			operand, err := bce.next()
-			if err != nil {
-				return err
-			}
-
-			err = instruction.FetchOperands(operand)
-			if err != nil {
-				return err
-			}
+		err = instruction.FetchOperands(bce)
+		if err != nil {
+			return err
 		}
 
 		err = instruction.Execute(cp, vars, st, stdin, stdout)
@@ -71,7 +64,8 @@ func (bce *BytecodeExecutor) Run(cp *cp.CP, vars *vars.Vars, st *stack.Stack, st
 	}
 }
 
-func (bce *BytecodeExecutor) next() (code int, err error) {
+// Next returns the next bytecode.
+func (bce *BytecodeExecutor) Next() (code int, err error) {
 	code, err = bce.bc.Get(bce.ip)
 	bce.ip++
 

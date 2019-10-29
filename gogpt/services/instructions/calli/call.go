@@ -19,22 +19,19 @@ type CALLInst struct {
 func New() *CALLInst {
 	return &CALLInst{
 		instructions.Instruction{
-			Name:         "CALL",
-			Opcode:       instructions.CALL,
-			OperandCount: 1},
+			Name:   "CALL",
+			Opcode: instructions.CALL,
+		},
 		0,
 	}
 }
 
-// GetOperandCount gets the numbers os opcode operands.
-func (i *CALLInst) GetOperandCount() int {
-	return i.OperandCount
-}
-
 // FetchOperands gets the opcode operands.
-func (i *CALLInst) FetchOperands(op int) error {
-	i.CpIndex = op
-	return nil
+func (i *CALLInst) FetchOperands(fetch instructions.FetchOperandsImplementation) error {
+	var err error
+	i.CpIndex, err = fetch.Next()
+
+	return err
 }
 
 // Execute receives the context and runs the opcode.

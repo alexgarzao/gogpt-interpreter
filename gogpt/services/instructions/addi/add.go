@@ -18,19 +18,14 @@ type ADDInst struct {
 func New() *ADDInst {
 	return &ADDInst{
 		instructions.Instruction{
-			Name:         "ADD",
-			Opcode:       instructions.ADD,
-			OperandCount: 0},
+			Name:   "ADD",
+			Opcode: instructions.ADD,
+		},
 	}
 }
 
-// GetOperandCount gets the numbers os opcode operands.
-func (i *ADDInst) GetOperandCount() int {
-	return i.OperandCount
-}
-
 // FetchOperands gets the opcode operands.
-func (i *ADDInst) FetchOperands(op int) error {
+func (i *ADDInst) FetchOperands(fetch instructions.FetchOperandsImplementation) error {
 	return nil
 }
 

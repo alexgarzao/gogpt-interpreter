@@ -23,14 +23,17 @@ const (
 
 // Instruction has the common data of all instructions.
 type Instruction struct {
-	Name         string
-	Opcode       int
-	OperandCount int
+	Name   string
+	Opcode int
 }
 
 // InstructionImplementation has the minimal interface to be a valid instruction.
 type InstructionImplementation interface {
-	GetOperandCount() int
-	FetchOperands(op int) error
+	FetchOperands(fetch FetchOperandsImplementation) error
 	Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin StdinInterface, stdout StdoutInterface) error
+}
+
+// FetchOperandsImplementation has the minimal interface to be a valid BCE.
+type FetchOperandsImplementation interface {
+	Next() (code int, err error)
 }

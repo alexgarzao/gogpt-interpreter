@@ -17,22 +17,19 @@ type LDCInst struct {
 func New() *LDCInst {
 	return &LDCInst{
 		instructions.Instruction{
-			Name:         "LDC",
-			Opcode:       instructions.LDC,
-			OperandCount: 1},
+			Name:   "LDC",
+			Opcode: instructions.LDC,
+		},
 		0,
 	}
 }
 
-// GetOperandCount gets the numbers os opcode operands.
-func (i *LDCInst) GetOperandCount() int {
-	return i.OperandCount
-}
-
 // FetchOperands gets the opcode operands.
-func (i *LDCInst) FetchOperands(op int) error {
-	i.CpIndex = op
-	return nil
+func (i *LDCInst) FetchOperands(fetch instructions.FetchOperandsImplementation) error {
+	var err error
+	i.CpIndex, err = fetch.Next()
+
+	return err
 }
 
 // Execute receives the context and runs the opcode.
