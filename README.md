@@ -6,7 +6,7 @@ A linguagem G-Portugol foi criada pelo Thiago Silva, tendo por finalidade o ensi
 
 [Aqui](https://pt.wikipedia.org/wiki/G-Portugol) também existe uma breve descrição do propósito do projeto.
 
-A versão atual do go-gpt consegue interpretar e executar apenas algoritmos simples como "Olá mundo" em G-Portugol.
+A versão atual do gogpt consegue interpretar e executar apenas algoritmos simples em G-Portugol como "Olá mundo" e leitura de dados simples.
 
 ## Requisitos
 
