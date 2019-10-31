@@ -13,11 +13,11 @@ func TestBytecodeAddingOneInstruction(t *testing.T) {
 	bc.Add(MyFakeOpcode, 111)
 
 	v, _ := bc.Get(0)
-	assert.Equal(t, v, MyFakeOpcode)
+	assert.Equal(t, MyFakeOpcode, v)
 	v, _ = bc.Get(1)
-	assert.Equal(t, v, 111)
+	assert.Equal(t, 111, v)
 
-	assert.Equal(t, bc.Len(), 2)
+	assert.Equal(t, 2, bc.Len())
 }
 
 func TestBytecodeAddingAndFetchingBytecodes(t *testing.T) {
@@ -26,16 +26,16 @@ func TestBytecodeAddingAndFetchingBytecodes(t *testing.T) {
 	bc.Add(MyFakeOpcode, 222)
 
 	v, _ := bc.Get(0)
-	assert.Equal(t, v, MyFakeOpcode)
+	assert.Equal(t, MyFakeOpcode, v)
 	v, _ = bc.Get(1)
-	assert.Equal(t, v, 111)
+	assert.Equal(t, 111, v)
 
 	v, _ = bc.Get(2)
-	assert.Equal(t, v, MyFakeOpcode)
+	assert.Equal(t, MyFakeOpcode, v)
 	v, _ = bc.Get(3)
-	assert.Equal(t, v, 222)
+	assert.Equal(t, 222, v)
 
-	assert.Equal(t, bc.Len(), 4)
+	assert.Equal(t, 4, bc.Len())
 }
 
 func TestBytecodeEofError(t *testing.T) {

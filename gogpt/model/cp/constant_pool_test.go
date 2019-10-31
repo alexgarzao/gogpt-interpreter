@@ -8,29 +8,29 @@ import (
 
 func TestCpAddIntConstants(t *testing.T) {
 	cp := New()
-	assert.Equal(t, cp.Add(123), 0)
-	assert.Equal(t, cp.Add(456), 1)
+	assert.Equal(t, 0, cp.Add(123))
+	assert.Equal(t, 1, cp.Add(456))
 }
 
 func TestCpGetIntConstants(t *testing.T) {
 	cp := New()
-	assert.Equal(t, cp.Add(123), 0)
-	assert.Equal(t, cp.Add(456), 1)
+	assert.Equal(t, 0, cp.Add(123))
+	assert.Equal(t, 1, cp.Add(456))
 	v, _ := cp.Get(0)
-	assert.Equal(t, v, 123)
+	assert.Equal(t, 123, v)
 	v, _ = cp.Get(1)
-	assert.Equal(t, v, 456)
+	assert.Equal(t, 456, v)
 }
 
 func TestCpGetIntConstantsError(t *testing.T) {
 	cp := New()
-	assert.Equal(t, cp.Add(123), 0)
-	assert.Equal(t, cp.Add(456), 1)
+	assert.Equal(t, 0, cp.Add(123))
+	assert.Equal(t, 1, cp.Add(456))
 	v, err := cp.Get(0)
-	assert.Equal(t, v, 123)
+	assert.Equal(t, 123, v)
 	assert.NoError(t, err)
 	v, err = cp.Get(1)
-	assert.Equal(t, v, 456)
+	assert.Equal(t, 456, v)
 	assert.NoError(t, err)
 	v, err = cp.Get(2)
 	assert.EqualError(t, err, "Index not found")
@@ -38,29 +38,29 @@ func TestCpGetIntConstantsError(t *testing.T) {
 
 func TestCpAddStrConstants(t *testing.T) {
 	cp := New()
-	assert.Equal(t, cp.Add("ABC"), 0)
-	assert.Equal(t, cp.Add("DEF"), 1)
+	assert.Equal(t, 0, cp.Add("ABC"))
+	assert.Equal(t, 1, cp.Add("DEF"))
 }
 
 func TestCpGetStrConstants(t *testing.T) {
 	cp := New()
-	assert.Equal(t, cp.Add("ABC"), 0)
-	assert.Equal(t, cp.Add("DEF"), 1)
+	assert.Equal(t, 0, cp.Add("ABC"))
+	assert.Equal(t, 1, cp.Add("DEF"))
 	v, _ := cp.Get(0)
-	assert.Equal(t, v, "ABC")
+	assert.Equal(t, "ABC", v)
 	v, _ = cp.Get(1)
-	assert.Equal(t, v, "DEF")
+	assert.Equal(t, "DEF", v)
 }
 
 func TestCpGetStrConstantsError(t *testing.T) {
 	cp := New()
-	assert.Equal(t, cp.Add("ABC"), 0)
-	assert.Equal(t, cp.Add("DEF"), 1)
+	assert.Equal(t, 0, cp.Add("ABC"))
+	assert.Equal(t, 1, cp.Add("DEF"))
 	v, err := cp.Get(0)
-	assert.Equal(t, v, "ABC")
+	assert.Equal(t, "ABC", v)
 	assert.NoError(t, err)
 	v, err = cp.Get(1)
-	assert.Equal(t, v, "DEF")
+	assert.Equal(t, "DEF", v)
 	assert.NoError(t, err)
 	v, err = cp.Get(2)
 	assert.EqualError(t, err, "Index not found")
@@ -68,12 +68,12 @@ func TestCpGetStrConstantsError(t *testing.T) {
 
 func TestCpAddingIntAndStrConstants(t *testing.T) {
 	cp := New()
-	assert.Equal(t, cp.Add(123), 0)
-	assert.Equal(t, cp.Add("456"), 1)
+	assert.Equal(t, 0, cp.Add(123))
+	assert.Equal(t, 1, cp.Add("456"))
 	v, _ := cp.Get(0)
-	assert.Equal(t, v, 123)
+	assert.Equal(t, 123, v)
 	v, _ = cp.Get(1)
-	assert.Equal(t, v, "456")
+	assert.Equal(t, "456", v)
 }
 
 func TestCpAddingDuplicatedValues(t *testing.T) {

@@ -35,7 +35,7 @@ func TestValidLdvInt(t *testing.T) {
 	stv.VarIndex = varIndex
 	stv.Execute(cp, vars, st, stdin, stdout)
 	vv, _ := vars.Get(varIndex)
-	assert.Equal(t, vv, 123)
+	assert.Equal(t, 123, vv)
 	assert.Equal(t, 0, st.Size())
 
 	// LDV 0
@@ -44,7 +44,7 @@ func TestValidLdvInt(t *testing.T) {
 	ldvInst.Execute(cp, vars, st, stdin, stdout)
 
 	stackValue, _ := st.Top()
-	assert.Equal(t, stackValue, 123)
+	assert.Equal(t, 123, stackValue)
 }
 
 func TestValidLdvStr(t *testing.T) {
@@ -70,7 +70,7 @@ func TestValidLdvStr(t *testing.T) {
 	stv.VarIndex = varIndex
 	stv.Execute(cp, vars, st, stdin, stdout)
 	vv, _ := vars.Get(varIndex)
-	assert.Equal(t, vv, "ABC")
+	assert.Equal(t, "ABC", vv)
 	assert.Equal(t, 0, st.Size())
 
 	// LDV 0
@@ -79,5 +79,5 @@ func TestValidLdvStr(t *testing.T) {
 	ldv.Execute(cp, vars, st, stdin, stdout)
 
 	stackValue, _ := st.Top()
-	assert.Equal(t, stackValue, "ABC")
+	assert.Equal(t, "ABC", stackValue)
 }

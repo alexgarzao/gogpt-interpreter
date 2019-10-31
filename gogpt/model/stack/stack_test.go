@@ -10,7 +10,7 @@ func TestStackPushOneValue(t *testing.T) {
 	s := New()
 	s.Push(111)
 	v, _ := s.Top()
-	assert.Equal(t, v, 111)
+	assert.Equal(t, 111, v)
 }
 
 func TestStackPushTwoValues(t *testing.T) {
@@ -18,14 +18,14 @@ func TestStackPushTwoValues(t *testing.T) {
 	s.Push(111)
 	s.Push(222)
 	v, _ := s.Top()
-	assert.Equal(t, v, 222)
+	assert.Equal(t, 222, v)
 }
 
 func TestStackPushAndPopOneValue(t *testing.T) {
 	s := New()
 	s.Push(111)
 	v, _ := s.Pop()
-	assert.Equal(t, v, 111)
+	assert.Equal(t, 111, v)
 }
 
 func TestStackPushAndPopTwoValues(t *testing.T) {
@@ -33,9 +33,9 @@ func TestStackPushAndPopTwoValues(t *testing.T) {
 	s.Push(111)
 	s.Push(222)
 	v, _ := s.Pop()
-	assert.Equal(t, v, 222)
+	assert.Equal(t, 222, v)
 	v, _ = s.Pop()
-	assert.Equal(t, v, 111)
+	assert.Equal(t, 111, v)
 }
 
 func TestStackTop(t *testing.T) {
@@ -78,10 +78,10 @@ func TestStackPushAndPopTwoValuesCheckingSize(t *testing.T) {
 	assert.Equal(t, 2, s.Size())
 
 	v, _ := s.Pop()
-	assert.Equal(t, v, 222)
+	assert.Equal(t, 222, v)
 	assert.Equal(t, 1, s.Size())
 
 	v, _ = s.Pop()
-	assert.Equal(t, v, 111)
+	assert.Equal(t, 111, v)
 	assert.Equal(t, 0, s.Size())
 }

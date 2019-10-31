@@ -20,18 +20,18 @@ func TestValidLdcInt123(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	cpv, _ := cp.Get(0)
-	assert.Equal(t, cpv, 123)
+	assert.Equal(t, 123, cpv)
 	stv, _ := st.Top()
-	assert.Equal(t, stv, 0)
+	assert.Equal(t, 0, stv)
 
 	// LDC 0
 	ldc := New()
 	ldc.CpIndex = cpIndex
 	ldc.Execute(cp, vars, st, stdin, stdout)
 	cpv, _ = cp.Get(0)
-	assert.Equal(t, cpv, 123)
+	assert.Equal(t, 123, cpv)
 	stv, _ = st.Top()
-	assert.Equal(t, stv, 123)
+	assert.Equal(t, 123, stv)
 }
 
 func TestValidLdcABC(t *testing.T) {
@@ -44,16 +44,16 @@ func TestValidLdcABC(t *testing.T) {
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	cpv, _ := cp.Get(0)
-	assert.Equal(t, cpv, "ABC")
+	assert.Equal(t, "ABC", cpv)
 	stv, _ := st.Top()
-	assert.Equal(t, stv, 0)
+	assert.Equal(t, 0, stv)
 
 	// LDC 0
 	ldc := New()
 	ldc.CpIndex = cpIndex
 	ldc.Execute(cp, vars, st, stdin, stdout)
 	cpv, _ = cp.Get(0)
-	assert.Equal(t, cpv, "ABC")
+	assert.Equal(t, "ABC", cpv)
 	stv, _ = st.Top()
-	assert.Equal(t, stv, "ABC")
+	assert.Equal(t, "ABC", stv)
 }

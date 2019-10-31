@@ -9,5 +9,5 @@ import (
 func TestNextStringToRead(t *testing.T) {
 	fs := NewFakeStdin()
 	fs.NextLineToRead("aaa123")
-	assert.Equal(t, fs.Readln(), "aaa123")
+	assert.Equal(t, "aaa123", fs.Readln())
 }

@@ -20,19 +20,19 @@ func TestBCEAddingAndFetchingBytecodes(t *testing.T) {
 	bc.Add(instructions.LDC, 111)
 	bc.Add(instructions.LDC, 222)
 
-	assert.Equal(t, bc.Len(), 4)
+	assert.Equal(t, 4, bc.Len())
 
 	bce := New(bc)
 
 	v, _ := bce.Next()
-	assert.Equal(t, v, instructions.LDC)
+	assert.Equal(t, instructions.LDC, v)
 	v, _ = bce.Next()
-	assert.Equal(t, v, 111)
+	assert.Equal(t, 111, v)
 
 	v, _ = bce.Next()
-	assert.Equal(t, v, instructions.LDC)
+	assert.Equal(t, instructions.LDC, v)
 	v, _ = bce.Next()
-	assert.Equal(t, v, 222)
+	assert.Equal(t, 222, v)
 }
 
 func TestBCERunningLDC222(t *testing.T) {
@@ -50,9 +50,9 @@ func TestBCERunningLDC222(t *testing.T) {
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	cpv, _ := cp.Get(0)
-	assert.Equal(t, cpv, 222)
+	assert.Equal(t, 222, cpv)
 	stv, _ := st.Top()
-	assert.Equal(t, stv, 222)
+	assert.Equal(t, 222, stv)
 }
 
 func TestBCERunningNOP(t *testing.T) {
@@ -98,7 +98,7 @@ func TestBCECompleteHelloWorld(t *testing.T) {
 	bce := New(bc)
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
-	assert.Equal(t, stdout.LastLine, "Hello World!")
+	assert.Equal(t, "Hello World!", stdout.LastLine)
 }
 
 func TestBCERunningInvalidOpcode(t *testing.T) {
