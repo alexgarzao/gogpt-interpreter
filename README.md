@@ -33,9 +33,9 @@ Como este projeto foi escrito em Golang, é necessário ter o ambiente de Golang
     cd ~/go/src/github.com/alexgarzao/
     git clone https://github.com/alexgarzao/gogpt-interpreter.git
     cd gogpt-interpreter/gogpt
-    go test ./...
-    go install .
-    gogpt ../samples/hello_world.gpt
+    make unittests
+    make build
+    ./gogpt/gogpt ../samples/hello_world.gpt
 
 ## Arquitetura do projeto
 
