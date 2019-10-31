@@ -33,7 +33,7 @@ func (cp *CP) Add(item interface{}) int {
 
 // Get gets an item from the constant pool.
 func (cp *CP) Get(index int) (interface{}, error) {
-	if index > len(cp.constants)-1 {
+	if cp == nil || index > len(cp.constants)-1 {
 		return 0, errors.New("Index not found")
 	}
 
@@ -44,6 +44,10 @@ func (cp *CP) Get(index int) (interface{}, error) {
 
 // Find finds if a specific item is at the constant pool.
 func (cp *CP) Find(item interface{}) int {
+	if cp == nil {
+		return -1
+	}
+
 	for i, v := range cp.constants {
 		if v == item {
 			return i

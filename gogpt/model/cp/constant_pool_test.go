@@ -83,3 +83,10 @@ func TestCpAddingDuplicatedValues(t *testing.T) {
 	assert.Equal(t, 1, cp.Add(456))
 	assert.Equal(t, 0, cp.Add(123))
 }
+
+func TestCPAddWithoutInstance(t *testing.T) {
+	var cp *CP
+	cp.Add(111)
+
+	assert.Equal(t, -1, cp.Find(111))
+}
