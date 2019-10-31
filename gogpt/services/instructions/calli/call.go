@@ -42,39 +42,52 @@ func (i *CALLInst) Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin in
 	}
 
 	if cpv == "io.println" {
+		err = i.printlnImpl(st, stdout)
+		if err != nil {
+			return err
+		}
+	} else if cpv == "io.readln" {
+		i.readlnImpl(st, stdin)
+	}
+
+	return nil
+}
+
+func (i *CALLInst) printlnImpl(st *stack.Stack, stdout instructions.StdoutInterface) error {
+	stv, err := st.Pop()
+	if err != nil {
+		return err
+	}
+
+	argsCount := stv.(int)
+
+	text := ""
+
+	for argsCount > 0 {
 		stv, err := st.Pop()
 		if err != nil {
 			return err
 		}
 
-		argsCount := stv.(int)
-
-		text := ""
-
-		for argsCount > 0 {
-			stv, err := st.Pop()
-			if err != nil {
-				return err
-			}
-
-			res := ""
-			switch stv.(type) {
-			case int:
-				res = strconv.Itoa(stv.(int))
-			case string:
-				res = stv.(string)
-			}
-
-			text = res + text
-
-			argsCount--
+		res := ""
+		switch stv.(type) {
+		case int:
+			res = strconv.Itoa(stv.(int))
+		case string:
+			res = stv.(string)
 		}
 
-		stdout.Println(text)
-	} else if cpv == "io.readln" {
-		text := stdin.Readln()
-		st.Push(text)
+		text = res + text
+
+		argsCount--
 	}
 
+	stdout.Println(text)
+
 	return nil
+}
+
+func (i *CALLInst) readlnImpl(st *stack.Stack, stdin instructions.StdinInterface) {
+	text := stdin.Readln()
+	st.Push(text)
 }
