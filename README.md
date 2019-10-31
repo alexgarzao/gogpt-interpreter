@@ -20,7 +20,7 @@ Como este projeto foi escrito em Golang, é necessário ter o ambiente de Golang
     algoritmo olá_mundo;
 
     início
-	    imprima("Olá mundo!");
+        imprima("Olá mundo!");
     fim
     EOT
 
@@ -45,7 +45,6 @@ Este projeto é composto por um compilador que lê os fontes em G-Portugol e ger
 
 A VM é "stack based", e este modelo foi escolhido por ser de fácil implementação. A versão atual somente tem suporte aos tipos primitivos "int" e "string", e os tipos são inferidos durante a execução da VM.
 
-## Qual a finalidade deste projeto?
+## Qual a finalidade deste projeto
 
 A ideia inicial é o "just for fun". Eu tenho muito interesse nas áreas de compiladores e máquinas virtuais, e como queria aprender mais de Golang, nada melhor do que um projeto para focar :-)
-
