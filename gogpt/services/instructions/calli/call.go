@@ -19,7 +19,6 @@ type CALLInst struct {
 func New() *CALLInst {
 	return &CALLInst{
 		instructions.Instruction{
-			Name:   "CALL",
 			Opcode: instructions.CALL,
 		},
 		0,

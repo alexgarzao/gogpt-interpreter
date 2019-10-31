@@ -16,7 +16,6 @@ type NOPInst struct {
 func New() *NOPInst {
 	return &NOPInst{
 		instructions.Instruction{
-			Name:   "NOP",
 			Opcode: instructions.NOP,
 		},
 	}

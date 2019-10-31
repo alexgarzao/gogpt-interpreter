@@ -17,7 +17,6 @@ type LDVInst struct {
 func New() *LDVInst {
 	return &LDVInst{
 		instructions.Instruction{
-			Name:   "LDV",
 			Opcode: instructions.LDV,
 		},
 		0,

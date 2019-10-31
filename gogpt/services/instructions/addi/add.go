@@ -18,7 +18,6 @@ type ADDInst struct {
 func New() *ADDInst {
 	return &ADDInst{
 		instructions.Instruction{
-			Name:   "ADD",
 			Opcode: instructions.ADD,
 		},
 	}

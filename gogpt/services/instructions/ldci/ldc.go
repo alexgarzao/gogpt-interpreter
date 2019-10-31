@@ -17,7 +17,6 @@ type LDCInst struct {
 func New() *LDCInst {
 	return &LDCInst{
 		instructions.Instruction{
-			Name:   "LDC",
 			Opcode: instructions.LDC,
 		},
 		0,

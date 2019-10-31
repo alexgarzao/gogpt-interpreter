@@ -23,7 +23,6 @@ const (
 
 // Instruction has the common data of all instructions.
 type Instruction struct {
-	Name   string
 	Opcode int
 }
 

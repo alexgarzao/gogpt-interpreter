@@ -17,7 +17,6 @@ type STVInst struct {
 func New() *STVInst {
 	return &STVInst{
 		instructions.Instruction{
-			Name:   "STV",
 			Opcode: instructions.STV,
 		},
 		0,
