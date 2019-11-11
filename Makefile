@@ -1,4 +1,5 @@
 unittests:
+	@go clean -testcache
 	@go test ./...
 
 build:
