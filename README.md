@@ -16,7 +16,7 @@ Como este projeto foi escrito em Golang, é necessário ter o ambiente de Golang
 
     go get github.com/alexgarzao/gogpt-interpreter/gogpt
 
-    cat <<EOT >> hello_world.gpt
+    cat <<EOT > hello_world.gpt
     algoritmo olá_mundo;
 
     início
@@ -32,7 +32,7 @@ Como este projeto foi escrito em Golang, é necessário ter o ambiente de Golang
     mkdir -p ~/go/src/github.com/alexgarzao/
     cd ~/go/src/github.com/alexgarzao/
     git clone https://github.com/alexgarzao/gogpt-interpreter.git
-    cd gogpt-interpreter/gogpt
+    cd gogpt-interpreter
     make unittests
     make build
     ./gogpt/gogpt ../samples/hello_world.gpt
