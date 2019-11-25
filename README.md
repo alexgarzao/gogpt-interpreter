@@ -6,11 +6,11 @@ A linguagem G-Portugol foi criada pelo Thiago Silva, tendo por finalidade o ensi
 
 [Aqui](https://pt.wikipedia.org/wiki/G-Portugol) também existe uma breve descrição do propósito do projeto.
 
-A versão atual do gogpt consegue interpretar e executar apenas algoritmos simples em G-Portugol como "Olá mundo" e leitura de dados simples.
+A versão atual do gogpt consegue interpretar e executar apenas algoritmos simples em G-Portugol, algoritmos como "Olá mundo" e leitura de dados alfanuméricos.
 
 ## Requisitos
 
-Como este projeto foi escrito em Golang, é necessário ter o ambiente de Golang instalado.
+Como este projeto foi escrito em Golang, é necessário ter o ambiente de Golang instalado. Maiores informações sobre como instalar podem ser obtidas [aqui](https://golang.org/).
 
 ## Como executar
 
@@ -44,6 +44,16 @@ Como a ideia do projeto é praticar Golang, somente foram utilizadas as bibliote
 Este projeto é composto por um compilador que lê os fontes em G-Portugol e gera um bytecode para ser executado por uma VM interna.
 
 A VM é "stack based", e este modelo foi escolhido por ser de fácil implementação. A versão atual somente tem suporte aos tipos primitivos "int" e "string", e os tipos são inferidos durante a execução da VM.
+
+## O que falta
+
+* Expressões relacionais
+* Expressões aritméticas
+* Estruturas de repetição
+* Tipos numéricos, lógicos, matrizes
+* Definição de funções
+* ...
+
 
 ## Qual a finalidade deste projeto
 
