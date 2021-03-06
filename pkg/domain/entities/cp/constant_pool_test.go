@@ -3,6 +3,7 @@ package cp
 import (
 	"testing"
 
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -33,7 +34,7 @@ func TestCpGetIntConstantsError(t *testing.T) {
 	assert.Equal(t, 456, v)
 	assert.NoError(t, err)
 	v, err = cp.Get(2)
-	assert.EqualError(t, err, "Index not found")
+	assert.Equal(t, err, domain.ErrIndexNotFound)
 }
 
 func TestCpAddStrConstants(t *testing.T) {
@@ -63,7 +64,7 @@ func TestCpGetStrConstantsError(t *testing.T) {
 	assert.Equal(t, "DEF", v)
 	assert.NoError(t, err)
 	v, err = cp.Get(2)
-	assert.EqualError(t, err, "Index not found")
+	assert.Equal(t, err, domain.ErrIndexNotFound)
 }
 
 func TestCpAddingIntAndStrConstants(t *testing.T) {

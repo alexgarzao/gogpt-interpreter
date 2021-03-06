@@ -1,7 +1,7 @@
 package stack
 
 import (
-	"errors"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 )
 
 // Stack has the items of a stack.
@@ -25,7 +25,7 @@ func (s *Stack) Push(item interface{}) {
 func (s *Stack) Pop() (interface{}, error) {
 	l := len(s.items)
 	if l == 0 {
-		return 0, errors.New("Stack underflow")
+		return 0, domain.ErrStackUnderflow
 	}
 
 	res := s.items[l-1]
@@ -38,7 +38,7 @@ func (s *Stack) Pop() (interface{}, error) {
 func (s *Stack) Top() (interface{}, error) {
 	l := len(s.items)
 	if l == 0 {
-		return 0, errors.New("Stack underflow")
+		return 0, domain.ErrStackUnderflow
 	}
 
 	res := s.items[l-1]

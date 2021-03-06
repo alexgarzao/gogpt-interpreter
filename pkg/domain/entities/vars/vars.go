@@ -1,7 +1,7 @@
 package vars
 
 import (
-	"errors"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 )
 
 // Vars has the variables of an algorithm.
@@ -34,7 +34,7 @@ func (v *Vars) Set(index int, value interface{}) {
 func (v *Vars) Get(index int) (interface{}, error) {
 	value, ok := v.vars[index]
 	if !ok {
-		return 0, errors.New("Variable index undefined")
+		return 0, domain.ErrUndefinedVarIndex
 	}
 
 	return value, nil

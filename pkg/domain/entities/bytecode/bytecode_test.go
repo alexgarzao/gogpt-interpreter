@@ -3,6 +3,7 @@ package bytecode
 import (
 	"testing"
 
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -43,7 +44,7 @@ func TestBytecodeEofError(t *testing.T) {
 	bc.Add(MyFakeOpcode, 111)
 
 	_, err := bc.Get(2)
-	assert.EqualError(t, err, "Index not found")
+	assert.Equal(t, err, domain.ErrIndexNotFound)
 }
 
 func TestBytecodeAddWithoutInstance(t *testing.T) {

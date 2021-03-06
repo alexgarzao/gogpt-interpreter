@@ -1,7 +1,7 @@
 package cp
 
 import (
-	"errors"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 )
 
 // CP has the items in a constant pool.
@@ -34,7 +34,7 @@ func (cp *CP) Add(item interface{}) int {
 // Get gets an item from the constant pool.
 func (cp *CP) Get(index int) (interface{}, error) {
 	if cp == nil || index > len(cp.constants)-1 {
-		return 0, errors.New("Index not found")
+		return 0, domain.ErrIndexNotFound
 	}
 
 	res := cp.constants[index]

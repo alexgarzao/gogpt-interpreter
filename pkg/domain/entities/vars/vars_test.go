@@ -3,6 +3,7 @@ package vars
 import (
 	"testing"
 
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -37,7 +38,7 @@ func TestVarsWitInvalidIndex(t *testing.T) {
 	vars := New()
 	vars.Set(0, 111)
 	value, err := vars.Get(1)
-	assert.EqualError(t, err, "Variable index undefined")
+	assert.Equal(t, err, domain.ErrUndefinedVarIndex)
 	assert.Equal(t, 0, value)
 }
 

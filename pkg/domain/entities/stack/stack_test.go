@@ -3,6 +3,7 @@ package stack
 import (
 	"testing"
 
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -41,7 +42,7 @@ func TestStackPushAndPopTwoValues(t *testing.T) {
 func TestStackTop(t *testing.T) {
 	s := New()
 	_, err := s.Top()
-	assert.EqualError(t, err, "Stack underflow")
+	assert.Equal(t, err, domain.ErrStackUnderflow)
 	s.Push(111)
 	_, err = s.Top()
 	assert.NoError(t, err)
@@ -53,18 +54,18 @@ func TestStackTop(t *testing.T) {
 	assert.NoError(t, err)
 	_, _ = s.Pop()
 	_, err = s.Top()
-	assert.EqualError(t, err, "Stack underflow")
+	assert.Equal(t, err, domain.ErrStackUnderflow)
 }
 
 func TestStackPopError(t *testing.T) {
 	s := New()
 	_, err := s.Pop()
-	assert.EqualError(t, err, "Stack underflow")
+	assert.Equal(t, err, domain.ErrStackUnderflow)
 	s.Push(111)
 	_, err = s.Pop()
 	assert.NoError(t, err)
 	_, err = s.Pop()
-	assert.EqualError(t, err, "Stack underflow")
+	assert.Equal(t, err, domain.ErrStackUnderflow)
 }
 
 func TestStackPushAndPopTwoValuesCheckingSize(t *testing.T) {

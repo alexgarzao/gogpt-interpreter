@@ -3,6 +3,7 @@ package nopi
 import (
 	"testing"
 
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/cp"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/stack"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/vars"
@@ -21,7 +22,7 @@ func TestValidNop(t *testing.T) {
 	nop := New()
 	nop.Execute(cp, vars, st, stdin, stdout)
 	_, err := cp.Get(0)
-	assert.EqualError(t, err, "Index not found")
+	assert.Equal(t, err, domain.ErrIndexNotFound)
 	_, err = st.Top()
-	assert.EqualError(t, err, "Stack underflow")
+	assert.Equal(t, err, domain.ErrStackUnderflow)
 }

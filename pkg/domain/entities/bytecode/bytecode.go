@@ -1,7 +1,7 @@
 package bytecode
 
 import (
-	"errors"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 )
 
 // Bytecode is responsible for keep the instructions.
@@ -28,7 +28,7 @@ func (bc *Bytecode) Add(item int, op int) {
 // Get returns the opcode at a specific index.
 func (bc *Bytecode) Get(index int) (int, error) {
 	if bc == nil || index > len(bc.instructions)-1 {
-		return 0, errors.New("Index not found")
+		return 0, domain.ErrIndexNotFound
 	}
 
 	res := bc.instructions[index]

@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/cp"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/stack"
@@ -67,9 +68,9 @@ func TestBCERunningNOP(t *testing.T) {
 	err := bce.Run(cp, vars, st, stdin, stdout)
 	assert.Nil(t, err)
 	_, err = cp.Get(0)
-	assert.EqualError(t, err, "Index not found")
+	assert.Equal(t, err, domain.ErrIndexNotFound)
 	_, err = st.Top()
-	assert.EqualError(t, err, "Stack underflow")
+	assert.Equal(t, err, domain.ErrStackUnderflow)
 }
 
 func TestBCECompleteHelloWorld(t *testing.T) {
