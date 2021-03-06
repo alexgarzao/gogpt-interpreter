@@ -14,7 +14,7 @@ Como este projeto foi escrito em Golang, é necessário ter o ambiente de Golang
 
 ## Como executar
 
-    go get github.com/alexgarzao/gogpt-interpreter/gogpt
+    go get github.com/alexgarzao/gogpt-interpreter/cmd/gogpt
 
     cat <<EOT > hello_world.gpt
     algoritmo olá_mundo;

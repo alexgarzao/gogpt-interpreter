@@ -7,7 +7,7 @@ codecoverage:
 	@go tool cover -html=cover.out
 
 build:
-	@cd gogpt; go build .; cd -
+	@cd cmd/gogpt; go build .; cd -
 
 clean:
-	@rm -f gogpt/gogpt
+	@rm -f cmd/gogpt/gogpt
