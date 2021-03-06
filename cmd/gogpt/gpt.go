@@ -6,12 +6,12 @@ import (
 	"log"
 	"os"
 
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/vars"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/bce"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/lexer"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/parser"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/infrastructure"
-	"github.com/alexgarzao/gogpt-interpreter/pkg/model/stack"
-	"github.com/alexgarzao/gogpt-interpreter/pkg/model/vars"
-	"github.com/alexgarzao/gogpt-interpreter/pkg/services/bce"
-	"github.com/alexgarzao/gogpt-interpreter/pkg/services/lexer"
-	"github.com/alexgarzao/gogpt-interpreter/pkg/services/parser"
 )
 
 func main() {
