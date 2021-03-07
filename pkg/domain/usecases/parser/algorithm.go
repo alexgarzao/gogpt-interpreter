@@ -85,8 +85,13 @@ func (p *Parser) parserVarDeclBlock() error {
 		return nil
 	}
 
-	err := p.parserVarDecl()
-	for ; err == nil; err = p.parserVarDecl() {
+	var err error
+
+	for {
+		err = p.parserVarDecl()
+		if err != nil {
+			break
+		}
 	}
 
 	if err != nil && err != domain.NotParsed {
