@@ -13,7 +13,7 @@ func New() *SymbolTable {
 	return st
 }
 
-// Add adds a symbol into the table.
+// Add adds a symbol into the table. Returns -1 if already exists.
 func (st *SymbolTable) Add(name string) int {
 	_, exist := st.symbols[name]
 	if exist {
