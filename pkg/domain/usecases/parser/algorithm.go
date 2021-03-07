@@ -3,6 +3,7 @@ package parser
 import (
 	"errors"
 
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/bytecode"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/cp"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/symboltable"
@@ -17,12 +18,6 @@ type Parser struct {
 	bc        *bytecode.Bytecode
 	symbol    *symboltable.SymbolTable
 	argsCount int
-}
-
-// Result keeps data about the parser result.
-type Result struct {
-	Parsed bool
-	Err    error
 }
 
 // New creates a new Parser.
@@ -43,23 +38,20 @@ func New(l *lexer.Lexer) *Parser {
 //       stm_block
 //       EOF
 //     ;
-func (p *Parser) Parser() Result {
-	pr := p.parserAlgorithmDeclaration()
-	if pr.Parsed == false {
-		return pr
+func (p *Parser) Parser() error {
+	if err := p.parserAlgorithmDeclaration(); err != nil {
+		return err
 	}
 
-	pr = p.parserVarDeclBlock()
-	if pr.Err != nil {
-		return pr
+	if err := p.parserVarDeclBlock(); err != nil {
+		return err
 	}
 
-	pr = p.parserStmBlock()
-	if pr.Parsed == false {
-		return Result{false, errors.New("Expected StmtBlock")}
+	if err := p.parserStmBlock(); err != nil {
+		return errors.New("Expected StmtBlock")
 	}
 
-	return Result{true, nil}
+	return nil
 }
 
 // declaracao_algoritmo
@@ -67,20 +59,20 @@ func (p *Parser) Parser() Result {
 //       T_IDENTIFICADOR
 //       ";"
 //     ;
-func (p *Parser) parserAlgorithmDeclaration() Result {
+func (p *Parser) parserAlgorithmDeclaration() error {
 	if p.l.GetNextTokenIf(lexer.ALGORITHM) == nil {
-		return Result{false, nil}
+		return errors.New("Expected ALGORITHM")
 	}
 
 	if p.l.GetNextTokenIf(lexer.IDENT) == nil {
-		return Result{false, errors.New("Expected IDENT")}
+		return errors.New("Expected IDENT")
 	}
 
 	if p.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
-		return Result{false, errors.New("Expected SEMICOLON")}
+		return errors.New("Expected SEMICOLON")
 	}
 
-	return Result{true, nil}
+	return nil
 }
 
 // var_decl_block
@@ -88,53 +80,53 @@ func (p *Parser) parserAlgorithmDeclaration() Result {
 //       (var_decl ";")+
 //       "fim-variáveis"
 //     ;
-func (p *Parser) parserVarDeclBlock() Result {
+func (p *Parser) parserVarDeclBlock() error {
 	if p.l.GetNextTokenIf(lexer.VARSBEGIN) == nil {
-		return Result{false, nil}
+		return nil
 	}
 
-	pr := p.parserVarDecl()
-	for ; pr.Parsed; pr = p.parserVarDecl() {
+	err := p.parserVarDecl()
+	for ; err == nil; err = p.parserVarDecl() {
 	}
 
-	if pr.Parsed == false && pr.Err != nil {
-		return pr
+	if err != nil && err != domain.NotParsed {
+		return err
 	}
 
 	if p.l.GetNextTokenIf(lexer.VARSEND) == nil {
-		return Result{false, errors.New("Expected FIM-VARIÁVEIS")}
+		return errors.New("Expected FIM-VARIÁVEIS")
 	}
 
-	return Result{true, nil}
+	return nil
 }
 
 // var_decl
 //     : T_IDENTIFICADOR ("," T_IDENTIFICADOR)* ":" tp_primitivo
 //     ;
-func (p *Parser) parserVarDecl() Result {
+func (p *Parser) parserVarDecl() error {
 	varID := p.l.GetNextTokenIf(lexer.IDENT)
 	if varID == nil {
-		return Result{false, nil}
+		return domain.NotParsed
 	}
 
 	if p.l.GetNextTokenIf(lexer.COLON) == nil {
-		return Result{false, errors.New("Expected ':'")}
+		return errors.New("Expected ':'")
 	}
 
-	pr := p.parserPrimitiveType()
-	if pr.Parsed == false {
-		return Result{false, errors.New("Expected type definition")}
+	err := p.parserPrimitiveType()
+	if err != nil {
+		return errors.New("Expected type definition")
 	}
 
 	if p.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
-		return Result{false, errors.New("Expected ;")}
+		return errors.New("Expected ;")
 	}
 
 	if p.symbol.Add(varID.Value) == -1 {
-		return Result{false, errors.New("Duplicated variable")}
+		return errors.New("Duplicated variable")
 	}
 
-	return Result{true, nil}
+	return nil
 }
 
 // tp_primitivo
@@ -142,12 +134,12 @@ func (p *Parser) parserVarDecl() Result {
 //     | "literal"
 //     | "lógico"
 //     ;
-func (p *Parser) parserPrimitiveType() Result {
-	if p.l.GetNextTokenIf(lexer.INT) != nil || p.l.GetNextTokenIf(lexer.STRING) != nil {
-		return Result{true, nil}
+func (p *Parser) parserPrimitiveType() error {
+	if p.l.GetNextTokenIf(lexer.INT) == nil && p.l.GetNextTokenIf(lexer.STRING) == nil {
+		return errors.New("Expected primitive type")
 	}
 
-	return Result{false, nil}
+	return nil
 }
 
 // stm_block
@@ -155,24 +147,29 @@ func (p *Parser) parserPrimitiveType() Result {
 //       (stm_list)*
 //       "fim"
 //     ;
-func (p *Parser) parserStmBlock() Result {
+func (p *Parser) parserStmBlock() error {
 	if p.l.GetNextTokenIf(lexer.BLOCKBEGIN) == nil {
-		return Result{false, nil}
+		return errors.New("Expected block begin")
 	}
 
-	pr := p.parserStmList()
-	for ; pr.Parsed; pr = p.parserStmList() {
+	var err error
+
+	for {
+		err = p.parserStmList()
+		if err != nil {
+			break
+		}
 	}
 
-	if pr.Parsed == false && pr.Err != nil {
-		return pr
+	if err != domain.NotParsed {
+		return err
 	}
 
 	if p.l.GetNextTokenIf(lexer.BLOCKEND) == nil {
-		return Result{false, errors.New("Expected FIM")}
+		return errors.New("Expected FIM")
 	}
 
-	return Result{true, nil}
+	return nil
 }
 
 // stm_list
@@ -183,26 +180,26 @@ func (p *Parser) parserStmBlock() Result {
 //     | stm_enquanto
 //     | stm_para
 //     ;
-func (p *Parser) parserStmList() Result {
-	pr := p.parserFunctionCall()
-	if pr.Parsed == true {
+func (p *Parser) parserStmList() error {
+	err := p.parserFunctionCall()
+	if err == nil {
 		// Ensure that a ";" is presented at the EOL.
 		if p.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
-			return Result{false, errors.New("Expected SEMICOLON")}
+			return errors.New("Expected SEMICOLON")
 		}
-		return Result{true, nil}
+		return nil
 	}
 
-	pr = p.parserStmAttr()
-	if pr.Parsed == true {
+	err = p.parserStmAttr()
+	if err == nil {
 		// Ensure that a ";" is presented at the EOL.
 		if p.l.GetNextTokenIf(lexer.SEMICOLON) == nil {
-			return Result{false, errors.New("Expected SEMICOLON")}
+			return errors.New("Expected SEMICOLON")
 		}
-		return Result{true, nil}
+		return nil
 	}
 
-	return Result{false, nil}
+	return domain.NotParsed
 }
 
 // stm_attr
@@ -211,20 +208,20 @@ func (p *Parser) parserStmList() Result {
 //       expr
 //       ";"
 //     ;
-func (p *Parser) parserStmAttr() Result {
+func (p *Parser) parserStmAttr() error {
 	id, _ := p.l.GetNextsTokensIf(lexer.IDENT, lexer.ATTR)
 	if id == nil {
-		return Result{false, nil}
+		return domain.NotParsed
 	}
 
-	pr := p.parserExpr()
-	if pr.Parsed == false {
-		return Result{false, errors.New("Expected Expr")}
+	err := p.parserExpr()
+	if err != nil {
+		return errors.New("Expected Expr")
 	}
 
 	p.bc.Add(instructions.STV, p.symbol.Index(id.Value))
 
-	return Result{true, nil}
+	return nil
 }
 
 // expr
@@ -244,35 +241,35 @@ func (p *Parser) parserStmAttr() Result {
 //     | "(" expr ")"
 //     ;
 
-func (p *Parser) parserExpr() Result {
-	pr := p.parserFunctionCall()
-	if pr.Parsed == true {
-		return Result{true, nil}
+func (p *Parser) parserExpr() error {
+	err := p.parserFunctionCall()
+	if err == nil {
+		return nil
 	}
 
 	id := p.l.GetNextTokenIf(lexer.IDENT)
 	if id != nil {
 		p.bc.Add(instructions.LDV, p.symbol.Index(id.Value))
-		return Result{true, nil}
+		return nil
 	}
 
 	token := p.l.GetNextTokenIf(lexer.STRING)
 	if token != nil {
 		cpIndex := p.cp.Add(token.Value)
 		p.bc.Add(instructions.LDC, cpIndex)
-		return Result{true, nil}
+		return nil
 	}
 
-	return Result{false, nil}
+	return domain.NotParsed
 }
 
 // fcall
 //     : T_IDENTIFICADOR "(" fargs? ")"
 //     ;
-func (p *Parser) parserFunctionCall() Result {
+func (p *Parser) parserFunctionCall() error {
 	token, _ := p.l.GetNextsTokensIf(lexer.IDENT, lexer.LPAREN)
 	if token == nil {
-		return Result{false, nil}
+		return domain.NotParsed
 	}
 
 	funcIndex := -1
@@ -284,9 +281,9 @@ func (p *Parser) parserFunctionCall() Result {
 		// 	return Result{false, errors.New("Undefined function name")}
 	}
 
-	pr := p.parserFunctionArgs()
-	if pr.Parsed == false && pr.Err != nil {
-		return pr
+	err := p.parserFunctionArgs()
+	if err != nil && err != domain.NotParsed {
+		return err
 	}
 
 	if token.Value == "imprima" {
@@ -297,32 +294,33 @@ func (p *Parser) parserFunctionCall() Result {
 	p.bc.Add(instructions.CALL, funcIndex)
 
 	if p.l.GetNextTokenIf(lexer.RPAREN) == nil {
-		return Result{false, errors.New("Expected RPAREN")}
+		return errors.New("Expected RPAREN")
 	}
 
-	return Result{true, nil}
+	return nil
 }
 
 // fargs
 //     : expr ("," expr)*
 //     ;
-func (p *Parser) parserFunctionArgs() Result {
+func (p *Parser) parserFunctionArgs() error {
 	p.argsCount = 0
 
-	pr := p.parserExpr()
-	if pr.Parsed == false {
-		return pr
+	err := p.parserExpr()
+	if err != nil {
+		return err
 	}
 
 	p.argsCount++
 
 	for {
 		if p.l.GetNextTokenIf(lexer.COMMA) == nil {
-			return Result{true, nil}
+			return nil
 		}
-		pr := p.parserExpr()
-		if pr.Parsed == false {
-			return Result{false, errors.New("Expected EXPR")}
+
+		err := p.parserExpr()
+		if err != nil {
+			return errors.New("Expected EXPR")
 		}
 
 		p.argsCount++

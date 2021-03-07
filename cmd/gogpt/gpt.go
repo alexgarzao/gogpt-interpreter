@@ -28,9 +28,9 @@ func main() {
 	l := lexer.New(string(algorithm))
 	p := parser.New(l)
 
-	pr := p.Parser()
-	if pr.Parsed == false {
-		log.Fatalf("Error in parsing: %v", pr.Err)
+	err = p.Parser()
+	if err != nil {
+		log.Fatalf("Error in parsing: %v", err)
 		return
 	}
 

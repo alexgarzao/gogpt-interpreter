@@ -17,8 +17,8 @@ início
 fim`
 	l := lexer.New(alg)
 	p := New(l)
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 }
 
 func TestValidHelloWorldAlgorithm(t *testing.T) {
@@ -29,8 +29,8 @@ início
 fim`
 	l := lexer.New(alg)
 	p := New(l)
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 }
 
 func TestValidHelloWorldWithTwoSentences(t *testing.T) {
@@ -42,8 +42,8 @@ início
 fim`
 	l := lexer.New(alg)
 	p := New(l)
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 }
 
 func TestBytecodeEmptyAlgorithm(t *testing.T) {
@@ -54,8 +54,8 @@ fim`
 	l := lexer.New(alg)
 	p := New(l)
 	bc := bytecode.New()
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 	assert.Equal(t, bc, p.GetBC())
 }
 
@@ -82,8 +82,8 @@ fim`
 	expectedBc.Add(instructions.LDC, argsCountIndex)
 	expectedBc.Add(instructions.CALL, printlnIndex)
 
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -115,8 +115,8 @@ fim`
 	expectedBc.Add(instructions.LDC, argsCountIndex)
 	expectedBc.Add(instructions.CALL, printlnIndex)
 
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -157,8 +157,8 @@ fim`
 	expectedBc.Add(instructions.LDC, argsCountIndex)
 	expectedBc.Add(instructions.CALL, printlnIndex)
 
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -172,9 +172,8 @@ fim`
 	l := lexer.New(alg)
 	p := New(l)
 
-	pr := p.Parser()
-	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected IDENT")
+	err := p.Parser()
+	assert.EqualError(t, err, "Expected IDENT")
 }
 
 func TestInvalidCompleteAlgorithmDeclarationWithoutSemicolon(t *testing.T) {
@@ -186,9 +185,8 @@ fim`
 	l := lexer.New(alg)
 	p := New(l)
 
-	pr := p.Parser()
-	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected SEMICOLON")
+	err := p.Parser()
+	assert.EqualError(t, err, "Expected SEMICOLON")
 }
 
 func TestBytecodeHelloWorldWithInput(t *testing.T) {
@@ -249,8 +247,8 @@ func TestBytecodeHelloWorldWithInput(t *testing.T) {
 	expectedBc.Add(instructions.LDC, argsCountIndex)
 	expectedBc.Add(instructions.CALL, printlnIndex)
 
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }
@@ -286,8 +284,8 @@ fim`
 	expectedBc.Add(instructions.LDC, argsCountIndex)
 	expectedBc.Add(instructions.CALL, printlnIndex)
 
-	pr := p.Parser()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 	assert.Equal(t, expectedCp, p.GetCP())
 	assert.Equal(t, expectedBc, p.GetBC())
 }

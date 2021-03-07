@@ -10,44 +10,41 @@ import (
 func TestValidEmptyMainBlock(t *testing.T) {
 	l := lexer.New(`início fim`)
 	p := New(l)
-	pr := p.parserStmBlock()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.parserStmBlock()
+	assert.Nil(t, err)
 }
 
 func TestInvalidEmptyMainBlock(t *testing.T) {
 	l := lexer.New(`início fimm`)
 	p := New(l)
-	pr := p.parserStmBlock()
-	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected FIM")
+	err := p.parserStmBlock()
+	assert.EqualError(t, err, "Expected FIM")
 }
 
 func TestValidMainBlockWithOneSentence(t *testing.T) {
 	l := lexer.New(`início imprima("hello"); fim`)
 	p := New(l)
-	pr := p.parserStmBlock()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.parserStmBlock()
+	assert.Nil(t, err)
 }
 
 func TestValidMainBlockWithNSentences(t *testing.T) {
 	l := lexer.New(`início imprima("hello"); imprima("hello again!"); myfunction(); fim`)
 	p := New(l)
-	pr := p.parserStmBlock()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.parserStmBlock()
+	assert.Nil(t, err)
 }
 
 func TestInvalidMainBlockWithOneSentence(t *testing.T) {
 	l := lexer.New(`início imprima("hello") fim`)
 	p := New(l)
-	pr := p.parserStmBlock()
-	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected SEMICOLON")
+	err := p.parserStmBlock()
+	assert.EqualError(t, err, "Expected SEMICOLON")
 }
 
 func TestInvalidMainBlockWithNSentences(t *testing.T) {
 	l := lexer.New(`início xxx("aa") imprima("hello"); fim`)
 	p := New(l)
-	pr := p.parserStmBlock()
-	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected SEMICOLON")
+	err := p.parserStmBlock()
+	assert.EqualError(t, err, "Expected SEMICOLON")
 }

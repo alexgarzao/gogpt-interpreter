@@ -10,49 +10,46 @@ import (
 func TestImprimaFunctionCall(t *testing.T) {
 	l := lexer.New(`imprima("Hello!")`)
 	p := New(l)
-	pr := p.parserFunctionCall()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.parserFunctionCall()
+	assert.Nil(t, err)
 }
 
 func TestFunctionCallWithoutArguments(t *testing.T) {
 	l := lexer.New(`myfunction()`)
 	p := New(l)
-	pr := p.parserFunctionCall()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.parserFunctionCall()
+	assert.Nil(t, err)
 }
 
 func TestInvalidFunctionCallWithoutArguments(t *testing.T) {
 	l := lexer.New(`myfunction(,)`)
 	p := New(l)
-	pr := p.parserFunctionCall()
-	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected RPAREN")
+	err := p.parserFunctionCall()
+	assert.EqualError(t, err, "Expected RPAREN")
 }
 
 func TestFunctionCallWithNArguments(t *testing.T) {
 	l := lexer.New(`myfunction("A", "B", "C")`)
 	p := New(l)
-	pr := p.parserFunctionCall()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.parserFunctionCall()
+	assert.Nil(t, err)
 }
 
 func TestInvalidFunctionCallWithNArguments(t *testing.T) {
 	l := lexer.New(`myfunction("A", "B", )`)
 	p := New(l)
-	pr := p.parserFunctionCall()
-	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected EXPR")
+	err := p.parserFunctionCall()
+	assert.EqualError(t, err, "Expected EXPR")
 
 	l = lexer.New(`myfunction("A" "B", "C")`)
 	p = New(l)
-	pr = p.parserFunctionCall()
-	assert.Equal(t, false, pr.Parsed)
-	assert.EqualError(t, pr.Err, "Expected RPAREN")
+	err = p.parserFunctionCall()
+	assert.EqualError(t, err, "Expected RPAREN")
 }
 
 func TestFunctionCallWithStringAndIdentifiers(t *testing.T) {
 	l := lexer.New(`imprima("Olá ", nome)`)
 	p := New(l)
-	pr := p.parserFunctionCall()
-	assert.Equal(t, true, pr.Parsed)
+	err := p.parserFunctionCall()
+	assert.Nil(t, err)
 }

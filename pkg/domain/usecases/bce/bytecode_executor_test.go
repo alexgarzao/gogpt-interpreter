@@ -192,15 +192,15 @@ func TestRunningWithTwoVars(t *testing.T) {
 	l := lexer.New(a)
 	p := parser.New(l)
 
-	pr := p.Parser()
-	assert.True(t, pr.Parsed)
+	err := p.Parser()
+	assert.Nil(t, err)
 	bce := New(p.GetBC())
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
 	st := stack.New()
 	vars := vars.New()
 
-	err := bce.Run(p.GetCP(), vars, st, stdin, stdout)
+	err = bce.Run(p.GetCP(), vars, st, stdin, stdout)
 	assert.Nil(t, err)
 
 	assert.Equal(t, "99", stdout.LastLine)
