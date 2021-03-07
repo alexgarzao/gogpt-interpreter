@@ -31,7 +31,6 @@ func main() {
 	err = p.Parser()
 	if err != nil {
 		log.Fatalf("Error in parsing: %v", err)
-		return
 	}
 
 	bce := bce.New(p.GetBC())
