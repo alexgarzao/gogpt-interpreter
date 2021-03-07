@@ -2,7 +2,11 @@ package infrastructure
 
 import (
 	"fmt"
+
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
 )
+
+var _ instructions.StdoutInterface = &Stdout{}
 
 // Stdout is responsible for output data to stdout.
 type Stdout struct {

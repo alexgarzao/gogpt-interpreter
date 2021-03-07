@@ -6,8 +6,11 @@ import (
 
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/cp"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/stack"
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/entities/vars"
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
 )
+
+var _ instructions.InstructionImplementation = &ADDInst{}
 
 // ADDInst is an opcode responsible for get two elements from the stack, add, and push onto the stack again.
 type ADDInst struct {
@@ -29,7 +32,7 @@ func (i *ADDInst) FetchOperands(fetch instructions.FetchOperandsImplementation) 
 }
 
 // Execute receives the context and runs the opcode.
-func (i *ADDInst) Execute(cp *cp.CP, st *stack.Stack) error {
+func (i *ADDInst) Execute(cp *cp.CP, vars *vars.Vars, st *stack.Stack, stdin instructions.StdinInterface, stdout instructions.StdoutInterface) error {
 	op2, err := st.Pop()
 	if err != nil {
 		return err

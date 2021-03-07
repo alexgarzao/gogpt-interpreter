@@ -1,5 +1,9 @@
 package infrastructure
 
+import "github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
+
+var _ instructions.StdinInterface = &FakeStdin{}
+
 // FakeStdin is responsible for mock the stdin.
 type FakeStdin struct {
 	nextLineToRead string

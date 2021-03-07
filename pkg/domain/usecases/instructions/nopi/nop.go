@@ -7,6 +7,8 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
 )
 
+var _ instructions.InstructionImplementation = &NOPInst{}
+
 // NOPInst is responsible for nothing.
 type NOPInst struct {
 	instructions.Instruction

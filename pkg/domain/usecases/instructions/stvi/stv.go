@@ -7,6 +7,8 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
 )
 
+var _ instructions.InstructionImplementation = &STVInst{}
+
 // STVInst is responsible for pop a value from the stack and put into a var.
 type STVInst struct {
 	instructions.Instruction

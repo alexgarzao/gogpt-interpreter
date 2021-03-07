@@ -7,6 +7,8 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
 )
 
+var _ instructions.InstructionImplementation = &LDVInst{}
+
 // LDVInst is responsible for push a variable content into the stack.
 type LDVInst struct {
 	instructions.Instruction

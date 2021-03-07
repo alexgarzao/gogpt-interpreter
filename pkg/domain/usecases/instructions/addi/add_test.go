@@ -36,7 +36,7 @@ func TestValidAdd2And3(t *testing.T) {
 	ldc.Execute(cp, vars, st, stdin, stdout)
 
 	add := New()
-	add.Execute(cp, st)
+	add.Execute(cp, vars, st, stdin, stdout)
 
 	stv, _ := st.Top()
 	assert.Equal(t, 5, stv)
@@ -68,7 +68,7 @@ func TestValidAddHelloAndWorld(t *testing.T) {
 	ldc.Execute(cp, vars, st, stdin, stdout)
 
 	add := New()
-	add.Execute(cp, st)
+	add.Execute(cp, vars, st, stdin, stdout)
 
 	stv, _ := st.Top()
 	assert.Equal(t, "HelloWorld", stv)

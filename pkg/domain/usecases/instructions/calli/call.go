@@ -9,6 +9,8 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
 )
 
+var _ instructions.InstructionImplementation = &CALLInst{}
+
 // CALLInst is responsible for get the operand and call the lib function.
 type CALLInst struct {
 	instructions.Instruction

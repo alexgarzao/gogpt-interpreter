@@ -7,6 +7,8 @@ import (
 	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
 )
 
+var _ instructions.InstructionImplementation = &LDCInst{}
+
 // LDCInst is responsible for push a constant into the stack.
 type LDCInst struct {
 	instructions.Instruction

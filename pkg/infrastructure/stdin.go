@@ -3,7 +3,11 @@ package infrastructure
 import (
 	"bufio"
 	"os"
+
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
 )
+
+var _ instructions.StdinInterface = &Stdin{}
 
 // Stdin is responsible for input data from stdin.
 type Stdin struct {

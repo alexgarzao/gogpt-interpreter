@@ -1,6 +1,12 @@
 package infrastructure
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/alexgarzao/gogpt-interpreter/pkg/domain/usecases/instructions"
+)
+
+var _ instructions.StdoutInterface = &FakeStdout{}
 
 // FakeStdout is responsible for mock the stdout.
 type FakeStdout struct {
