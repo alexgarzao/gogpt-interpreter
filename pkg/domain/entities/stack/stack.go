@@ -21,7 +21,7 @@ func (s *Stack) Push(item interface{}) {
 	s.items = append(s.items, item)
 }
 
-// Pop pops a item from the stack.
+// Pop pops an item from the stack.
 func (s *Stack) Pop() (interface{}, error) {
 	l := len(s.items)
 	if l == 0 {
