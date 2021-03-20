@@ -35,25 +35,18 @@ func TestValidLdcInt123(t *testing.T) {
 }
 
 func TestValidLdcABC(t *testing.T) {
-	// CP map:
-	//		0: STR: "ABC"
+	// CP 0: STR: "ABC"
 	cp := cp.New()
 	cpIndex := cp.Add("ABC")
+
+	// LDC 0
 	vars := vars.New()
 	st := stack.New()
 	stdin := infrastructure.NewFakeStdin()
 	stdout := infrastructure.NewFakeStdout()
-	cpv, _ := cp.Get(0)
-	assert.Equal(t, "ABC", cpv)
-	stv, _ := st.Top()
-	assert.Equal(t, 0, stv)
-
-	// LDC 0
 	ldc := New()
 	ldc.CpIndex = cpIndex
 	ldc.Execute(cp, vars, st, stdin, stdout)
-	cpv, _ = cp.Get(0)
-	assert.Equal(t, "ABC", cpv)
-	stv, _ = st.Top()
+	stv, _ := st.Top()
 	assert.Equal(t, "ABC", stv)
 }
